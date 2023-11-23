@@ -34,7 +34,7 @@ const NavBar = () => {
                   isOpen
                     ? "top-0 opacity-100"
                     : "top-[600%] opacity-0 pointer-events-none"
-                } right-1/2 translate-x-1/2 text-center ease-in-out transition-all duration-300`}
+                } right-1/2 translate-x-1/2 text-center ease-in-out transition-all duration-300 z-50`}
               >
                 <p className="pb-2 w-max select-none">Akib Rahman</p>
                 <hr />

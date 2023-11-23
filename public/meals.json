@@ -2,7 +2,7 @@
   {
     "mealTitle": "Classic Pancakes",
     "mealType": "breakfast",
-    "mealImage": "pancakes.jpg",
+    "mealImage": " https://i.ibb.co/WtFk2gS/aaed165eee53dd6efc83869a9c0b0fd0-Classic-Pancakes-16x9-1200-Healthy-Meal-Plans.jpg",
     "ingredients": [
       "flour",
       "milk",
@@ -21,10 +21,11 @@
     "distributorName": "Morning Delights Kitchen",
     "distributorEmail": "info@morningdelights.com"
   },
+
   {
     "mealTitle": "Avocado Toast",
     "mealType": "breakfast",
-    "mealImage": "avocado_toast.jpg",
+    "mealImage": "https://i.ibb.co/0XVGMw2/DSC-0546.jpg",
     "ingredients": [
       "whole grain bread",
       "avocado",
@@ -45,7 +46,7 @@
   {
     "mealTitle": "Grilled Chicken Salad",
     "mealType": "lunch",
-    "mealImage": "chicken_salad.jpg",
+    "mealImage": "https://i.ibb.co/fD8DMH2/Asha-Grilled-Chicken-Salad-RECIPE-070523-56498.webp",
     "ingredients": [
       "grilled chicken breast",
       "mixed greens",
@@ -65,7 +66,7 @@
   {
     "mealTitle": "Spaghetti Bolognese",
     "mealType": "dinner",
-    "mealImage": "spaghetti_bolognese.jpg",
+    "mealImage": "https://i.ibb.co/YfCwf97/spaghetti-bolognese-106560-1.jpg",
     "ingredients": [
       "spaghetti",
       "ground beef",
@@ -86,7 +87,7 @@
   {
     "mealTitle": "Vegan Buddha Bowl",
     "mealType": "lunch",
-    "mealImage": "vegan_buddha_bowl.jpg",
+    "mealImage": "https://i.ibb.co/gZZxFw8/Buddha-Bowl-with-Baked-Vegetables-Sweet-Potatoes-Avocados-Tofu-Buckwheat-and-Sesame-Seeds.jpg",
     "ingredients": [
       "quinoa",
       "roasted vegetables",
@@ -106,7 +107,7 @@
   {
     "mealTitle": "Blueberry Pancakes",
     "mealType": "breakfast",
-    "mealImage": "blueberry_pancakes.jpg",
+    "mealImage": "https://i.ibb.co/R2xg3s7/Easy-Homemade-Blueberry-Pancakes-Recipe-2-1200.jpg",
     "ingredients": [
       "pancake mix",
       "blueberries",
@@ -127,7 +128,7 @@
   {
     "mealTitle": "Caesar Salad",
     "mealType": "lunch",
-    "mealImage": "caesar_salad.jpg",
+    "mealImage": "https://i.ibb.co/NnBSdmQ/Simply-Recipes-Caesar-Salad-METHOD-07-2-87c72fc60da74b38b5d14022d8f9eb01.jpg",
     "ingredients": [
       "romaine lettuce",
       "croutons",
@@ -147,7 +148,7 @@
   {
     "mealTitle": "Salmon Teriyaki Bowl",
     "mealType": "dinner",
-    "mealImage": "salmon_teriyaki_bowl.jpg",
+    "mealImage": "https://i.ibb.co/HN1kNNW/Teriyaki-Salmon-Sushi-Bowl-recipe-4.jpg",
     "ingredients": [
       "salmon fillet",
       "brown rice",
@@ -167,7 +168,7 @@
   {
     "mealTitle": "Mango Tango Smoothie Bowl",
     "mealType": "breakfast",
-    "mealImage": "mango_tango_smoothie_bowl.jpg",
+    "mealImage": "https://i.ibb.co/6ZHZDh0/mango-smoothie-bowl-1.webp",
     "ingredients": [
       "mango",
       "banana",
@@ -188,7 +189,7 @@
   {
     "mealTitle": "Egg and Avocado Breakfast Wrap",
     "mealType": "breakfast",
-    "mealImage": "egg_avocado_wrap.jpg",
+    "mealImage": "https://i.ibb.co/dbC06q7/smoked-salmon-egg-and-avocado-breakfast-burritos-hero.webp",
     "ingredients": [
       "whole wheat wrap",
       "eggs",
@@ -207,8 +208,8 @@
   },
   {
     "mealTitle": "Caprese Salad",
-    "mealType": "lunch",
-    "mealImage": "caprese_salad.jpg",
+    "mealType": "dinner",
+    "mealImage": "https://i.ibb.co/bJSW7YQ/Caprese-Salad-main-1.webp",
     "ingredients": [
       "fresh mozzarella",
       "tomatoes",
@@ -228,7 +229,7 @@
   {
     "mealTitle": "Quinoa Power Bowl",
     "mealType": "lunch",
-    "mealImage": "quinoa_power_bowl.jpg",
+    "mealImage": "https://i.ibb.co/0CDgPPW/1400-700-Vegan-TB12-Quinoa-Bowl-Hero-5-72a52600110b7aaf878b50197eba3456.jpg",
     "ingredients": [
       "quinoa",
       "roasted sweet potatoes",
@@ -248,7 +249,7 @@
   {
     "mealTitle": "Shrimp Scampi Linguine",
     "mealType": "dinner",
-    "mealImage": "shrimp_scampi_linguine.jpg",
+    "mealImage": "https://i.ibb.co/tsZkPvL/229960-shrimp-scampi-with-pasta-DDMFS-4x3-e065ddef4e6d44479d37b4523808cc23.jpg",
     "ingredients": [
       "linguine pasta",
       "shrimp",
