@@ -1,0 +1,269 @@
+[
+  {
+    "mealTitle": "Classic Pancakes",
+    "mealType": "breakfast",
+    "mealImage": "pancakes.jpg",
+    "ingredients": [
+      "flour",
+      "milk",
+      "eggs",
+      "baking powder",
+      "salt",
+      "butter",
+      "maple syrup"
+    ],
+    "description": "Delicious fluffy pancakes served with maple syrup.",
+    "price": 8.99,
+    "rating": 4.5,
+    "postTime": "2023-11-23T08:00:00Z",
+    "likes": 120,
+    "numReviews": 2,
+    "distributorName": "Morning Delights Kitchen",
+    "distributorEmail": "info@morningdelights.com"
+  },
+  {
+    "mealTitle": "Avocado Toast",
+    "mealType": "breakfast",
+    "mealImage": "avocado_toast.jpg",
+    "ingredients": [
+      "whole grain bread",
+      "avocado",
+      "lemon",
+      "salt",
+      "pepper",
+      "poached egg"
+    ],
+    "description": "A healthy and delicious avocado toast topped with a perfectly poached egg.",
+    "price": 10.99,
+    "rating": 4.2,
+    "postTime": "2023-11-23T09:30:00Z",
+    "likes": 95,
+    "numReviews": 1,
+    "distributorName": "Green Morning Bites",
+    "distributorEmail": "info@greenmorningbites.com"
+  },
+  {
+    "mealTitle": "Grilled Chicken Salad",
+    "mealType": "lunch",
+    "mealImage": "chicken_salad.jpg",
+    "ingredients": [
+      "grilled chicken breast",
+      "mixed greens",
+      "cherry tomatoes",
+      "cucumber",
+      "balsamic vinaigrette"
+    ],
+    "description": "A refreshing and hearty grilled chicken salad, perfect for a light lunch.",
+    "price": 12.99,
+    "rating": 4.8,
+    "postTime": "2023-11-23T12:45:00Z",
+    "likes": 150,
+    "numReviews": 3,
+    "distributorName": "Fresh & Fit Meals",
+    "distributorEmail": "info@freshandfitmeals.com"
+  },
+  {
+    "mealTitle": "Spaghetti Bolognese",
+    "mealType": "dinner",
+    "mealImage": "spaghetti_bolognese.jpg",
+    "ingredients": [
+      "spaghetti",
+      "ground beef",
+      "tomato sauce",
+      "onion",
+      "garlic",
+      "parmesan cheese"
+    ],
+    "description": "A classic Italian dish with savory meat sauce served over perfectly cooked spaghetti.",
+    "price": 14.99,
+    "rating": 4.6,
+    "postTime": "2023-11-23T18:00:00Z",
+    "likes": 180,
+    "numReviews": 2,
+    "distributorName": "Mama Mia's Kitchen",
+    "distributorEmail": "info@mamamiaskitchen.com"
+  },
+  {
+    "mealTitle": "Vegan Buddha Bowl",
+    "mealType": "lunch",
+    "mealImage": "vegan_buddha_bowl.jpg",
+    "ingredients": [
+      "quinoa",
+      "roasted vegetables",
+      "avocado",
+      "chickpeas",
+      "tahini dressing"
+    ],
+    "description": "A nutritious and colorful vegan Buddha bowl packed with plant-based goodness.",
+    "price": 11.99,
+    "rating": 4.4,
+    "postTime": "2023-11-23T13:15:00Z",
+    "likes": 130,
+    "numReviews": 1,
+    "distributorName": "Green Harmony Eats",
+    "distributorEmail": "info@greenharmonyeats.com"
+  },
+  {
+    "mealTitle": "Blueberry Pancakes",
+    "mealType": "breakfast",
+    "mealImage": "blueberry_pancakes.jpg",
+    "ingredients": [
+      "pancake mix",
+      "blueberries",
+      "milk",
+      "eggs",
+      "butter",
+      "maple syrup"
+    ],
+    "description": "Fluffy pancakes filled with sweet blueberries, drizzled with maple syrup.",
+    "price": 9.99,
+    "rating": 4.7,
+    "postTime": "2023-11-23T08:45:00Z",
+    "likes": 110,
+    "numReviews": 2,
+    "distributorName": "Berrylicious Breakfasts",
+    "distributorEmail": "info@berryliciousbreakfasts.com"
+  },
+  {
+    "mealTitle": "Caesar Salad",
+    "mealType": "lunch",
+    "mealImage": "caesar_salad.jpg",
+    "ingredients": [
+      "romaine lettuce",
+      "croutons",
+      "parmesan cheese",
+      "cherry tomatoes",
+      "caesar dressing"
+    ],
+    "description": "A classic Caesar salad with crisp lettuce, crunchy croutons, and a tangy dressing.",
+    "price": 10.99,
+    "rating": 4.5,
+    "postTime": "2023-11-23T12:15:00Z",
+    "likes": 130,
+    "numReviews": 1,
+    "distributorName": "Fresh Greens Delight",
+    "distributorEmail": "info@freshgreensdelight.com"
+  },
+  {
+    "mealTitle": "Salmon Teriyaki Bowl",
+    "mealType": "dinner",
+    "mealImage": "salmon_teriyaki_bowl.jpg",
+    "ingredients": [
+      "salmon fillet",
+      "brown rice",
+      "broccoli",
+      "carrots",
+      "teriyaki sauce"
+    ],
+    "description": "Grilled salmon glazed with teriyaki sauce, served over a bed of brown rice and veggies.",
+    "price": 16.99,
+    "rating": 4.9,
+    "postTime": "2023-11-23T19:30:00Z",
+    "likes": 200,
+    "numReviews": 3,
+    "distributorName": "Ocean Flavors Kitchen",
+    "distributorEmail": "info@oceanflavorskitchen.com"
+  },
+  {
+    "mealTitle": "Mango Tango Smoothie Bowl",
+    "mealType": "breakfast",
+    "mealImage": "mango_tango_smoothie_bowl.jpg",
+    "ingredients": [
+      "mango",
+      "banana",
+      "spinach",
+      "almond milk",
+      "granola",
+      "chia seeds"
+    ],
+    "description": "A vibrant and tropical smoothie bowl with mango, banana, and nutritious toppings.",
+    "price": 7.99,
+    "rating": 4.3,
+    "postTime": "2023-11-23T09:00:00Z",
+    "likes": 90,
+    "numReviews": 1,
+    "distributorName": "Tropical Bliss Smoothies",
+    "distributorEmail": "info@tropicalblisssmoothies.com"
+  },
+  {
+    "mealTitle": "Egg and Avocado Breakfast Wrap",
+    "mealType": "breakfast",
+    "mealImage": "egg_avocado_wrap.jpg",
+    "ingredients": [
+      "whole wheat wrap",
+      "eggs",
+      "avocado",
+      "cherry tomatoes",
+      "spinach"
+    ],
+    "description": "A nutritious breakfast wrap filled with scrambled eggs, sliced avocado, and fresh veggies.",
+    "price": 11.99,
+    "rating": 4.6,
+    "postTime": "2023-11-23T08:30:00Z",
+    "likes": 105,
+    "numReviews": 2,
+    "distributorName": "Healthy Bites Cafe",
+    "distributorEmail": "info@healthybitescafe.com"
+  },
+  {
+    "mealTitle": "Caprese Salad",
+    "mealType": "lunch",
+    "mealImage": "caprese_salad.jpg",
+    "ingredients": [
+      "fresh mozzarella",
+      "tomatoes",
+      "basil leaves",
+      "balsamic glaze",
+      "olive oil"
+    ],
+    "description": "A simple and delicious Caprese salad with ripe tomatoes, fresh mozzarella, and fragrant basil.",
+    "price": 10.49,
+    "rating": 4.4,
+    "postTime": "2023-11-23T13:00:00Z",
+    "likes": 125,
+    "numReviews": 1,
+    "distributorName": "Mediterranean Eats",
+    "distributorEmail": "info@mediterraneaneats.com"
+  },
+  {
+    "mealTitle": "Quinoa Power Bowl",
+    "mealType": "lunch",
+    "mealImage": "quinoa_power_bowl.jpg",
+    "ingredients": [
+      "quinoa",
+      "roasted sweet potatoes",
+      "black beans",
+      "avocado",
+      "lime dressing"
+    ],
+    "description": "A nutrient-packed power bowl featuring quinoa, roasted sweet potatoes, black beans, and a zesty lime dressing.",
+    "price": 12.99,
+    "rating": 4.6,
+    "postTime": "2023-11-23T13:30:00Z",
+    "likes": 115,
+    "numReviews": 2,
+    "distributorName": "Vitality Kitchen",
+    "distributorEmail": "info@vitalitykitchen.com"
+  },
+  {
+    "mealTitle": "Shrimp Scampi Linguine",
+    "mealType": "dinner",
+    "mealImage": "shrimp_scampi_linguine.jpg",
+    "ingredients": [
+      "linguine pasta",
+      "shrimp",
+      "garlic",
+      "white wine",
+      "lemon",
+      "parsley"
+    ],
+    "description": "Delicious linguine pasta with succulent shrimp cooked in a flavorful garlic and white wine sauce.",
+    "price": 17.99,
+    "rating": 4.8,
+    "postTime": "2023-11-23T19:15:00Z",
+    "likes": 210,
+    "numReviews": 4,
+    "distributorName": "Seafood Sensations",
+    "distributorEmail": "info@seafoodsensations.com"
+  }
+]
