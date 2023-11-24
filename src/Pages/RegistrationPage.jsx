@@ -25,38 +25,6 @@ const RegistrationPage = () => {
     } catch (error) {
       console.log(error);
     }
-    // console.log(e);
-    // const form = new FormData(e.currentTarget);
-    // if (form.get("password").length < 6) {
-    //   toast.warning("Password should be more than 6 character", {
-    //     autoClose: 2000,
-    //   });
-    //   return;
-    // } else if (!/[A-Z]/.test(form.get("password"))) {
-    //   toast.warning("Password should contain atleast one Capital letter", {
-    //     autoClose: 2000,
-    //   });
-    //   return;
-    // } else if (!/[^a-zA-Z0-9]/.test(form.get("password"))) {
-    //   toast.warning("Password should contain atleast one Special character", {
-    //     autoClose: 2000,
-    //   });
-    //   return;
-    // }
-    // register(form.get("email"), form.get("password"))
-    //   .then(() => {
-    //     updateProfile(auth.currentUser, {
-    //       displayName: form.get("name"),
-    //       photoURL: form.get("url"),
-    //     })
-    //       .then(() => {
-    //         navigate("/");
-    //         toast.success("Successfully Registered", { autoClose: 2000 });
-    //         setAS(!AS);
-    //       })
-    //       .catch((e) => console.log(e));
-    //   })
-    //   .catch((e) => console.log(e));
   };
 
   const handleGoogleLogin = () => {
@@ -122,7 +90,6 @@ const RegistrationPage = () => {
               className="w-full bg-[#f3f3f3] px-4 py-3"
               type="text"
               placeholder="Email"
-              name="email"
               {...register("email", {
                 required: true,
                 pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
@@ -155,7 +122,6 @@ const RegistrationPage = () => {
               className="w-full bg-[#f3f3f3] px-4 py-3"
               type="password"
               placeholder="Password"
-              name="password"
               {...register("password", {
                 required: true,
                 minLength: 6,
