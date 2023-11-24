@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { AiFillGithub, AiOutlineGoogle } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import SocialLogin from "../Components/Authorization/SocialLogin";
 import { AuthContext } from "../Providers/AuthProvider";
 import { imageUploader } from "../Utils/imageUploder";
 
@@ -20,6 +20,7 @@ const RegistrationPage = () => {
       await registration(data.email, data.password);
       const { display_url: imageURL } = await imageUploader(data.image[0]);
       await updateUserProfile(data.name, imageURL);
+
       toast.success("Registered Succesfully", { autoClose: 2000 });
       navigate("/");
     } catch (error) {
@@ -55,22 +56,7 @@ const RegistrationPage = () => {
           className="flex flex-col gap-4 items-center"
         >
           <h1 className="font-bold text-3xl">Registration</h1>
-          <div className="flex gap-4">
-            <a
-              href="#"
-              onClick={handleGoogleLogin}
-              className="border rounded-full p-2"
-            >
-              <AiOutlineGoogle className="text-xl"></AiOutlineGoogle>
-            </a>
-            <a
-              href="#"
-              onClick={handleGithubLogin}
-              className="border rounded-full p-2"
-            >
-              <AiFillGithub className="text-xl"></AiFillGithub>
-            </a>
-          </div>
+          <SocialLogin />
           <span>or use E-mail & Password to create</span>
           <div className="w-full">
             <input

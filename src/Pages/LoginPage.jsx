@@ -2,9 +2,9 @@
 // import logo from "/logo.png";
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { AiFillGithub, AiOutlineGoogle } from "react-icons/ai";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import SocialLogin from "../Components/Authorization/SocialLogin";
 import { AuthContext } from "../Providers/AuthProvider";
 // import { toast } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
@@ -29,16 +29,6 @@ const LoginPage = () => {
     }
   };
 
-  const handleGithubLogin = () => {
-    //     githubLogin()
-    //       .then(() => {
-    //         navigate(location?.state ? location.state : "/");
-    //         toast.success("Successfully Logged In by Github", { autoClose: 2000 });
-    //       })
-    //       .catch((e) => console.log(e));
-  };
-  const handleGoogleLogin = () => {};
-
   return (
     <div
       data-aos="zoom-in-up"
@@ -51,22 +41,7 @@ const LoginPage = () => {
           onSubmit={handleSubmit(handleLogin)}
         >
           <h1 className="font-bold text-3xl">Sign in</h1>
-          <div className="flex gap-4">
-            <a
-              href="#"
-              onClick={handleGoogleLogin}
-              className="border rounded-full p-2"
-            >
-              <AiOutlineGoogle className="text-xl"></AiOutlineGoogle>
-            </a>
-            <a
-              href="#"
-              onClick={handleGithubLogin}
-              className="border rounded-full p-2"
-            >
-              <AiFillGithub className="text-xl"></AiFillGithub>
-            </a>
-          </div>
+          <SocialLogin />
           <span>or use your account</span>
           <div className="w-full">
             <input
