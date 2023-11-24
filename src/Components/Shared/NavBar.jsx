@@ -54,7 +54,7 @@ const NavBar = () => {
                 >
                   <p className="pb-2 w-max select-none">Akib Rahman</p>
                   <hr />
-                  <Link to="/dashboard">
+                  <Link to="/dashboard/admin-profile">
                     <p className="pt-2 cursor-pointer">Dashboard</p>
                   </Link>
                   <button

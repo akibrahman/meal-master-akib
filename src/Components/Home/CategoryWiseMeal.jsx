@@ -15,7 +15,7 @@ const CategoryWiseMeal = () => {
 
   const getMeals = async () => {
     setMeals(null);
-    const { data } = await axiosInstance.get("/all-meals");
+    const { data } = await axiosInstance.get("/all-meals-home");
     if (category == "allMeals") {
       setMeals(data.slice(0, 6));
       return;

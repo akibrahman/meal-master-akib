@@ -1,15 +1,18 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  daisyui: {
+    themes: ["light"],
+  },
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       colors: {
         // primary: "#A32615",
         // secondary: "#F25864",
-        primary: "#3F57B4",
-        secondary: "#73B3EA",
+        primary: "#D4562B",
+        secondary: "#F5A856",
       },
     },
   },
-  plugins: [],
+  plugins: [require("daisyui")],
 };

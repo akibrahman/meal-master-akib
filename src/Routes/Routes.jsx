@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
+import AdminProfile from "../Layouts/Admin/AdminProfile";
 import Dashboard from "../Layouts/Dashboard";
 import DetailsPage from "../Pages/DetailsPage";
 import HomePage from "../Pages/HomePage";
@@ -37,5 +38,11 @@ export const routes = createBrowserRouter([
   {
     path: "/dashboard",
     element: <Dashboard />,
+    children: [
+      {
+        path: "admin-profile",
+        element: <AdminProfile />,
+      },
+    ],
   },
 ]);
