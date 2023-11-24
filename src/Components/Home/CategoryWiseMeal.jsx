@@ -1,18 +1,19 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { FaRegStar, FaStar } from "react-icons/fa";
 import Rating from "react-rating";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { convertCamelCaseToCapitalized } from "../../Utils/camelToCapitalize";
 import Container from "../Shared/Container";
 
 const CategoryWiseMeal = () => {
+  const axiosInstance = useAxiosPublic();
   const [meals, setMeals] = useState(null);
   const [category, setCategory] = useState("breakfast");
   const tabs = ["breakfast", "lunch", "dinner", "allMeals"];
 
   const getMeals = async () => {
     setMeals([]);
-    const { data } = await axios.get("/meals.json");
+    const { data } = await axiosInstance.get("/all-meals");
     if (category == "allMeals") {
       setMeals(data.slice(0, 6));
       return;

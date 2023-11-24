@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { IoMdNotificationsOutline } from "react-icons/io";
 import Container from "./Container";
 
 const NavBar = () => {
@@ -18,7 +19,7 @@ const NavBar = () => {
           <div className="flex items-center gap-5 text-white font-medium">
             <p>Home</p>
             <p>Meals</p>
-            <p>Upcoming Meals</p>
+            <IoMdNotificationsOutline />
             <button className="bg-white font-bold text-secondary px-3 py-1 rounded-full">
               Join Us
             </button>
