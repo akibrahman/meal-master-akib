@@ -1,5 +1,8 @@
-import { useContext, useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { useContext, useState } from "react";
 import { FaHeart, FaRegStar, FaStar } from "react-icons/fa";
+import { ImSpinner9 } from "react-icons/im";
 import Rating from "react-rating";
 import { useParams } from "react-router-dom";
 import Container from "../Components/Shared/Container";
@@ -11,60 +14,67 @@ import { convertCamelCaseToCapitalized } from "../Utils/camelToCapitalize";
 const DetailsPage = () => {
   const { id } = useParams();
   const { user } = useContext(AuthContext);
-  const [meal, setMeal] = useState();
-  const [isLiked, setIsLiked] = useState(false);
+  //   const [meal, setMeal] = useState();
+  const [a, setA] = useState(false);
   const axiosInstance = useAxiosPublic();
 
-  const getMeal = async () => {
-    const data = await axiosInstance.get(`/meal/${id}`);
-    setMeal(data.data);
-  };
+  const {
+    data: meal,
+    refetch: mealRefetch,
+    isLoading: isMealLoading,
+  } = useQuery({
+    queryKey: ["sigleMeal"],
+    queryFn: async () => {
+      const data = await axiosInstance.get(`/meal/${id}`);
+      return data.data;
+    },
+  });
 
-  useEffect(() => {
-    getMeal();
-  }, []);
+  const {
+    data: isLiked,
+    isLoading: isLikedLoad,
+    refetch: isLikedRefetch,
+  } = useQuery({
+    queryKey: ["isLiked"],
+    queryFn: async () => {
+      const data = await axiosInstance.get(
+        `/is-liked?id=${id}&email=${user.email}`
+      );
+      return data.data.liked;
+    },
+    enabled: user && id ? true : false,
+  });
+
+  const { data: reviews } = useQuery({
+    queryKey: ["reviews", id],
+    queryFn: async () => {
+      const data = await axios.get("/reviews.json");
+      return data.data;
+    },
+  });
 
   const handleLikeInc = async () => {
-    const data = await axiosInstance.put("/inc-like", {
+    setA(true);
+    await axiosInstance.put("/inc-like", {
       email: user.email,
       id: id,
     });
-    console.log(data);
+    await isLikedRefetch();
+    await mealRefetch();
+    setA(false);
   };
   const handleLikeDec = async () => {
-    const data = await axiosInstance.put("/dec-like", {
+    setA(true);
+    await axiosInstance.put("/dec-like", {
       email: user.email,
       id: id,
     });
-    console.log(data);
+    await isLikedRefetch();
+    await mealRefetch();
+    setA(false);
   };
 
-  const getLiked = async () => {
-    if (user && id) {
-      const data = await axiosInstance.get(
-        `/is-liked?id=${id}&email=${user?.email}`
-      );
-      setIsLiked(data.data.liked);
-    }
-  };
-
-  useEffect(() => {
-    getLiked();
-  }, [user]);
-
-  if (!meal || !user) return <Loader />;
-  // mealTitle
-  // mealType
-  // mealImage
-  // ingredients
-  // description
-  // price
-  // rating
-  // postTime
-  // likes
-  // numReviews
-  // distributorName
-  // distributorEmail
+  if (!user || isLikedLoad || isMealLoading) return <Loader />;
 
   return (
     <Container>
@@ -117,7 +127,9 @@ const DetailsPage = () => {
                 fullSymbol={<FaStar className="text-primary text-2xl" />}
               />
               <div className="flex items-center gap-5 font-semibold">
-                {isLiked ? (
+                {a ? (
+                  <ImSpinner9 className="animate-spin text-3xl text-primary" />
+                ) : isLiked ? (
                   <FaHeart
                     onClick={handleLikeDec}
                     className="text-3xl text-primary cursor-pointer"
@@ -128,6 +140,7 @@ const DetailsPage = () => {
                     className="text-3xl text-gray-300 cursor-pointer"
                   />
                 )}
+
                 <p>Likes: {meal.likes}</p>
               </div>
               {/*  */}
@@ -136,6 +149,51 @@ const DetailsPage = () => {
               Request Meal
             </button>
           </div>
+        </div>
+      </div>
+      {/* Reviews  */}
+      <hr />
+      <div className="my-8 border p-5 rounded-md border-primary">
+        <p className="border-l-4 border-primary pl-2 text-xl mb-2">
+          Total Reviews: {meal.numReviews}
+        </p>
+        <div className="">
+          <textarea
+            name=""
+            cols="50"
+            rows="4"
+            className="border border-secondary rounded-md p-2 px-4 font-semibold text-primary"
+          ></textarea>
+          <br />
+          <button className="bg-secondary px-3 py-1 rounded-full font-semibold select-none text-white transition active:scale-90">
+            Post
+          </button>
+        </div>
+        <div className="grid grid-cols-3 gap-5 my-10">
+          {reviews?.map((review, i) => (
+            <div
+              key={i}
+              className="border border-secondary rounded-md p-2 pb-0"
+            >
+              <div className="flex items-center gap-3">
+                <img
+                  src={review.image}
+                  className="w-9 h-9 rounded-full"
+                  alt=""
+                />
+                <div className="">
+                  <p>{review.name}</p>
+                  <Rating
+                    placeholderRating={review.rating}
+                    emptySymbol={<FaRegStar />}
+                    placeholderSymbol={<FaStar />}
+                    fullSymbol={<FaStar />}
+                  />
+                </div>
+              </div>
+              <p className="mt-3">{review.review}</p>
+            </div>
+          ))}
         </div>
       </div>
     </Container>

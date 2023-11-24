@@ -63,6 +63,7 @@ const AuthProvider = ({ children }) => {
           role: "general",
           badge: "bronze",
           about: "",
+          likings: [],
         };
         await axiosInstance.put(`/all-users/${cUser.email}`, userData);
         setLoading(false);
