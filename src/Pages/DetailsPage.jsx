@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { useContext, useState } from "react";
-import { FaHeart, FaRegStar, FaStar } from "react-icons/fa";
+import { FaHeart, FaRegSmileBeam, FaRegStar, FaStar } from "react-icons/fa";
 import { ImSpinner9 } from "react-icons/im";
 import Rating from "react-rating";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import Container from "../Components/Shared/Container";
 import Loader from "../Components/Shared/Loader";
 import useAxiosPublic from "../Hooks/useAxiosPublic";
@@ -14,7 +14,8 @@ import { convertCamelCaseToCapitalized } from "../Utils/camelToCapitalize";
 const DetailsPage = () => {
   const { id } = useParams();
   const { user } = useContext(AuthContext);
-  //   const [meal, setMeal] = useState();
+  const [rating, setRating] = useState(null);
+  const [error, setError] = useState("");
   const [a, setA] = useState(false);
   const axiosInstance = useAxiosPublic();
 
@@ -23,7 +24,7 @@ const DetailsPage = () => {
     refetch: mealRefetch,
     isLoading: isMealLoading,
   } = useQuery({
-    queryKey: ["sigleMeal"],
+    queryKey: ["sigleMeal", id],
     queryFn: async () => {
       const data = await axiosInstance.get(`/meal/${id}`);
       return data.data;
@@ -35,7 +36,7 @@ const DetailsPage = () => {
     isLoading: isLikedLoad,
     refetch: isLikedRefetch,
   } = useQuery({
-    queryKey: ["isLiked"],
+    queryKey: ["isLiked", id],
     queryFn: async () => {
       const data = await axiosInstance.get(
         `/is-liked?id=${id}&email=${user.email}`
@@ -45,10 +46,10 @@ const DetailsPage = () => {
     enabled: user && id ? true : false,
   });
 
-  const { data: reviews } = useQuery({
+  const { data: reviews, refetch: reviewRefetch } = useQuery({
     queryKey: ["reviews", id],
     queryFn: async () => {
-      const data = await axios.get("/reviews.json");
+      const data = await axiosInstance.get(`/meal-wise-reviews?id=${id}`);
       return data.data;
     },
   });
@@ -72,6 +73,38 @@ const DetailsPage = () => {
     await isLikedRefetch();
     await mealRefetch();
     setA(false);
+  };
+
+  const handlePostReview = async (event) => {
+    event.preventDefault();
+    const review = event.target.review.value;
+    if (!review) {
+      setError("Review is Required");
+      return;
+    }
+    if (!rating) {
+      setError("Rating is Required");
+      return;
+    }
+    setError("");
+    const data = {
+      name: user.displayName,
+      email: user.email,
+      image: user.photoURL,
+      rating: rating,
+      review: review,
+      mealId: id,
+    };
+    try {
+      await axiosInstance.post("/add-review", data);
+      mealRefetch();
+      toast.success("Review Added");
+      event.target.reset();
+      setRating(null);
+      reviewRefetch();
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   if (!user || isLikedLoad || isMealLoading) return <Loader />;
@@ -158,43 +191,64 @@ const DetailsPage = () => {
           Total Reviews: {meal.numReviews}
         </p>
         <div className="">
-          <textarea
-            name=""
-            cols="50"
-            rows="4"
-            className="border border-secondary rounded-md p-2 px-4 font-semibold text-primary"
-          ></textarea>
-          <br />
-          <button className="bg-secondary px-3 py-1 rounded-full font-semibold select-none text-white transition active:scale-90">
-            Post
-          </button>
-        </div>
-        <div className="grid grid-cols-3 gap-5 my-10">
-          {reviews?.map((review, i) => (
-            <div
-              key={i}
-              className="border border-secondary rounded-md p-2 pb-0"
-            >
-              <div className="flex items-center gap-3">
-                <img
-                  src={review.image}
-                  className="w-9 h-9 rounded-full"
-                  alt=""
-                />
-                <div className="">
-                  <p>{review.name}</p>
-                  <Rating
-                    placeholderRating={review.rating}
-                    emptySymbol={<FaRegStar />}
-                    placeholderSymbol={<FaStar />}
-                    fullSymbol={<FaStar />}
-                  />
-                </div>
-              </div>
-              <p className="mt-3">{review.review}</p>
+          <form onSubmit={handlePostReview}>
+            <textarea
+              name="review"
+              cols="50"
+              rows="4"
+              className="border border-secondary rounded-md p-2 px-4 font-semibold text-primary"
+            ></textarea>
+
+            <br />
+            <div className="mt-3 flex items-center gap-3">
+              <Rating
+                onChange={(e) => setRating(e)}
+                placeholderRating={rating}
+                emptySymbol={<FaRegStar className="text-3xl" />}
+                placeholderSymbol={<FaStar className="text-3xl" />}
+                fullSymbol={<FaStar className="text-3xl" />}
+              />
+              <p className="text-red-600 font-bold">{error}</p>
             </div>
-          ))}
+            <br />
+            <button className="bg-secondary px-3 py-1 rounded-full font-semibold select-none text-white transition active:scale-90">
+              Post
+            </button>
+          </form>
         </div>
+        {reviews?.length == 0 ? (
+          <p className="text-center py-5 font-semibold text-lg flex items-center justify-center">
+            Be the First who Reviews....
+            <FaRegSmileBeam />
+          </p>
+        ) : (
+          <div className="grid grid-cols-3 gap-5 my-10">
+            {reviews?.map((review, i) => (
+              <div
+                key={i}
+                className="border border-secondary rounded-md p-2 pb-0"
+              >
+                <div className="flex items-center gap-3">
+                  <img
+                    src={review.image}
+                    className="w-9 h-9 rounded-full"
+                    alt=""
+                  />
+                  <div className="">
+                    <p>{review.name}</p>
+                    <Rating
+                      placeholderRating={review.rating}
+                      emptySymbol={<FaRegStar />}
+                      placeholderSymbol={<FaStar />}
+                      fullSymbol={<FaStar />}
+                    />
+                  </div>
+                </div>
+                <p className="mt-3">{review.review}</p>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </Container>
   );

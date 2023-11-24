@@ -30,10 +30,11 @@ const NavBar = () => {
           </div>
           <div className="flex items-center gap-5 text-white font-medium">
             <NavLink to="/">
-              {" "}
               <p>Home</p>
             </NavLink>
-            <p>Meals</p>
+            <NavLink to="/all-meals">
+              <p>Meals</p>
+            </NavLink>
             <IoMdNotificationsOutline />
 
             {user ? (
@@ -53,7 +54,9 @@ const NavBar = () => {
                 >
                   <p className="pb-2 w-max select-none">Akib Rahman</p>
                   <hr />
-                  <p className="pt-2 cursor-pointer">Dashboard</p>
+                  <Link to="/dashboard">
+                    <p className="pt-2 cursor-pointer">Dashboard</p>
+                  </Link>
                   <button
                     onClick={handleLogOut}
                     className="bg-secondary text-white px-3 rounded-full mt-4"

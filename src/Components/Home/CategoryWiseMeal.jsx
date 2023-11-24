@@ -60,6 +60,7 @@ const CategoryWiseMeal = () => {
                     </div>
                     <div className="flex items-center justify-between px-3 border-b-2 border-secondary py-4 text-primary font-semibold">
                       <Rating
+                        readonly
                         placeholderRating={meal.rating}
                         emptySymbol={<FaRegStar />}
                         placeholderSymbol={<FaStar />}
