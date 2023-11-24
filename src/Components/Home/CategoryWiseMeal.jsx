@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { FaRegStar, FaStar } from "react-icons/fa";
 import Rating from "react-rating";
+import { Link } from "react-router-dom";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { convertCamelCaseToCapitalized } from "../../Utils/camelToCapitalize";
 import Container from "../Shared/Container";
+import Loader from "../Shared/Loader";
 
 const CategoryWiseMeal = () => {
   const axiosInstance = useAxiosPublic();
@@ -12,7 +14,7 @@ const CategoryWiseMeal = () => {
   const tabs = ["breakfast", "lunch", "dinner", "allMeals"];
 
   const getMeals = async () => {
-    setMeals([]);
+    setMeals(null);
     const { data } = await axiosInstance.get("/all-meals");
     if (category == "allMeals") {
       setMeals(data.slice(0, 6));
@@ -41,37 +43,47 @@ const CategoryWiseMeal = () => {
           ))}
         </div>
         <Container>
-          <div className="mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-10">
-            {meals?.map((meal, i) => (
-              <div key={i} className="cursor-pointer overflow-hidden">
-                <p className="text-center bg-secondary text-white font-medium py-2 rounded-t-md">
-                  {meal.mealTitle}
-                </p>
-                <div className="w-full h-[150px] overflow-hidden">
-                  <img
-                    className="hover:scale-110 transition-all h-full w-full"
-                    src={meal.mealImage}
-                    alt=""
-                  />
-                </div>
-                <div className="flex items-center justify-between px-3 border-b-2 border-secondary py-4 text-primary font-semibold">
-                  <Rating
-                    placeholderRating={meal.rating}
-                    emptySymbol={<FaRegStar />}
-                    placeholderSymbol={<FaStar />}
-                    fullSymbol={<FaStar />}
-                  />
-                  <p>$ {meal.price}</p>
-                  <button className="border border-primary px-2 rounded-full">
-                    Details
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
+          {meals ? (
+            <div className="mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-10">
+              {meals?.map((meal, i) => (
+                <Link key={i} to={`/meal/${meal._id}`}>
+                  <div className="cursor-pointer overflow-hidden">
+                    <p className="text-center bg-secondary text-white font-medium py-2 rounded-t-md">
+                      {meal.mealTitle}
+                    </p>
+                    <div className="w-full h-[150px] overflow-hidden">
+                      <img
+                        className="hover:scale-110 transition-all h-full w-full"
+                        src={meal.mealImage}
+                        alt=""
+                      />
+                    </div>
+                    <div className="flex items-center justify-between px-3 border-b-2 border-secondary py-4 text-primary font-semibold">
+                      <Rating
+                        placeholderRating={meal.rating}
+                        emptySymbol={<FaRegStar />}
+                        placeholderSymbol={<FaStar />}
+                        fullSymbol={<FaStar />}
+                      />
+                      <p>$ {meal.price}</p>
+                      <button className="border border-primary px-2 rounded-full">
+                        Details
+                      </button>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <Loader />
+          )}
         </Container>
         <div className="flex items-center justify-center">
-          <button className="border-2 border-secondary px-4 py-1 mt-5 rounded-full font-medium text-secondary">
+          <button
+            className={`border-2 border-secondary px-4 py-1 mt-5 rounded-full font-medium text-secondary ${
+              meals ? "opacity-100" : "opacity-0"
+            }`}
+          >
             See All
           </button>
         </div>

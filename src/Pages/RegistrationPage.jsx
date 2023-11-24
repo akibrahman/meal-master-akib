@@ -28,26 +28,6 @@ const RegistrationPage = () => {
     }
   };
 
-  const handleGoogleLogin = () => {
-    // googleLogin()
-    //   .then(() => {
-    //     navigate(location?.state ? location.state : "/");
-    //     toast.success("Successfully Logged In by Google.", { autoClose: 2000 });
-    //   })
-    //   .catch((e) => {
-    //     console.log(e.code);
-    //   });
-  };
-
-  const handleGithubLogin = () => {
-    // githubLogin()
-    //   .then(() => {
-    //     navigate(location?.state ? location.state : "/");
-    //     toast.success("Successfully Logged In by Github.", { autoClose: 2000 });
-    //   })
-    //   .catch((e) => console.log(e));
-  };
-
   return (
     <div className="flex flex-col lg:flex-row-reverse items-center w-[95%] lg:w-[70%] mx-auto shadow-xl my-10">
       <div className="lg:w-1/2 p-5 md:p-10">

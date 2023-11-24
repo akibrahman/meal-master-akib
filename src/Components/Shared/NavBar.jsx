@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { IoMdNotificationsOutline } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../Providers/AuthProvider";
 import Container from "./Container";
@@ -29,7 +29,10 @@ const NavBar = () => {
             <p className="text-white font-semibold text-lg">MealMaster</p>
           </div>
           <div className="flex items-center gap-5 text-white font-medium">
-            <p>Home</p>
+            <NavLink to="/">
+              {" "}
+              <p>Home</p>
+            </NavLink>
             <p>Meals</p>
             <IoMdNotificationsOutline />
 

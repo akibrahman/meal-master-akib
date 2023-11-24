@@ -1,18 +1,12 @@
-// import { BiHappyBeaming } from "react-icons/bi";
-// import logo from "/logo.png";
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import SocialLogin from "../Components/Authorization/SocialLogin";
 import { AuthContext } from "../Providers/AuthProvider";
-// import { toast } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
-// import "./Login.css";
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const { logIn } = useContext(AuthContext);
   const {
     register,
