@@ -3,6 +3,7 @@ import {
   getAuth,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  signOut,
   updateProfile,
 } from "firebase/auth";
 // import propTypes from "prop-types";
@@ -33,6 +34,12 @@ const AuthProvider = ({ children }) => {
       photoURL: photo,
     });
   };
+  //! Logout
+  const logOut = () => {
+    setLoading(true);
+    setUser(null);
+    return signOut(auth);
+  };
   useEffect(() => {
     const un = onAuthStateChanged(auth, (cUser) => {
       if (cUser) {
@@ -56,6 +63,7 @@ const AuthProvider = ({ children }) => {
         registration,
         logIn,
         updateUserProfile,
+        logOut,
       }}
     >
       {children}

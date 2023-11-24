@@ -1,12 +1,21 @@
 import { useContext, useState } from "react";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import { AuthContext } from "../../Providers/AuthProvider";
 import Container from "./Container";
 
 const NavBar = () => {
-  const { user } = useContext(AuthContext);
+  const { user, logOut } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
+  const handleLogOut = async () => {
+    try {
+      await logOut();
+      toast.success("Logout Succesfully", { autoClose: 2000 });
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="bg-gradient-to-r from-primary to-secondary">
       <Container>
@@ -42,7 +51,10 @@ const NavBar = () => {
                   <p className="pb-2 w-max select-none">Akib Rahman</p>
                   <hr />
                   <p className="pt-2 cursor-pointer">Dashboard</p>
-                  <button className="bg-secondary text-white px-3 rounded-full mt-4">
+                  <button
+                    onClick={handleLogOut}
+                    className="bg-secondary text-white px-3 rounded-full mt-4"
+                  >
                     Logout
                   </button>
                 </div>
