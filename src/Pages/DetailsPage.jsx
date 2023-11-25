@@ -3,21 +3,25 @@ import { useContext, useState } from "react";
 import { FaHeart, FaRegSmileBeam, FaRegStar, FaStar } from "react-icons/fa";
 import { ImSpinner9 } from "react-icons/im";
 import Rating from "react-rating";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 import Container from "../Components/Shared/Container";
 import Loader from "../Components/Shared/Loader";
 import useAxiosPublic from "../Hooks/useAxiosPublic";
+import usePackage from "../Hooks/usePackage";
 import { AuthContext } from "../Providers/AuthProvider";
 import { convertCamelCaseToCapitalized } from "../Utils/camelToCapitalize";
 
 const DetailsPage = () => {
   const { id } = useParams();
-  const { user } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
   const [rating, setRating] = useState(null);
   const [error, setError] = useState("");
   const [likeLoader, setLikeLoader] = useState(false);
   const axiosInstance = useAxiosPublic();
+  const navigate = useNavigate();
+  const userPackage = usePackage();
 
   const {
     data: meal,
@@ -43,7 +47,7 @@ const DetailsPage = () => {
       );
       return data.data.liked;
     },
-    enabled: user && id ? true : false,
+    enabled: !loading && id ? true : false,
   });
 
   const { data: reviews, refetch: reviewRefetch } = useQuery({
@@ -108,10 +112,31 @@ const DetailsPage = () => {
   };
 
   const handleRequest = () => {
+    if (!user) {
+      Swal.fire({
+        title: "You are not Logged In",
+        text: "You have to login to request a meal !",
+
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Login Page",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/login");
+        }
+      });
+      return;
+    }
+    if (userPackage.pack.split("-")[1] == undefined) {
+      toast.info("You First have to Subscribe a Package to request a Meal");
+      return;
+    }
     alert();
   };
 
-  if (!user || isLikedLoad || isMealLoading) return <Loader />;
+  if (loading || isLikedLoad || isMealLoading) return <Loader />;
 
   return (
     <Container>
