@@ -80,13 +80,13 @@ const Dashboard = () => {
                   </NavLink>
                 </li>
                 <li className="text-[#fff] font-medium">
-                  <NavLink to="/">
+                  <NavLink to="/dashboard/all-reviews">
                     <FaUserGroup />
                     All Reviews
                   </NavLink>
                 </li>
                 <li className="text-[#fff] font-medium">
-                  <NavLink to="/dashboard/all-users">
+                  <NavLink to="/dashboard/serve-meals">
                     <FaUserGroup />
                     Serve Meals
                   </NavLink>

@@ -16,7 +16,7 @@ const DetailsPage = () => {
   const { user } = useContext(AuthContext);
   const [rating, setRating] = useState(null);
   const [error, setError] = useState("");
-  const [a, setA] = useState(false);
+  const [likeLoader, setLikeLoader] = useState(false);
   const axiosInstance = useAxiosPublic();
 
   const {
@@ -55,24 +55,24 @@ const DetailsPage = () => {
   });
 
   const handleLikeInc = async () => {
-    setA(true);
+    setLikeLoader(true);
     await axiosInstance.put("/inc-like", {
       email: user.email,
       id: id,
     });
     await isLikedRefetch();
     await mealRefetch();
-    setA(false);
+    setLikeLoader(false);
   };
   const handleLikeDec = async () => {
-    setA(true);
+    setLikeLoader(true);
     await axiosInstance.put("/dec-like", {
       email: user.email,
       id: id,
     });
     await isLikedRefetch();
     await mealRefetch();
-    setA(false);
+    setLikeLoader(false);
   };
 
   const handlePostReview = async (event) => {
@@ -105,6 +105,10 @@ const DetailsPage = () => {
     } catch (error) {
       toast.error(error.message);
     }
+  };
+
+  const handleRequest = () => {
+    alert();
   };
 
   if (!user || isLikedLoad || isMealLoading) return <Loader />;
@@ -160,7 +164,7 @@ const DetailsPage = () => {
                 fullSymbol={<FaStar className="text-primary text-2xl" />}
               />
               <div className="flex items-center gap-5 font-semibold">
-                {a ? (
+                {likeLoader ? (
                   <ImSpinner9 className="animate-spin text-3xl text-primary" />
                 ) : isLiked ? (
                   <FaHeart
@@ -178,7 +182,10 @@ const DetailsPage = () => {
               </div>
               {/*  */}
             </div>
-            <button className="bg-secondary px-3 py-1 rounded-full font-semibold select-none text-white transition active:scale-90">
+            <button
+              onClick={handleRequest}
+              className="bg-secondary px-3 py-1 rounded-full font-semibold select-none text-white transition active:scale-90"
+            >
               Request Meal
             </button>
           </div>

@@ -1,6 +1,7 @@
 // import { useQuery } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import Container from "../Components/Shared/Container";
 import Loader from "../Components/Shared/Loader";
 import useAxiosPublic from "../Hooks/useAxiosPublic";
@@ -63,16 +64,18 @@ const MealsPage = () => {
           <Container>
             <div className="grid grid-cols-3 gap-6 mt-3">
               {meals?.map((meal) => (
-                <div className="bg-primary rounded-t-md" key={meal._id}>
-                  <img
-                    src={meal.mealImage}
-                    className="h-[200px] w-full rounded-t-md"
-                    alt=""
-                  />
-                  <p className="text-center text-white py-2 font-semibold">
-                    {meal.mealTitle} - ${meal.price}
-                  </p>
-                </div>
+                <Link to={`/meal/${meal._id}`} key={meal._id}>
+                  <div className="bg-primary rounded-t-md" key={meal._id}>
+                    <img
+                      src={meal.mealImage}
+                      className="h-[200px] w-full rounded-t-md"
+                      alt=""
+                    />
+                    <p className="text-center text-white py-2 font-semibold">
+                      {meal.mealTitle} - ${meal.price}
+                    </p>
+                  </div>
+                </Link>
               ))}
             </div>
           </Container>

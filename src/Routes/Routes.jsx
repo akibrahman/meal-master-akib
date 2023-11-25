@@ -3,7 +3,9 @@ import App from "../App";
 import AddMeal from "../Layouts/Admin/AddMeal";
 import AdminProfile from "../Layouts/Admin/AdminProfile";
 import AllMeals from "../Layouts/Admin/AllMeals";
+import AllReviews from "../Layouts/Admin/AllReviews";
 import ManageUsers from "../Layouts/Admin/ManageUsers";
+import ServeMeals from "../Layouts/Admin/ServeMeals";
 import Dashboard from "../Layouts/Dashboard";
 import DetailsPage from "../Pages/DetailsPage";
 import HomePage from "../Pages/HomePage";
@@ -57,6 +59,14 @@ export const routes = createBrowserRouter([
       {
         path: "all-meals",
         element: <AllMeals />,
+      },
+      {
+        path: "all-reviews",
+        element: <AllReviews />,
+      },
+      {
+        path: "serve-meals",
+        element: <ServeMeals />,
       },
     ],
   },

@@ -22,45 +22,6 @@ const ManageUsers = () => {
       return responce.data;
     },
   });
-  //   const handleDelete = (id) => {
-
-  //   };
-  //   const showRoles = async (email) => {
-  //     const { value: role } = await Swal.fire({
-  //       title: "Select field validation",
-  //       input: "select",
-  //       inputOptions: roles,
-  //       inputPlaceholder: "Select a Role",
-  //       showCancelButton: true,
-  //       inputValidator: (value) => {
-  //         return new Promise((resolve) => {
-  //           if (value) {
-  //             resolve();
-  //           } else {
-  //             resolve("You need to select one :)");
-  //           }
-  //         });
-  //       },
-  //     });
-  //     if (role) {
-  //       axiosInstance
-  //         .patch(`/users/role/${email}`, { role: roles[role] })
-  //         .then((res) => {
-  //           if (res.data.modifiedCount > 0) {
-  //             refetch();
-  //             roleRefetch();
-  //             Swal.fire({
-  //               position: "top-end",
-  //               icon: "success",
-  //               title: "Role Updated",
-  //               showConfirmButton: false,
-  //               timer: 1500,
-  //             });
-  //           }
-  //         })
-  //         .catch((error) => console.log(error));
-  //     }
-  //   };
   const makeAdmin = async (email, name) => {
     Swal.fire({
       title: "Are you sure?",
