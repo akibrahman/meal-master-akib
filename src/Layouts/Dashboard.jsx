@@ -68,7 +68,7 @@ const Dashboard = () => {
                   </NavLink>
                 </li>
                 <li className="text-[#fff] font-medium">
-                  <NavLink to="/dashboard/add-items">
+                  <NavLink to="/dashboard/add-meal">
                     <FaUtensils />
                     Add Meal
                   </NavLink>

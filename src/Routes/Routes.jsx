@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
+import AddMeal from "../Layouts/Admin/AddMeal";
 import AdminProfile from "../Layouts/Admin/AdminProfile";
 import ManageUsers from "../Layouts/Admin/ManageUsers";
 import Dashboard from "../Layouts/Dashboard";
@@ -47,6 +48,10 @@ export const routes = createBrowserRouter([
       {
         path: "manage-users",
         element: <ManageUsers />,
+      },
+      {
+        path: "add-meal",
+        element: <AddMeal />,
       },
     ],
   },
