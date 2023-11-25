@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
+import Payment from "../Components/Home/Payment";
 import AddMeal from "../Layouts/Admin/AddMeal";
 import AdminProfile from "../Layouts/Admin/AdminProfile";
 import AllMeals from "../Layouts/Admin/AllMeals";
@@ -29,6 +30,10 @@ export const routes = createBrowserRouter([
       {
         path: "/all-meals",
         element: <MealsPage />,
+      },
+      {
+        path: "/checkout/:package_name",
+        element: <Payment />,
       },
     ],
   },

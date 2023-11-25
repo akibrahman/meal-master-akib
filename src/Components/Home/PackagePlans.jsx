@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Container from "../Shared/Container";
 
 const PackagePlans = () => {
@@ -40,9 +41,11 @@ const PackagePlans = () => {
                 </li>
               </del>
             </ul>
-            <button className="mt-10 font-semibold bg-white text-primary px-4 py-2 rounded-md">
-              Subscribe
-            </button>
+            <Link to={`/checkout/${"silver"}`}>
+              <button className="transition-all active:scale-90 mt-10 font-semibold bg-white text-primary px-4 py-2 rounded-md">
+                Subscribe
+              </button>
+            </Link>
           </div>
           <div className="bg-primary text-white text-center py-10">
             <p className="font-semibold text-xl mb-8 bg-yellow-500 py-1">
@@ -76,9 +79,11 @@ const PackagePlans = () => {
                 </li>
               </del>
             </ul>
-            <button className="mt-10 font-semibold bg-white text-primary px-4 py-2 rounded-md border-2 border-yellow-500">
-              Subscribe
-            </button>
+            <Link to={`/checkout/${"gold"}`}>
+              <button className="transition-all active:scale-90 mt-10 font-semibold bg-white text-primary px-4 py-2 rounded-md border-2 border-yellow-500">
+                Subscribe
+              </button>
+            </Link>
           </div>
           <div className="bg-primary text-white text-center py-10">
             <p className="font-semibold text-xl mb-8 bg-purple-700 py-1">
@@ -110,9 +115,11 @@ const PackagePlans = () => {
                 Free Delivery
               </li>
             </ul>
-            <button className="mt-10 font-semibold bg-white text-primary px-4 py-2 rounded-md border-2 border-purple-700">
-              Subscribe
-            </button>
+            <Link to={`/checkout/${"platinum"}`}>
+              <button className="transition-all active:scale-90 mt-10 font-semibold bg-white text-primary px-4 py-2 rounded-md border-2 border-purple-700">
+                Subscribe
+              </button>
+            </Link>
           </div>
         </div>
       </Container>
