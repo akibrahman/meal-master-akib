@@ -8,7 +8,8 @@ import { imageUploader } from "../Utils/imageUploder";
 
 const RegistrationPage = () => {
   const navigate = useNavigate();
-  const { registration, updateUserProfile } = useContext(AuthContext);
+  const { registration, updateUserProfile, setAuthReloader, authReloader } =
+    useContext(AuthContext);
   const {
     register,
     formState: { errors },
@@ -22,6 +23,7 @@ const RegistrationPage = () => {
       await updateUserProfile(data.name, imageURL);
 
       toast.success("Registered Succesfully", { autoClose: 2000 });
+      setAuthReloader(!authReloader);
       navigate("/");
     } catch (error) {
       console.log(error);

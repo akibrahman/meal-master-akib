@@ -22,6 +22,7 @@ const AuthProvider = ({ children }) => {
   const axiosInstance = useAxiosPublic();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [authReloader, setAuthReloader] = useState(true);
   // Providers
   const GoogleProvider = new GoogleAuthProvider();
   //! Registration
@@ -58,7 +59,7 @@ const AuthProvider = ({ children }) => {
         console.log("C-", cUser);
         setUser(cUser);
         const userData = {
-          name: cUser.name,
+          name: cUser.displayName,
           email: cUser.email,
           role: "general",
           badge: "bronze",
@@ -74,11 +75,13 @@ const AuthProvider = ({ children }) => {
       }
     });
     return () => un();
-  });
+  }, [authReloader]);
   return (
     <AuthContext.Provider
       value={{
         auth,
+        authReloader,
+        setAuthReloader,
         user,
         setUser,
         loading,
