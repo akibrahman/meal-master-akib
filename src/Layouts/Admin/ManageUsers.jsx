@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import Loader from "../../Components/Shared/Loader";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import { convertCamelCaseToCapitalized } from "../../Utils/camelToCapitalize";
 
 const ManageUsers = () => {
   const axiosInstance = useAxiosPublic();
@@ -103,7 +104,9 @@ const ManageUsers = () => {
                         <p className="text-center font-bold">Bronze</p>
                       ) : (
                         <p className="text-center font-bold">
-                          {user.badge.split("-")[1]}
+                          {convertCamelCaseToCapitalized(
+                            user.badge.split("-")[1]
+                          )}
                         </p>
                       )}
                     </th>

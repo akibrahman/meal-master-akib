@@ -6,13 +6,14 @@ import {
   useStripe,
 } from "@stripe/react-stripe-js";
 import { useContext, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { AuthContext } from "../../Providers/AuthProvider";
 
 const PaymentSub = () => {
   const { package_name: packageName } = useParams();
+  const navigate = useNavigate();
 
   const axiosInstance = useAxiosPublic();
   const { user } = useContext(AuthContext);
@@ -20,8 +21,6 @@ const PaymentSub = () => {
   const elements = useElements();
   const [errorMessage, setErrorMessage] = useState(null);
   const [paymentMethodI, setPaymentMethodI] = useState(null);
-
-  console.log(packageName);
   const ELEMENT_OPTIONS = {
     style: {
       base: {
@@ -38,18 +37,20 @@ const PaymentSub = () => {
     },
   };
 
+  const payAmount =
+    packageName == "silver"
+      ? 3000
+      : packageName == "gold"
+      ? 4000
+      : packageName == "platinum"
+      ? 5000
+      : 1;
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     axiosInstance
       .post("/create-payment-intent", {
-        price:
-          packageName == "silver"
-            ? 3000
-            : packageName == "gold"
-            ? 4000
-            : packageName == "platinum"
-            ? 5000
-            : 1,
+        price: payAmount,
       })
       .then(async (response) => {
         if (!stripe || !elements) {
@@ -105,25 +106,51 @@ const PaymentSub = () => {
           return;
         } else {
           console.log(paymentIntent);
+
+          const paymentData = {
+            email: user.email,
+            name: user.displayName,
+            paymentDate: Date.now(),
+            amount: payAmount,
+            package: packageName,
+            transactionId: paymentIntent.id,
+          };
+
+          const response = await axiosInstance.post(
+            "/subscription-handler",
+            paymentData
+          );
+          if (response.data.acknowledged) {
+            const res = await axiosInstance.patch(
+              `/change-package?email=${user.email}&pack=${packageName}`
+            );
+            if (res.data.modifiedCount > 1) {
+              Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: `Payment Successfull - ${payAmount}`,
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              navigate("/all-meals");
+              return;
+            }
+            Swal.fire({
+              position: "top-end",
+              icon: "error",
+              title: `Something went Wrong`,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
+
           Swal.fire({
             position: "top-end",
-            icon: "success",
-            title: "Payment Successfull",
+            icon: "error",
+            title: `Something went Wrong`,
             showConfirmButton: false,
             timer: 1500,
           });
-          //   const orderData = {
-          //     email: user.email,
-          //     name: user.displayName,
-          //     status: "pending",
-          //     paymentDate: Date.now(),
-          //     paymentMethodDetails: paymentMethod,
-          //     paymentConfirmDetails: paymentIntent,
-          //   };
-          //   const response = await axiosInstance.post("/make-order", orderData);
-          //   console.log(response.data.result1);
-          //   console.log(response.data.result2);
-          //   console.log(orderData);
         }
       })
       .catch((error) => {
@@ -208,7 +235,7 @@ const PaymentSub = () => {
             type="submit"
             className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
           >
-            Pay Now
+            Pay Now {payAmount}
           </button>
         </form>
       </div>

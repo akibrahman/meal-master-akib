@@ -1,7 +1,24 @@
-import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import { AuthContext } from "../../Providers/AuthProvider";
 import Container from "../Shared/Container";
 
 const PackagePlans = () => {
+  const navigate = useNavigate();
+  const axiosInstance = useAxiosPublic();
+  const { user } = useContext(AuthContext);
+
+  const handleClick = async (pack) => {
+    const badge = await axiosInstance.get(`/get-package?email=${user.email}`);
+    const userPack = badge.data.split("-")[1];
+    if (userPack == "silver" || userPack == "gold" || userPack == "platinum") {
+      toast.info("You are already a subscribed member");
+      return;
+    }
+    navigate(`/checkout/${pack}`);
+  };
   return (
     <div className="my-20">
       <p className="text-center text-primary text-3xl font-bold mb-10">
@@ -41,11 +58,14 @@ const PackagePlans = () => {
                 </li>
               </del>
             </ul>
-            <Link to={`/checkout/${"silver"}`}>
-              <button className="transition-all active:scale-90 mt-10 font-semibold bg-white text-primary px-4 py-2 rounded-md">
-                Subscribe
-              </button>
-            </Link>
+            {/* <Link to={`/checkout/${"silver"}`}> */}
+            <button
+              onClick={() => handleClick("silver")}
+              className="transition-all active:scale-90 mt-10 font-semibold bg-white text-primary px-4 py-2 rounded-md"
+            >
+              Subscribe
+            </button>
+            {/* </Link> */}
           </div>
           <div className="bg-primary text-white text-center py-10">
             <p className="font-semibold text-xl mb-8 bg-yellow-500 py-1">
@@ -79,11 +99,14 @@ const PackagePlans = () => {
                 </li>
               </del>
             </ul>
-            <Link to={`/checkout/${"gold"}`}>
-              <button className="transition-all active:scale-90 mt-10 font-semibold bg-white text-primary px-4 py-2 rounded-md border-2 border-yellow-500">
-                Subscribe
-              </button>
-            </Link>
+            {/* <Link to={`/checkout/${"gold"}`}> */}
+            <button
+              onClick={() => handleClick("gold")}
+              className="transition-all active:scale-90 mt-10 font-semibold bg-white text-primary px-4 py-2 rounded-md border-2 border-yellow-500"
+            >
+              Subscribe
+            </button>
+            {/* </Link> */}
           </div>
           <div className="bg-primary text-white text-center py-10">
             <p className="font-semibold text-xl mb-8 bg-purple-700 py-1">
@@ -115,11 +138,14 @@ const PackagePlans = () => {
                 Free Delivery
               </li>
             </ul>
-            <Link to={`/checkout/${"platinum"}`}>
-              <button className="transition-all active:scale-90 mt-10 font-semibold bg-white text-primary px-4 py-2 rounded-md border-2 border-purple-700">
-                Subscribe
-              </button>
-            </Link>
+            {/* <Link to={`/checkout/${"platinum"}`}> */}
+            <button
+              onClick={() => handleClick("platinum")}
+              className="transition-all active:scale-90 mt-10 font-semibold bg-white text-primary px-4 py-2 rounded-md border-2 border-purple-700"
+            >
+              Subscribe
+            </button>
+            {/* </Link> */}
           </div>
         </div>
       </Container>

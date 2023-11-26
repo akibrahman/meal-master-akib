@@ -269,6 +269,7 @@ const DetailsPage = () => {
                   <div className="">
                     <p>{review.name}</p>
                     <Rating
+                      readonly
                       placeholderRating={review.rating}
                       emptySymbol={<FaRegStar />}
                       placeholderSymbol={<FaStar />}
