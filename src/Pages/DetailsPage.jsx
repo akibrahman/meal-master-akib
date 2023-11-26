@@ -59,6 +59,24 @@ const DetailsPage = () => {
   });
 
   const handleLikeInc = async () => {
+    if (!user) {
+      Swal.fire({
+        title: "You are not Logged In",
+        text: "You have to login to give Reaction !",
+
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Login Page",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/login");
+        }
+      });
+      return;
+    }
+
     setLikeLoader(true);
     await axiosInstance.put("/inc-like", {
       email: user.email,

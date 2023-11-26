@@ -41,7 +41,7 @@ const Dashboard = () => {
                   </NavLink>
                 </li>
                 <li className="text-[#fff] font-medium">
-                  <NavLink to="/">
+                  <NavLink to="/dashboard/requested-meals">
                     <FaCalendar></FaCalendar>Requested Meals
                   </NavLink>
                 </li>

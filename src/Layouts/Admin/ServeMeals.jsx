@@ -24,11 +24,11 @@ const ServeMeals = () => {
 
   const serveTheMeal = async (id) => {
     const data = await axiosInstance.patch(`/update-requested-meal/${id}`);
-    if (data.data.served) {
-      toast.info("This Meal is already Served");
+    if (data.data.delivered) {
+      toast.info("This Meal is already delivered");
       return;
     } else if (data.data.modifiedCount) {
-      toast.success("Meal has been served");
+      toast.success("Meal has been Delivered");
       refetch();
       return;
     }
@@ -74,12 +74,14 @@ const ServeMeals = () => {
                       <p>{i + 1}</p>
                     </th>
 
-                    <td className="text-center font-bold">{meal.mealTitle}</td>
+                    <td className="text-center font-bold">
+                      {meal.meal.mealTitle}
+                    </td>
                     <td className="text-center font-bold">{meal.email}</td>
                     <td className="text-center font-bold">{meal.name}</td>
                     <td
                       className={`text-center font-bold ${
-                        meal.status == "served"
+                        meal.status == "delivered"
                           ? "text-green-600"
                           : "text-orange-600"
                       }`}
