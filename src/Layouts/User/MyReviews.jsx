@@ -11,12 +11,14 @@ import Swal from "sweetalert2";
 import Loader from "../../Components/Shared/Loader";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { AuthContext } from "../../Providers/AuthProvider";
+import ReviewUpdator from "./ReviewUpdator";
 
 const MyReviews = () => {
   const axiosInstance = useAxiosPublic();
   const { user } = useContext(AuthContext);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  //   const [mealID, setMealId] = useState();
+  const [singleReviewId, setSingleReviewId] = useState("");
+
   const {
     data: reviews,
     isLoading,
@@ -40,6 +42,9 @@ const MyReviews = () => {
       bottom: "auto",
       marginRight: "-50%",
       transform: "translate(-50%, -50%)",
+      backgroundColor: "#151515",
+      color: "#fff",
+      borderRadius: "20px",
     },
   };
 
@@ -81,7 +86,7 @@ const MyReviews = () => {
         onRequestClose={closeModal}
         style={customStyles}
       >
-        <p>Akib</p>
+        <ReviewUpdator reviewId={singleReviewId} modalCloser={closeModal} />
       </Modal>
       <div className="p-12 bg-white w-[950px]">
         <div className="flex justify-between items-center font-cinzel mb-8">
@@ -91,7 +96,7 @@ const MyReviews = () => {
         </div>
 
         {/* Table Start  */}
-        {isLoading || !user ? (
+        {isLoading || !user || reviews == undefined ? (
           <Loader />
         ) : (
           <div className="overflow-x-auto">
@@ -131,9 +136,9 @@ const MyReviews = () => {
 
                       <th className="flex items-center gap-2 justify-center">
                         <CiEdit
-                          onClick={() => {
+                          onClick={async () => {
+                            setSingleReviewId(review._id);
                             setModalIsOpen(true);
-                            // setMealId(meal._id);
                           }}
                           className="bg-[#141515] text-white w-8 h-8 p-2 rounded-full select-none cursor-pointer transition-all active:scale-75"
                         />
