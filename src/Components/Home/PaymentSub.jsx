@@ -124,7 +124,7 @@ const PaymentSub = () => {
             const res = await axiosInstance.patch(
               `/change-package?email=${user.email}&pack=${packageName}`
             );
-            if (res.data.modifiedCount > 1) {
+            if (res.data.modifiedCount > 0) {
               Swal.fire({
                 position: "top-end",
                 icon: "success",
