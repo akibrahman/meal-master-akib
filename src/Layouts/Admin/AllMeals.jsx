@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { CiEdit } from "react-icons/ci";
-// import { toast } from "react-toastify";
 import { useState } from "react";
+import { CiEdit } from "react-icons/ci";
 import { FaArrowRight } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
 import Modal from "react-modal";

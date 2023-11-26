@@ -46,7 +46,7 @@ const Dashboard = () => {
                   </NavLink>
                 </li>
                 <li className="text-[#fff] font-medium">
-                  <NavLink to="/dashboard/payment-history">
+                  <NavLink to="/dashboard/my-reviews">
                     <FaWallet></FaWallet>My Reviews
                   </NavLink>
                 </li>
