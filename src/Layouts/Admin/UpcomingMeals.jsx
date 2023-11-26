@@ -11,7 +11,7 @@ const UpcomingMeals = () => {
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["users"],
+    queryKey: ["upcoming-meals-admin"],
     queryFn: async () => {
       const responce = await axiosInstance.get(`/all-upcoming-meals`);
       return responce.data;
@@ -35,6 +35,9 @@ const UpcomingMeals = () => {
         <div className="flex justify-between items-center font-cinzel mb-8">
           <p className="text-[#151515] text-2xl font-bold">
             Total Upcoming Meals: {upcomingMeals?.length}
+          </p>
+          <p className="font-semibold text-red-500">
+            * Likes should be atlest 10 to be published
           </p>
         </div>
 

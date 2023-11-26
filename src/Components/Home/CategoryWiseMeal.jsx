@@ -46,8 +46,8 @@ const CategoryWiseMeal = () => {
           {meals ? (
             <div className="mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-10">
               {meals?.map((meal, i) => (
-                <Link key={i} to={`/meal/${meal._id}`}>
-                  <div className="cursor-pointer overflow-hidden">
+                <div key={i}>
+                  <div className="overflow-hidden">
                     <p className="text-center bg-secondary text-white font-medium py-2 rounded-t-md">
                       {meal.mealTitle}
                     </p>
@@ -67,12 +67,14 @@ const CategoryWiseMeal = () => {
                         fullSymbol={<FaStar />}
                       />
                       <p>$ {meal.price}</p>
-                      <button className="border border-primary px-2 rounded-full">
-                        Details
-                      </button>
+                      <Link to={`/meal/${meal._id}`}>
+                        <button className="border border-primary px-2 rounded-full">
+                          Details
+                        </button>
+                      </Link>
                     </div>
                   </div>
-                </Link>
+                </div>
               ))}
             </div>
           ) : (

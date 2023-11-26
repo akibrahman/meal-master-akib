@@ -1,13 +1,17 @@
 import { useContext, useState } from "react";
 import { IoMdNotificationsOutline } from "react-icons/io";
+import Modal from "react-modal";
 import { Link, NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../Providers/AuthProvider";
+import UpcomingMealsUser from "../Home/UpcomingMealsUser";
 import Container from "./Container";
 
 const NavBar = () => {
   const { user, logOut } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
   const handleLogOut = async () => {
     try {
       await logOut();
@@ -16,8 +20,30 @@ const NavBar = () => {
       console.log(error);
     }
   };
+
+  const customStyles = {
+    content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+    },
+  };
+  function closeModal() {
+    setModalIsOpen(false);
+  }
+
   return (
-    <div className="bg-gradient-to-r from-primary to-secondary">
+    <div className="bg-gradient-to-r from-primary to-secondary z-50">
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={customStyles}
+      >
+        <UpcomingMealsUser />
+      </Modal>
       <Container>
         <nav className="flex items-center justify-between py-2">
           <div className="flex items-center gap-3">
@@ -35,7 +61,10 @@ const NavBar = () => {
             <NavLink to="/all-meals">
               <p>Meals</p>
             </NavLink>
-            <IoMdNotificationsOutline />
+            <IoMdNotificationsOutline
+              onClick={() => setModalIsOpen(true)}
+              className="text-2xl cursor-pointer"
+            />
 
             {user ? (
               <div className="relative">

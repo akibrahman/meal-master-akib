@@ -25,7 +25,7 @@ const HomeSlider = () => {
           delay: 3000,
           disableOnInteraction: false,
         }}
-        className="mySwiper"
+        className="mySwiper -z-10"
       >
         <SwiperSlide>
           <div className="bg-[url('/home-slider-1.jpg')] bg-center bg-cover h-[calc(100vh-56px)]">

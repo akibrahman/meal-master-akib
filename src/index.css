@@ -5,3 +5,6 @@
 .mySwiper {
   height: 110%;
 }
+.active p {
+  color: red;
+}

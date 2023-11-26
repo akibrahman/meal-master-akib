@@ -13,7 +13,7 @@ const ServeMeals = () => {
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["users", search],
+    queryKey: ["serve-meals", search],
     queryFn: async ({ queryKey }) => {
       const responce = await axiosInstance.get(
         `/all-requested-meals?search=${queryKey[1]}`
@@ -77,7 +77,13 @@ const ServeMeals = () => {
                     <td className="text-center font-bold">{meal.mealTitle}</td>
                     <td className="text-center font-bold">{meal.email}</td>
                     <td className="text-center font-bold">{meal.name}</td>
-                    <td className="text-center font-bold">
+                    <td
+                      className={`text-center font-bold ${
+                        meal.status == "served"
+                          ? "text-green-600"
+                          : "text-orange-600"
+                      }`}
+                    >
                       {convertCamelCaseToCapitalized(meal.status)}
                     </td>
                     <th>
