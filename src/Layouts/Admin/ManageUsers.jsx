@@ -105,7 +105,7 @@ const ManageUsers = () => {
                       ) : (
                         <p className="text-center font-bold">
                           {convertCamelCaseToCapitalized(
-                            user.badge.split("-")[1]
+                            user.badge?.split("-")[1]
                           )}
                         </p>
                       )}

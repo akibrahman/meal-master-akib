@@ -7,6 +7,7 @@ import AllMeals from "../Layouts/Admin/AllMeals";
 import AllReviews from "../Layouts/Admin/AllReviews";
 import ManageUsers from "../Layouts/Admin/ManageUsers";
 import ServeMeals from "../Layouts/Admin/ServeMeals";
+import UpcomingMeals from "../Layouts/Admin/UpcomingMeals";
 import Dashboard from "../Layouts/Dashboard";
 import DetailsPage from "../Pages/DetailsPage";
 import HomePage from "../Pages/HomePage";
@@ -72,6 +73,10 @@ export const routes = createBrowserRouter([
       {
         path: "serve-meals",
         element: <ServeMeals />,
+      },
+      {
+        path: "upcoming-meals",
+        element: <UpcomingMeals />,
       },
     ],
   },

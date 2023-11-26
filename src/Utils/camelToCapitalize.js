@@ -1,16 +1,18 @@
 export const convertCamelCaseToCapitalized = (inputString) => {
   // Split the camelCase string into words
-  let words = inputString
-    .replace(/([a-z])([A-Z])/g, "$1 $2")
-    .split(/(?=[A-Z])/);
+  if (inputString) {
+    let words = inputString
+      .replace(/([a-z])([A-Z])/g, "$1 $2")
+      .split(/(?=[A-Z])/);
 
-  // Capitalize each word
-  let capitalizedWords = words.map(
-    (word) => word.charAt(0).toUpperCase() + word.slice(1)
-  );
+    // Capitalize each word
+    let capitalizedWords = words.map(
+      (word) => word.charAt(0).toUpperCase() + word.slice(1)
+    );
 
-  // Join the words into a single string
-  let resultString = capitalizedWords.join(" ");
+    // Join the words into a single string
+    let resultString = capitalizedWords.join(" ");
 
-  return resultString;
+    return resultString;
+  }
 };

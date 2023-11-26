@@ -1,7 +1,7 @@
 import moment from "moment";
 import { useContext, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { FaExclamationCircle } from "react-icons/fa";
+import { FaExclamationCircle, FaTimes } from "react-icons/fa";
 import { FaRegStar, FaStar } from "react-icons/fa6";
 import Rating from "react-rating";
 import { toast } from "react-toastify";
@@ -21,11 +21,10 @@ const AddMeal = () => {
     register,
     formState: { errors },
     handleSubmit,
+    reset,
   } = useForm();
   const { user } = useContext(AuthContext);
   const ind = useRef();
-  //   console.log(moment(Date.now()).format("MMMM Do YYYY, h:mm:ss a"));
-  //   console.log(Date.now());
   const [ingredients, setIngredients] = useState([]);
   const handleInd = () => {
     if (!ind.current.value) {
@@ -86,6 +85,9 @@ const AddMeal = () => {
         toast.error(error.meaasge);
       }
     }
+    reset();
+    setIngredients([]);
+    setPreview(null);
   };
 
   return (
@@ -208,10 +210,16 @@ const AddMeal = () => {
               <p className="font-bold">{ingredients.length}</p>
               {ingredients.map((ing, i) => (
                 <p
+                  onClick={() => {
+                    const temp = [...ingredients];
+                    temp.splice(i, 1);
+                    setIngredients(temp);
+                  }}
                   key={i}
-                  className="font-semibold border border-[#141515] px-3 rounded-full py-[2px]"
+                  className="font-semibold border border-[#141515] px-3 rounded-full py-[2px] flex items-center gap-1 cursor-pointer select-none"
                 >
                   {ing}
+                  <FaTimes />
                 </p>
               ))}
             </div>
