@@ -1,7 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { toast } from "react-toastify";
 import Loader from "../../Components/Shared/Loader";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import { convertCamelCaseToCapitalized } from "../../Utils/camelToCapitalize";
 
 const ServeMeals = () => {
   const axiosInstance = useAxiosPublic();
@@ -19,9 +21,22 @@ const ServeMeals = () => {
       return responce.data;
     },
   });
+
+  const serveTheMeal = async (id) => {
+    const data = await axiosInstance.patch(`/update-requested-meal/${id}`);
+    if (data.data.served) {
+      toast.info("This Meal is already Served");
+      return;
+    } else if (data.data.modifiedCount) {
+      toast.success("Meal has been served");
+      refetch();
+      return;
+    }
+  };
+
   return (
     <div>
-      <div className="p-12 bg-white w-[900px]">
+      <div className="p-12 bg-white w-[950px]">
         <div className="flex justify-between items-center font-cinzel mb-8">
           <p className="text-[#151515] text-2xl font-bold">
             Total Users: {requestedMeals?.length}
@@ -62,10 +77,12 @@ const ServeMeals = () => {
                     <td className="text-center font-bold">{meal.mealTitle}</td>
                     <td className="text-center font-bold">{meal.email}</td>
                     <td className="text-center font-bold">{meal.name}</td>
-                    <td className="text-center font-bold">{meal.status}</td>
+                    <td className="text-center font-bold">
+                      {convertCamelCaseToCapitalized(meal.status)}
+                    </td>
                     <th>
                       <button
-                        // onClick={() => makeAdmin(user.email, user.name)}
+                        onClick={() => serveTheMeal(meal._id)}
                         className="flex items-center m-auto gap-2 cursor-pointer bg-[#141515] w-max text-white p-1 rounded-full px-2 select-none transition-all active:scale-90"
                       >
                         Serve

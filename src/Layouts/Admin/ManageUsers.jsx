@@ -61,7 +61,7 @@ const ManageUsers = () => {
         </div>
 
         {/* Table Start  */}
-        {isLoading ? (
+        {isLoading || !users ? (
           <Loader />
         ) : (
           <div className="overflow-x-auto">
@@ -100,7 +100,7 @@ const ManageUsers = () => {
                       )}
                     </td>
                     <th className="">
-                      {user.badge === "bronze" ? (
+                      {user.badge == "bronze" ? (
                         <p className="text-center font-bold">Bronze</p>
                       ) : (
                         <p className="text-center font-bold">
