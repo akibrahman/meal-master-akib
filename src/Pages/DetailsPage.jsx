@@ -111,7 +111,7 @@ const DetailsPage = () => {
     }
   };
 
-  const handleRequest = () => {
+  const handleRequest = async () => {
     if (!user) {
       Swal.fire({
         title: "You are not Logged In",
@@ -133,7 +133,31 @@ const DetailsPage = () => {
       toast.info("You First have to Subscribe a Package to request a Meal");
       return;
     }
-    alert();
+
+    const isExist = await axiosInstance.get(
+      `/check-requested-meal?id=${id}&email=${user.email}`
+    );
+    if (isExist.data) {
+      toast.info("You have already Requested for this Meal");
+      return;
+    } else {
+      const requestData = {
+        name: user.displayName,
+        email: user.email,
+        mealId: id,
+        mealTitle: meal.mealTitle,
+        status: "pending",
+      };
+      const response = await axiosInstance.post(
+        "/add-requested-meal",
+        requestData
+      );
+      if (response.data.acknowledged) {
+        toast.success("Meal Requested Sucessfully");
+        return;
+      }
+    }
+    toast.error("Something went wrong!");
   };
 
   if (loading || isLikedLoad || isMealLoading) return <Loader />;
