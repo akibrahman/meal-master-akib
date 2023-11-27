@@ -15,16 +15,16 @@ const AllMeals = () => {
   const axiosInstanceS = useAxiosSecure();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [mealID, setMealId] = useState();
-  const {
-    data: meals,
-    isLoading,
-    refetch,
-  } = useQuery({
-    queryKey: ["all-meals-admin"],
-    queryFn: async () => {
-      const responce = await axiosInstanceS.get(`/all-meals-admin`);
+  const [page, setPage] = useState(0);
+  const { data, isLoading, refetch } = useQuery({
+    queryKey: ["all-meals-admin", page],
+    queryFn: async ({ queryKey }) => {
+      const responce = await axiosInstanceS.get(
+        `/all-meals-admin?page=${queryKey[1]}`
+      );
       return responce.data;
     },
+    // initialData: { meals: [], count: 0 },
   });
 
   const handleDelete = async (id) => {
@@ -59,19 +59,18 @@ const AllMeals = () => {
       transform: "translate(-50%, -50%)",
     },
   };
-  function afterOpenModal() {
-    // references are now sync'd and can be accessed.
-    // subtitle.style.color = '#f00';
-  }
 
   function closeModal() {
     setModalIsOpen(false);
   }
+
+  const totalPages = Math.ceil(data?.count / 10);
+  const pages = [...new Array(totalPages ? totalPages : 0).fill(0)];
+
   return (
     <div>
       <Modal
         isOpen={modalIsOpen}
-        onAfterOpen={afterOpenModal}
         onRequestClose={closeModal}
         style={customStyles}
       >
@@ -84,12 +83,12 @@ const AllMeals = () => {
       <div className="p-12 bg-white w-[950px]">
         <div className="flex justify-between items-center font-cinzel mb-8">
           <p className="text-[#151515] text-2xl font-bold">
-            Total Meals: {meals?.length}
+            Total Meals: {data?.meals?.length}
           </p>
         </div>
 
         {/* Table Start  */}
-        {isLoading ? (
+        {isLoading || !data ? (
           <Loader />
         ) : (
           <div className="overflow-x-auto">
@@ -108,7 +107,7 @@ const AllMeals = () => {
               </thead>
               <tbody>
                 {/* Row */}
-                {meals.map((meal, i) => (
+                {data.meals.map((meal, i) => (
                   <tr className="" key={meal._id}>
                     <th>
                       <p>{i + 1}</p>
@@ -145,6 +144,35 @@ const AllMeals = () => {
             </table>
           </div>
         )}
+      </div>
+      <div className="flex items-center justify-center gap-2 mb-20">
+        <button
+          onClick={() => setPage(page - 1)}
+          className="bg-[#141515] text-white px-3 py-1 rounded-full transition-all active:scale-90 disabled:bg-slate-400"
+          disabled={page == 0 ? true : false}
+        >
+          Prev
+        </button>
+        {pages.map((item, index) => (
+          <button
+            key={index}
+            onClick={() => setPage(index)}
+            className={`px-3 py-1 rounded-full transition-all active:scale-90 ${
+              page == index
+                ? "bg-[#141515] text-white"
+                : "bg-white text-primary border border-primary"
+            }`}
+          >
+            {index + 1}
+          </button>
+        ))}
+        <button
+          onClick={() => setPage(page + 1)}
+          className="bg-[#141515] text-white px-3 py-1 rounded-full transition-all active:scale-90 disabled:bg-slate-400"
+          disabled={page == totalPages - 1 ? true : false}
+        >
+          Next
+        </button>
       </div>
     </div>
   );

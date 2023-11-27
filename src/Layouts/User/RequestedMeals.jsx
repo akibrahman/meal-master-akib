@@ -14,21 +14,26 @@ const RequestedMeals = () => {
   const axiosInstanceS = useAxiosSecure();
   const { user } = useContext(AuthContext);
   const [sort, setSort] = useState("del");
+  const [page, setPage] = useState(0);
 
   const {
-    data: requestedMeals,
+    data: requestedMealsData,
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["serve-meals", sort],
+    queryKey: ["serve-meals", sort, page],
     queryFn: async ({ queryKey }) => {
       const responce = await axiosInstanceS.get(
-        `/my-requested-meals?email=${user.email}&sort=${queryKey[1]}`
+        `/my-requested-meals?email=${user.email}&sort=${queryKey[1]}&page=${queryKey[2]}`
       );
       return responce.data;
     },
     enabled: user ? true : false,
   });
+
+  const totalPages = Math.ceil(requestedMealsData?.count / 10);
+  const pages = [...new Array(totalPages ? totalPages : 0).fill(0)];
+
   const handleDelete = async (id, mealName) => {
     Swal.fire({
       title: "Are you sure?",
@@ -57,7 +62,7 @@ const RequestedMeals = () => {
       <div className="p-12 bg-white w-[950px]">
         <div className="flex justify-between items-center font-cinzel mb-8">
           <p className="text-[#151515] text-2xl font-bold">
-            Total Users: {requestedMeals?.length}
+            Total Users: {requestedMealsData?.requestedMeals?.length}
           </p>
           <select
             className="font-semibold border border-[#141515] px-4 py-2 rounded-lg"
@@ -72,7 +77,7 @@ const RequestedMeals = () => {
           </select>
         </div>
         {/* Table Start  */}
-        {isLoading || !user ? (
+        {isLoading || !user || !requestedMealsData ? (
           <Loader />
         ) : (
           <div className="overflow-x-auto">
@@ -90,7 +95,7 @@ const RequestedMeals = () => {
               </thead>
               <tbody>
                 {/* Row */}
-                {requestedMeals.map((meal, i) => (
+                {requestedMealsData.requestedMeals.map((meal, i) => (
                   <tr className="" key={meal._id}>
                     <th>
                       <p>{i + 1}</p>
@@ -129,6 +134,35 @@ const RequestedMeals = () => {
             </table>
           </div>
         )}
+      </div>
+      <div className="flex items-center justify-center gap-2 mb-20">
+        <button
+          onClick={() => setPage(page - 1)}
+          className="bg-[#141515] text-white px-3 py-1 rounded-full transition-all active:scale-90 disabled:bg-slate-400"
+          disabled={page == 0 ? true : false}
+        >
+          Prev
+        </button>
+        {pages.map((item, index) => (
+          <button
+            key={index}
+            onClick={() => setPage(index)}
+            className={`px-3 py-1 rounded-full transition-all active:scale-90 ${
+              page == index
+                ? "bg-[#141515] text-white"
+                : "bg-white text-primary border border-primary"
+            }`}
+          >
+            {index + 1}
+          </button>
+        ))}
+        <button
+          onClick={() => setPage(page + 1)}
+          className="bg-[#141515] text-white px-3 py-1 rounded-full transition-all active:scale-90 disabled:bg-slate-400"
+          disabled={page == totalPages - 1 ? true : false}
+        >
+          Next
+        </button>
       </div>
     </div>
   );

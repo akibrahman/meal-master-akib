@@ -20,21 +20,25 @@ const MyReviews = () => {
   const { user } = useContext(AuthContext);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [singleReviewId, setSingleReviewId] = useState("");
+  const [page, setPage] = useState(0);
 
   const {
-    data: reviews,
+    data: reviewsData,
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["my-reviews"],
-    queryFn: async () => {
+    queryKey: ["my-reviews", page],
+    queryFn: async ({ queryKey }) => {
       const responce = await axiosInstanceS.get(
-        `/my-reviews-aggrigate?email=${user.email}`
+        `/my-reviews-aggrigate?email=${user.email}&page=${queryKey[1]}`
       );
       return responce.data;
     },
     enabled: user ? true : false,
   });
+
+  const totalPages = Math.ceil(reviewsData?.count / 10);
+  const pages = [...new Array(totalPages ? totalPages : 0)];
 
   const customStyles = {
     content: {
@@ -93,12 +97,12 @@ const MyReviews = () => {
       <div className="p-12 bg-white w-[950px]">
         <div className="flex justify-between items-center font-cinzel mb-8">
           <p className="text-[#151515] text-2xl font-bold">
-            Total Reviews: {reviews?.length}
+            Total Reviews: {reviewsData?.reviews?.length}
           </p>
         </div>
 
         {/* Table Start  */}
-        {isLoading || !user || reviews == undefined ? (
+        {isLoading || !user || !reviewsData ? (
           <Loader />
         ) : (
           <div className="overflow-x-auto">
@@ -115,12 +119,12 @@ const MyReviews = () => {
               </thead>
               <tbody>
                 {/* Row */}
-                {reviews.length == 0 ? (
+                {reviewsData.reviews.length == 0 ? (
                   <p className="text-center font-semibold text-xl py-20 flex items-center justify-center gap-2">
                     You did not make any Reviews yet! <TbMoodSad />
                   </p>
                 ) : (
-                  reviews.map((review, i) => (
+                  reviewsData.reviews.map((review, i) => (
                     <tr className="" key={review._id}>
                       <th>
                         <p>{i + 1}</p>
@@ -161,6 +165,35 @@ const MyReviews = () => {
             </table>
           </div>
         )}
+      </div>
+      <div className="flex items-center justify-center gap-2 mb-20">
+        <button
+          onClick={() => setPage(page - 1)}
+          className="bg-[#141515] text-white px-3 py-1 rounded-full transition-all active:scale-90 disabled:bg-slate-400"
+          disabled={page == 0 ? true : false}
+        >
+          Prev
+        </button>
+        {pages.map((item, index) => (
+          <button
+            key={index}
+            onClick={() => setPage(index)}
+            className={`px-3 py-1 rounded-full transition-all active:scale-90 ${
+              page == index
+                ? "bg-[#141515] text-white"
+                : "bg-white text-primary border border-primary"
+            }`}
+          >
+            {index + 1}
+          </button>
+        ))}
+        <button
+          onClick={() => setPage(page + 1)}
+          className="bg-[#141515] text-white px-3 py-1 rounded-full transition-all active:scale-90 disabled:bg-slate-400"
+          disabled={page == totalPages - 1 ? true : false}
+        >
+          Next
+        </button>
       </div>
     </div>
   );

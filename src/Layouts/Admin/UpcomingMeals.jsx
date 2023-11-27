@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { MdOutlinePublishedWithChanges } from "react-icons/md";
 import { toast } from "react-toastify";
 import Loader from "../../Components/Shared/Loader";
@@ -8,17 +9,23 @@ import useAxiosSecure from "../../Hooks/useAxiosSecure";
 const UpcomingMeals = () => {
   const axiosInstance = useAxiosPublic();
   const axiosInstanceS = useAxiosSecure();
+  const [page, setPage] = useState(0);
   const {
-    data: upcomingMeals,
+    data: upcomingMealsData,
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["upcoming-meals-admin"],
-    queryFn: async () => {
-      const responce = await axiosInstance.get(`/all-upcoming-meals`);
+    queryKey: ["upcoming-meals-admin", page],
+    queryFn: async ({ queryKey }) => {
+      const responce = await axiosInstance.get(
+        `/all-upcoming-meals?page=${queryKey[1]}`
+      );
       return responce.data;
     },
   });
+
+  const totalPages = Math.ceil(upcomingMealsData?.count / 10);
+  const pages = [...new Array(totalPages ? totalPages : 0).fill(0)];
 
   const publish = async (id) => {
     const data = await axiosInstanceS.post(`/from-upcoming-to-meals/${id}`);
@@ -36,7 +43,7 @@ const UpcomingMeals = () => {
       <div className="p-12 bg-white w-[950px]">
         <div className="flex justify-between items-center font-cinzel mb-8">
           <p className="text-[#151515] text-2xl font-bold">
-            Total Upcoming Meals: {upcomingMeals?.length}
+            Total Upcoming Meals: {upcomingMealsData?.upcomingMeals?.length}
           </p>
           <p className="font-semibold text-red-500">
             * Likes should be atlest 10 to be published
@@ -44,7 +51,7 @@ const UpcomingMeals = () => {
         </div>
 
         {/* Table Start  */}
-        {isLoading ? (
+        {isLoading || !upcomingMealsData ? (
           <Loader />
         ) : (
           <div className="overflow-x-auto">
@@ -63,7 +70,7 @@ const UpcomingMeals = () => {
               </thead>
               <tbody>
                 {/* Row */}
-                {upcomingMeals.map((meal, i) => (
+                {upcomingMealsData.upcomingMeals.map((meal, i) => (
                   <tr className="" key={meal._id}>
                     <th>
                       <p>{i + 1}</p>
@@ -105,6 +112,35 @@ const UpcomingMeals = () => {
             </table>
           </div>
         )}
+      </div>
+      <div className="flex items-center justify-center gap-2 mb-20">
+        <button
+          onClick={() => setPage(page - 1)}
+          className="bg-[#141515] text-white px-3 py-1 rounded-full transition-all active:scale-90 disabled:bg-slate-400"
+          disabled={page == 0 ? true : false}
+        >
+          Prev
+        </button>
+        {pages.map((item, index) => (
+          <button
+            key={index}
+            onClick={() => setPage(index)}
+            className={`px-3 py-1 rounded-full transition-all active:scale-90 ${
+              page == index
+                ? "bg-[#141515] text-white"
+                : "bg-white text-primary border border-primary"
+            }`}
+          >
+            {index + 1}
+          </button>
+        ))}
+        <button
+          onClick={() => setPage(page + 1)}
+          className="bg-[#141515] text-white px-3 py-1 rounded-full transition-all active:scale-90 disabled:bg-slate-400"
+          disabled={page == totalPages - 1 ? true : false}
+        >
+          Next
+        </button>
       </div>
     </div>
   );

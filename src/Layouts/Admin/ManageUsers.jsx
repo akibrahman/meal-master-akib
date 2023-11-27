@@ -10,19 +10,24 @@ import { convertCamelCaseToCapitalized } from "../../Utils/camelToCapitalize";
 const ManageUsers = () => {
   const axiosInstanceS = useAxiosSecure();
   const [search, setSearch] = useState("");
+  const [page, setPage] = useState(0);
   const {
-    data: users,
+    data: usersData,
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["users", search],
+    queryKey: ["users", search, page],
     queryFn: async ({ queryKey }) => {
       const responce = await axiosInstanceS.get(
-        `/all-users?search=${queryKey[1]}`
+        `/all-users?search=${queryKey[1]}&page=${queryKey[2]}`
       );
       return responce.data;
     },
   });
+
+  const totalPages = Math.ceil(usersData?.count / 10);
+  const pages = [...new Array(totalPages ? totalPages : 0).fill(0)];
+
   const makeAdmin = async (email, name) => {
     Swal.fire({
       title: "Are you sure?",
@@ -50,7 +55,7 @@ const ManageUsers = () => {
       <div className="p-12 bg-white w-[900px]">
         <div className="flex justify-between items-center font-cinzel mb-8">
           <p className="text-[#151515] text-2xl font-bold">
-            Total Users: {users?.length}
+            Total Users: {usersData?.users?.length}
           </p>
           <input
             onChange={(e) => setSearch(e.target.value)}
@@ -61,7 +66,7 @@ const ManageUsers = () => {
         </div>
 
         {/* Table Start  */}
-        {isLoading || !users ? (
+        {isLoading || !usersData ? (
           <Loader />
         ) : (
           <div className="overflow-x-auto">
@@ -78,7 +83,7 @@ const ManageUsers = () => {
               </thead>
               <tbody>
                 {/* Row */}
-                {users.map((user, i) => (
+                {usersData.users.map((user, i) => (
                   <tr className="" key={user._id}>
                     <th>
                       <p>{i + 1}</p>
@@ -116,6 +121,35 @@ const ManageUsers = () => {
             </table>
           </div>
         )}
+      </div>
+      <div className="flex items-center justify-center gap-2 mb-20">
+        <button
+          onClick={() => setPage(page - 1)}
+          className="bg-[#141515] text-white px-3 py-1 rounded-full transition-all active:scale-90 disabled:bg-slate-400"
+          disabled={page == 0 ? true : false}
+        >
+          Prev
+        </button>
+        {pages.map((item, index) => (
+          <button
+            key={index}
+            onClick={() => setPage(index)}
+            className={`px-3 py-1 rounded-full transition-all active:scale-90 ${
+              page == index
+                ? "bg-[#141515] text-white"
+                : "bg-white text-primary border border-primary"
+            }`}
+          >
+            {index + 1}
+          </button>
+        ))}
+        <button
+          onClick={() => setPage(page + 1)}
+          className="bg-[#141515] text-white px-3 py-1 rounded-full transition-all active:scale-90 disabled:bg-slate-400"
+          disabled={page == totalPages - 1 ? true : false}
+        >
+          Next
+        </button>
       </div>
     </div>
   );
