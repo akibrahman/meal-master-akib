@@ -3,6 +3,7 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import Modal from "react-modal";
 import { Link, NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
+import useRole from "../../Hooks/useRole";
 import { AuthContext } from "../../Providers/AuthProvider";
 import UpcomingMealsUser from "../Home/UpcomingMealsUser";
 import Container from "./Container";
@@ -11,6 +12,7 @@ const NavBar = () => {
   const { user, logOut } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const { role } = useRole();
 
   const handleLogOut = async () => {
     try {
@@ -83,7 +85,15 @@ const NavBar = () => {
                 >
                   <p className="pb-2 w-max select-none">Akib Rahman</p>
                   <hr />
-                  <Link to="/dashboard/admin-profile">
+                  <Link
+                    to={
+                      role == "general"
+                        ? "/dashboard/my-profile"
+                        : role == "admin"
+                        ? `/dashboard/admin-profile`
+                        : ""
+                    }
+                  >
                     <p className="pt-2 cursor-pointer">Dashboard</p>
                   </Link>
                   <button

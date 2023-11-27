@@ -36,7 +36,7 @@ const Dashboard = () => {
             {role === "general" && (
               <>
                 <li className="text-[#fff] font-medium">
-                  <NavLink to="/dashboard/user-home">
+                  <NavLink to="/dashboard/my-profile">
                     <FaHouse></FaHouse>My Profile
                   </NavLink>
                 </li>
