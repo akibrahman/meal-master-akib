@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import SocialLogin from "../Components/Authorization/SocialLogin";
 import { AuthContext } from "../Providers/AuthProvider";
@@ -8,6 +8,8 @@ import { AuthContext } from "../Providers/AuthProvider";
 const LoginPage = () => {
   const navigate = useNavigate();
   const { logIn } = useContext(AuthContext);
+  const location = useLocation();
+  const url = location.state?.from?.pathname || "/";
   const {
     register,
     formState: { errors },
@@ -17,7 +19,7 @@ const LoginPage = () => {
     try {
       await logIn(data.email, data.password);
       toast.success("LogIn Succesfully", { autoClose: 2000 });
-      navigate("/");
+      navigate(url ? url : "/");
     } catch (error) {
       console.log(error);
     }

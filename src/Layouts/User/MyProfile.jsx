@@ -73,9 +73,9 @@ const MyProfile = () => {
       data
     );
     if (res.data.acknowledged) {
+      await refetch();
       toast.success("Profile Updated");
       setModalIsOpen(false);
-      refetch();
     } else {
       toast.error("Something went Wrong");
     }

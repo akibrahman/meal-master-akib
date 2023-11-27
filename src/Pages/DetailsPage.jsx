@@ -99,6 +99,25 @@ const DetailsPage = () => {
 
   const handlePostReview = async (event) => {
     event.preventDefault();
+
+    if (!user) {
+      Swal.fire({
+        title: "You are not Logged In",
+        text: "You have to login to Post a Review !",
+
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Login Page",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/login");
+        }
+      });
+      return;
+    }
+
     const review = event.target.review.value;
     if (!review) {
       setError("Review is Required");

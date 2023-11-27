@@ -48,6 +48,7 @@ const PaymentSub = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     axiosInstance
       .post("/create-payment-intent", {
         price: payAmount,

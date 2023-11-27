@@ -17,6 +17,8 @@ import HomePage from "../Pages/HomePage";
 import LoginPage from "../Pages/LoginPage";
 import MealsPage from "../Pages/MealsPage";
 import RegistrationPage from "../Pages/RegistrationPage";
+import AdminRoute from "./AdminRoute";
+import UserRoute from "./UserRoute";
 
 export const routes = createBrowserRouter([
   {
@@ -37,7 +39,11 @@ export const routes = createBrowserRouter([
       },
       {
         path: "/checkout/:package_name",
-        element: <Payment />,
+        element: (
+          <UserRoute>
+            <Payment />
+          </UserRoute>
+        ),
       },
     ],
   },
@@ -51,50 +57,96 @@ export const routes = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <Dashboard />,
+    element: (
+      <UserRoute>
+        <Dashboard />
+      </UserRoute>
+    ),
     children: [
+      //! Admin
+
       {
         path: "admin-profile",
-        element: <AdminProfile />,
+        element: (
+          <AdminRoute>
+            <AdminProfile />
+          </AdminRoute>
+        ),
       },
       {
         path: "manage-users",
-        element: <ManageUsers />,
+        element: (
+          <AdminRoute>
+            <ManageUsers />
+          </AdminRoute>
+        ),
       },
       {
         path: "add-meal",
-        element: <AddMeal />,
+        element: (
+          <AdminRoute>
+            <AddMeal />
+          </AdminRoute>
+        ),
       },
       {
         path: "all-meals",
-        element: <AllMeals />,
+        element: (
+          <AdminRoute>
+            <AllMeals />
+          </AdminRoute>
+        ),
       },
       {
         path: "all-reviews",
-        element: <AllReviews />,
+        element: (
+          <AdminRoute>
+            <AllReviews />
+          </AdminRoute>
+        ),
       },
       {
         path: "serve-meals",
-        element: <ServeMeals />,
+        element: (
+          <AdminRoute>
+            <ServeMeals />
+          </AdminRoute>
+        ),
       },
       {
         path: "upcoming-meals",
-        element: <UpcomingMeals />,
+        element: (
+          <AdminRoute>
+            <UpcomingMeals />
+          </AdminRoute>
+        ),
       },
 
       //! Users
 
       {
         path: "my-profile",
-        element: <MyProfile />,
+        element: (
+          <UserRoute>
+            <MyProfile />
+          </UserRoute>
+        ),
       },
       {
         path: "requested-meals",
-        element: <RequestedMeals />,
+        element: (
+          <UserRoute>
+            <RequestedMeals />
+          </UserRoute>
+        ),
       },
       {
         path: "my-reviews",
-        element: <MyReviews />,
+        element: (
+          <UserRoute>
+            <MyReviews />
+          </UserRoute>
+        ),
       },
     ],
   },

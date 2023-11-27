@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { AuthContext } from "../../Providers/AuthProvider";
 import Container from "../Shared/Container";
@@ -11,6 +12,24 @@ const PackagePlans = () => {
   const { user } = useContext(AuthContext);
 
   const handleClick = async (pack) => {
+    if (!user) {
+      Swal.fire({
+        title: "You are not Logged In",
+        text: "You have to login to Purchase a Package !",
+
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Login Page",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/login");
+        }
+      });
+      return;
+    }
+
     const badge = await axiosInstance.get(`/get-package?email=${user.email}`);
     const userPack = badge.data.split("-")[1];
     if (userPack == "silver" || userPack == "gold" || userPack == "platinum") {
