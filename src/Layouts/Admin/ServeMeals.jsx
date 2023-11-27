@@ -2,11 +2,11 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import Loader from "../../Components/Shared/Loader";
-import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { convertCamelCaseToCapitalized } from "../../Utils/camelToCapitalize";
 
 const ServeMeals = () => {
-  const axiosInstance = useAxiosPublic();
+  const axiosInstanceS = useAxiosSecure();
   const [search, setSearch] = useState("");
   const {
     data: requestedMeals,
@@ -15,7 +15,7 @@ const ServeMeals = () => {
   } = useQuery({
     queryKey: ["serve-meals", search],
     queryFn: async ({ queryKey }) => {
-      const responce = await axiosInstance.get(
+      const responce = await axiosInstanceS.get(
         `/all-requested-meals?search=${queryKey[1]}`
       );
       return responce.data;
@@ -23,7 +23,7 @@ const ServeMeals = () => {
   });
 
   const serveTheMeal = async (id) => {
-    const data = await axiosInstance.patch(`/update-requested-meal/${id}`);
+    const data = await axiosInstanceS.patch(`/update-requested-meal/${id}`);
     if (data.data.delivered) {
       toast.info("This Meal is already delivered");
       return;

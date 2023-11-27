@@ -5,7 +5,7 @@ import { FaExclamationCircle, FaTimes } from "react-icons/fa";
 import { FaRegStar, FaStar } from "react-icons/fa6";
 import Rating from "react-rating";
 import { toast } from "react-toastify";
-import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { AuthContext } from "../../Providers/AuthProvider";
 import { convertImageToBase64 } from "../../Utils/imageToBase64";
 import { imageUploader } from "../../Utils/imageUploder";
@@ -16,7 +16,7 @@ const AddMeal = () => {
   const [indError, setIndError] = useState(false);
   const [preview, setPreview] = useState(null);
   const [submitType, setSubmitType] = useState("");
-  const axiosInstance = useAxiosPublic();
+  const axiosInstanceS = useAxiosSecure();
   const {
     register,
     formState: { errors },
@@ -71,7 +71,7 @@ const AddMeal = () => {
     };
     if (submitType == "meal") {
       try {
-        await axiosInstance.post("add-meal", mealData);
+        await axiosInstanceS.post("add-meal", mealData);
         toast.success(`${mealTitle} is added to Meals`);
       } catch (error) {
         toast.error(error.meaasge);
@@ -79,7 +79,7 @@ const AddMeal = () => {
     }
     if (submitType == "upcoming") {
       try {
-        await axiosInstance.post("add-meal-upcoming", mealData);
+        await axiosInstanceS.post("add-meal-upcoming", mealData);
         toast.success(`${mealTitle} is added to Upcoming Meals`);
       } catch (error) {
         toast.error(error.meaasge);

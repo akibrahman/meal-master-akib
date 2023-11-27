@@ -4,11 +4,11 @@ import { FaPen } from "react-icons/fa6";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import Loader from "../../Components/Shared/Loader";
-import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { convertCamelCaseToCapitalized } from "../../Utils/camelToCapitalize";
 
 const ManageUsers = () => {
-  const axiosInstance = useAxiosPublic();
+  const axiosInstanceS = useAxiosSecure();
   const [search, setSearch] = useState("");
   const {
     data: users,
@@ -17,7 +17,7 @@ const ManageUsers = () => {
   } = useQuery({
     queryKey: ["users", search],
     queryFn: async ({ queryKey }) => {
-      const responce = await axiosInstance.get(
+      const responce = await axiosInstanceS.get(
         `/all-users?search=${queryKey[1]}`
       );
       return responce.data;
@@ -34,7 +34,7 @@ const ManageUsers = () => {
       confirmButtonText: "Make Admin",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosInstance
+        axiosInstanceS
           .put(`/make-admin/${email}`)
           .then(() => {
             refetch();

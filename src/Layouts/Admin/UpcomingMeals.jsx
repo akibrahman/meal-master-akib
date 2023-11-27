@@ -3,9 +3,11 @@ import { MdOutlinePublishedWithChanges } from "react-icons/md";
 import { toast } from "react-toastify";
 import Loader from "../../Components/Shared/Loader";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const UpcomingMeals = () => {
   const axiosInstance = useAxiosPublic();
+  const axiosInstanceS = useAxiosSecure();
   const {
     data: upcomingMeals,
     isLoading,
@@ -19,7 +21,7 @@ const UpcomingMeals = () => {
   });
 
   const publish = async (id) => {
-    const data = await axiosInstance.post(`/from-upcoming-to-meals/${id}`);
+    const data = await axiosInstanceS.post(`/from-upcoming-to-meals/${id}`);
     if (data.data.success) {
       toast.success("This upcoming meal has been Published");
       refetch();

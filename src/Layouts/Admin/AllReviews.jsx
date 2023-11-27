@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import Loader from "../../Components/Shared/Loader";
-import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import SingleReview from "./SingleReview";
 
 const AllReviews = () => {
-  const axiosInstance = useAxiosPublic();
+  const axiosInstanceS = useAxiosSecure();
   const [sort, setSort] = useState("");
   const [dir, setDir] = useState("htl");
 
@@ -17,7 +17,7 @@ const AllReviews = () => {
     queryKey: ["all-reviews-aggegate-admin", sort, dir],
     queryFn: async ({ queryKey }) => {
       console.log(queryKey[1], queryKey[2]);
-      const responce = await axiosInstance.get(
+      const responce = await axiosInstanceS.get(
         `/all-reviews-aggrigate?sort=${queryKey[1]}&dir=${queryKey[2]}`
       );
       return responce.data;

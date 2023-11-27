@@ -9,10 +9,10 @@ import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import EditMeal from "../../Components/Dashboard/EditMeal";
 import Loader from "../../Components/Shared/Loader";
-import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const AllMeals = () => {
-  const axiosInstance = useAxiosPublic();
+  const axiosInstanceS = useAxiosSecure();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [mealID, setMealId] = useState();
   const {
@@ -22,7 +22,7 @@ const AllMeals = () => {
   } = useQuery({
     queryKey: ["all-meals-admin"],
     queryFn: async () => {
-      const responce = await axiosInstance.get(`/all-meals-admin`);
+      const responce = await axiosInstanceS.get(`/all-meals-admin`);
       return responce.data;
     },
   });
@@ -38,7 +38,7 @@ const AllMeals = () => {
       confirmButtonText: "Yes Delete",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosInstance
+        axiosInstanceS
           .delete(`/delete-a-meal-admin/${id}`)
           .then((res) => {
             console.log(res.data);
