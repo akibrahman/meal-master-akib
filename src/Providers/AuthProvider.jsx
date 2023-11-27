@@ -56,6 +56,21 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const un = onAuthStateChanged(auth, async (cUser) => {
       if (cUser) {
+        //! Cteate Token
+        axiosInstance
+          .post(
+            `/create-jwt`,
+            { email: cUser.email },
+            { withCredentials: true }
+          )
+          .then((res) => {
+            if (res.data.success) {
+              console.log("Token Created for - ", cUser.email);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
         console.log("C-", cUser);
         setUser(cUser);
         const userData = {
@@ -70,6 +85,15 @@ const AuthProvider = ({ children }) => {
         await axiosInstance.put(`/all-users/${cUser.email}`, userData);
         setLoading(false);
       } else {
+        //! Remove Token
+        axiosInstance
+          .post(`/remove-jwt`, { email: "" }, { withCredentials: true })
+          .then((data) => {
+            console.log("Token Removed--", data.data);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
         setUser(null);
         console.log("Logged Out");
         setLoading(false);

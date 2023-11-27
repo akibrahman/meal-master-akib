@@ -5,11 +5,13 @@ import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import Loader from "../../Components/Shared/Loader";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { AuthContext } from "../../Providers/AuthProvider";
 import { convertCamelCaseToCapitalized } from "../../Utils/camelToCapitalize";
 
 const RequestedMeals = () => {
   const axiosInstance = useAxiosPublic();
+  const axiosInstanceS = useAxiosSecure();
   const { user } = useContext(AuthContext);
   const [sort, setSort] = useState("del");
 
@@ -20,7 +22,7 @@ const RequestedMeals = () => {
   } = useQuery({
     queryKey: ["serve-meals", sort],
     queryFn: async ({ queryKey }) => {
-      const responce = await axiosInstance.get(
+      const responce = await axiosInstanceS.get(
         `/my-requested-meals?email=${user.email}&sort=${queryKey[1]}`
       );
       return responce.data;

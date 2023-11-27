@@ -10,11 +10,13 @@ import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import Loader from "../../Components/Shared/Loader";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { AuthContext } from "../../Providers/AuthProvider";
 import ReviewUpdator from "./ReviewUpdator";
 
 const MyReviews = () => {
   const axiosInstance = useAxiosPublic();
+  const axiosInstanceS = useAxiosSecure();
   const { user } = useContext(AuthContext);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [singleReviewId, setSingleReviewId] = useState("");
@@ -26,7 +28,7 @@ const MyReviews = () => {
   } = useQuery({
     queryKey: ["my-reviews"],
     queryFn: async () => {
-      const responce = await axiosInstance.get(
+      const responce = await axiosInstanceS.get(
         `/my-reviews-aggrigate?email=${user.email}`
       );
       return responce.data;

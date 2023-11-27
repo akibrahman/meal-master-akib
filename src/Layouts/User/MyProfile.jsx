@@ -5,12 +5,14 @@ import Modal from "react-modal";
 import { toast } from "react-toastify";
 import Loader from "../../Components/Shared/Loader";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { AuthContext } from "../../Providers/AuthProvider";
 import { convertCamelCaseToCapitalized } from "../../Utils/camelToCapitalize";
 
 const MyProfile = () => {
   const { user: authUser } = useContext(AuthContext);
   const axiosInstance = useAxiosPublic();
+  const axiosInstanceS = useAxiosSecure();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [error, setError] = useState(false);
 
@@ -21,7 +23,7 @@ const MyProfile = () => {
   } = useQuery({
     queryKey: ["my-profile"],
     queryFn: async () => {
-      const res = await axiosInstance.get(
+      const res = await axiosInstanceS.get(
         `/my-profile?email=${authUser.email}`
       );
       return res.data;

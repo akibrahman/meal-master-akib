@@ -2,13 +2,13 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
-import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { AuthContext } from "../../Providers/AuthProvider";
 import Container from "../Shared/Container";
 
 const PackagePlans = () => {
   const navigate = useNavigate();
-  const axiosInstance = useAxiosPublic();
+  const axiosInstanceS = useAxiosSecure();
   const { user } = useContext(AuthContext);
 
   const handleClick = async (pack) => {
@@ -30,7 +30,7 @@ const PackagePlans = () => {
       return;
     }
 
-    const badge = await axiosInstance.get(`/get-package?email=${user.email}`);
+    const badge = await axiosInstanceS.get(`/get-package?email=${user.email}`);
     const userPack = badge.data.split("-")[1];
     if (userPack == "silver" || userPack == "gold" || userPack == "platinum") {
       toast.info("You are already a subscribed member");
