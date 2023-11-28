@@ -4,6 +4,7 @@ import { FaPen } from "react-icons/fa6";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import Loader from "../../Components/Shared/Loader";
+import Pagination from "../../Components/Shared/Pagination";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { convertCamelCaseToCapitalized } from "../../Utils/camelToCapitalize";
 
@@ -122,35 +123,12 @@ const ManageUsers = () => {
           </div>
         )}
       </div>
-      <div className="flex items-center justify-center gap-2 mb-20">
-        <button
-          onClick={() => setPage(page - 1)}
-          className="bg-[#141515] text-white px-3 py-1 rounded-full transition-all active:scale-90 disabled:bg-slate-400"
-          disabled={page == 0 ? true : false}
-        >
-          Prev
-        </button>
-        {pages.map((item, index) => (
-          <button
-            key={index}
-            onClick={() => setPage(index)}
-            className={`px-3 py-1 rounded-full transition-all active:scale-90 ${
-              page == index
-                ? "bg-[#141515] text-white"
-                : "bg-white text-primary border border-primary"
-            }`}
-          >
-            {index + 1}
-          </button>
-        ))}
-        <button
-          onClick={() => setPage(page + 1)}
-          className="bg-[#141515] text-white px-3 py-1 rounded-full transition-all active:scale-90 disabled:bg-slate-400"
-          disabled={page == totalPages - 1 ? true : false}
-        >
-          Next
-        </button>
-      </div>
+      <Pagination
+        page={page}
+        setPage={setPage}
+        pages={pages}
+        totalPages={totalPages}
+      />
     </div>
   );
 };

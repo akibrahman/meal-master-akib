@@ -11,14 +11,14 @@ const UpcomingMealsUser = () => {
     isLoading,
     // refetch,
   } = useQuery({
-    queryKey: ["all-upcoming-meals"],
+    queryKey: ["all-upcoming-meals-user"],
     queryFn: async () => {
-      const responce = await axiosInstance.get(`/all-upcoming-meals`);
+      const responce = await axiosInstance.get(`/all-upcoming-meals-user`);
       return responce.data;
     },
   });
 
-  if (isLoading) return <Loader />;
+  if (isLoading || !meals) return <Loader />;
   return (
     <div className="z-50 p-20 pt-10">
       <p className="text-center text-2xl font-semibold mb-10">Upcoming Meals</p>

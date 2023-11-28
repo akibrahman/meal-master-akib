@@ -1,8 +1,10 @@
 // import { useQuery } from "@tanstack/react-query";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { ImSpinner9 } from "react-icons/im";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Link } from "react-router-dom";
+import Container from "../Components/Shared/Container";
 import Loader from "../Components/Shared/Loader";
 import useAxiosPublic from "../Hooks/useAxiosPublic";
 
@@ -16,22 +18,21 @@ const MealsPage = () => {
     queryKey: ["All-Meals", search, category, sbp],
     queryFn: async ({ queryKey, pageParam = 0 }) => {
       const data = await axiosInstance.get(
-        `/all-meals?search=${queryKey[1]}&category=${queryKey[2]}&sbp=${queryKey[3]}&page=${pageParam}&limit=6`
+        `/all-meals?search=${queryKey[1]}&category=${queryKey[2]}&sbp=${queryKey[3]}&page=${pageParam}&limit=4`
       );
-      return { ...data.data, prevOffset: pageParam };
+      return { ...data.data, prevOffset: parseInt(pageParam) };
     },
     getNextPageParam: (lastPage) => {
-      if (lastPage.prevOffset + 6 > lastPage.count) {
-        return false;
+      if (lastPage.prevOffset + 4 > lastPage.count) {
+        return undefined;
       }
-      return lastPage.prevOffset + 6;
+      return lastPage.prevOffset + 4;
     },
   });
 
   const meals = data?.pages.reduce((acc, page) => {
     return [...acc, ...page.meals];
   }, []);
-  console.log(meals);
 
   return (
     <div className="bg[url('/meals.jpg')] bg-fixed bg-cover bg-center">
@@ -72,31 +73,42 @@ const MealsPage = () => {
         {!meals ? (
           <Loader />
         ) : (
-          // <Container>
-          <InfiniteScroll
-            dataLength={meals ? meals.length : 0}
-            next={() => fetchNextPage()}
-            hasMore={hasNextPage}
-          >
-            <div className="w-[95%] mx-auto grid grid-cols-3 gap-6 my-3">
-              {meals &&
-                meals.map((meal) => (
-                  <Link to={`/meal/${meal._id}`} key={meal._id}>
-                    <div className="bg-primary rounded-t-md">
-                      <img
-                        src={meal.mealImage}
-                        className="h-[200px] w-full rounded-t-md"
-                        alt=""
-                      />
-                      <p className="text-center text-white py-2 font-semibold">
-                        {meal.mealTitle} - ${meal.price}
-                      </p>
-                    </div>
-                  </Link>
-                ))}
-            </div>
-          </InfiniteScroll>
-          // </Container>
+          <Container>
+            <InfiniteScroll
+              dataLength={meals ? meals.length : 0}
+              next={() => fetchNextPage()}
+              hasMore={hasNextPage}
+              loader={
+                <p className="flex items-center justify-center gap-2 py-2 font-semibold">
+                  <ImSpinner9 className="text-3xl" />
+                  Loading...
+                </p>
+              }
+              endMessage={
+                <p className="font-semibold py-10 text-center">
+                  Yay! You have seen it all
+                </p>
+              }
+            >
+              <div className="grid grid-cols-3 gap-6 my-3">
+                {meals &&
+                  meals.map((meal, i) => (
+                    <Link to={`/meal/${meal._id}`} key={i}>
+                      <div className="bg-primary rounded-t-md">
+                        <img
+                          src={meal.mealImage}
+                          className="h-[200px] w-full rounded-t-md"
+                          alt=""
+                        />
+                        <p className="text-center text-white py-2 font-semibold">
+                          {meal.mealTitle} - ${meal.price}
+                        </p>
+                      </div>
+                    </Link>
+                  ))}
+              </div>
+            </InfiniteScroll>
+          </Container>
         )}
       </div>
     </div>

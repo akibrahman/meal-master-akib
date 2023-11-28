@@ -10,7 +10,7 @@ export default {
         // primary: "#A32615",
         // secondary: "#F25864",
         primary: "#141515",
-        secondary: "#141515",
+        secondary: "#141E30",
       },
     },
   },

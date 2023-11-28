@@ -1,5 +1,6 @@
 import moment from "moment";
 import { useContext, useRef, useState } from "react";
+import { AwesomeButtonProgress } from "react-awesome-button";
 import { useForm } from "react-hook-form";
 import { FaExclamationCircle, FaTimes } from "react-icons/fa";
 import { FaRegStar, FaStar } from "react-icons/fa6";
@@ -15,16 +16,18 @@ const AddMeal = () => {
   const [ratingError, setRatingError] = useState(false);
   const [indError, setIndError] = useState(false);
   const [preview, setPreview] = useState(null);
-  const [submitType, setSubmitType] = useState("");
+  // const [submitType, setSubmitType] = useState("");
+
   const axiosInstanceS = useAxiosSecure();
   const {
     register,
-    formState: { errors },
+    formState: { errors, isValid },
     handleSubmit,
     reset,
   } = useForm();
   const { user } = useContext(AuthContext);
   const ind = useRef();
+  const mealAdder = useRef();
   const [ingredients, setIngredients] = useState([]);
   const handleInd = () => {
     if (!ind.current.value) {
@@ -47,10 +50,16 @@ const AddMeal = () => {
   const handleAddMeal = async (data) => {
     if (!rating) {
       setRatingError(true);
+      setTimeout(() => {
+        mealAdder.current.next(false, "Rating");
+      }, 600);
       return;
     }
     if (ingredients.length == 0) {
       setIndError(true);
+      setTimeout(() => {
+        mealAdder.current.next(false, "Ingrediants");
+      }, 600);
       return;
     }
     const imgUrl = await imageUploader(data.mealImage[0]);
@@ -69,33 +78,37 @@ const AddMeal = () => {
       likes: 0,
       numReviews: 0,
     };
-    if (submitType == "meal") {
+    if (mealAdder.current.destination == "meal") {
       try {
         await axiosInstanceS.post("add-meal", mealData);
         toast.success(`${mealTitle} is added to Meals`);
       } catch (error) {
         toast.error(error.meaasge);
       }
-    }
-    if (submitType == "upcoming") {
+    } else if (mealAdder.current.destination == "upcoming") {
       try {
         await axiosInstanceS.post("add-meal-upcoming", mealData);
         toast.success(`${mealTitle} is added to Upcoming Meals`);
       } catch (error) {
         toast.error(error.meaasge);
       }
+    } else {
+      toast.error(`Something went Wrong! Try again!`);
+      return;
     }
     reset();
     setIngredients([]);
     setPreview(null);
+    mealAdder.current.next();
+    mealAdder.current = {};
   };
 
   return (
-    <div className="w-[900px] my-20">
+    <div className="w-[950px] my-20">
       <p className="bg-[#141515] text-white text-lg font-semibold py-3 text-center">
         Add Meal
       </p>
-      <form onSubmit={handleSubmit(handleAddMeal)} className="">
+      <form onSubmit={handleSubmit(handleAddMeal)}>
         <div className="flex items-center justify-between my-10">
           <div className="flex items-center gap-2">
             {errors.mealTitle?.type === "required" && (
@@ -146,7 +159,7 @@ const AddMeal = () => {
 
         <div className="flex items-center justify-between my-10">
           <div className="flex items-center gap-2">
-            {errors.mealImage?.type === "required" && (
+            {errors.mealImage && (
               <FaExclamationCircle className="text-red-700" />
             )}
             <label className="font-semibold" htmlFor="">
@@ -287,20 +300,32 @@ const AddMeal = () => {
             />
           </div>
         </div>
-        <button
-          onClick={() => setSubmitType("meal")}
-          className="bg-[#141515] text-white font-semibold px-3 py-2 transition-all active:scale-90 rounded-md cursor-pointer select-none mt-10"
-          type="submit"
-        >
-          Add Meal
-        </button>
-        <button
-          onClick={() => setSubmitType("upcoming")}
-          className="bg-[#141515] text-white font-semibold px-3 py-2 transition-all active:scale-90 rounded-md cursor-pointer select-none mt-10 ml-10"
-          type="submit"
-        >
-          Add to Upcoming
-        </button>
+        <div className="flex items-center gap-10 mt-20">
+          <AwesomeButtonProgress
+            onPress={(e, next) => {
+              if (!isValid) {
+                next(false, "Error");
+                return;
+              }
+              mealAdder.current = { next, destination: "meal" };
+            }}
+            type="primary"
+          >
+            Add Meal
+          </AwesomeButtonProgress>
+          <AwesomeButtonProgress
+            onPress={(e, next) => {
+              if (!isValid) {
+                next(false, "Error");
+                return;
+              }
+              mealAdder.current = { next, destination: "upcoming" };
+            }}
+            type="secondary"
+          >
+            Add to Upcoming
+          </AwesomeButtonProgress>
+        </div>
       </form>
     </div>
   );
