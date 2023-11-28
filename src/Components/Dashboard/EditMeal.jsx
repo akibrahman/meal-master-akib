@@ -63,11 +63,11 @@ const EditMeal = ({ closeFn, mealID, allMealsRefetch }) => {
     const mealData = {
       mealTitle: data.mealTitle,
       mealType: data.mealType,
-      price: data.price,
+      price: parseInt(data.price),
       mealImage: imgUrl,
       ingredients: newIngredients,
       description: data.description,
-      rating: rating ? rating : meal.rating,
+      rating: rating ? parseInt(rating) : parseInt(meal.rating),
     };
     const res = await axiosInstance.patch(
       `/update-one-meal/${mealID}`,
