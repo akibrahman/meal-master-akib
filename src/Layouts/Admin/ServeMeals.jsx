@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { AwesomeButtonProgress } from "react-awesome-button";
 import { toast } from "react-toastify";
 import Loader from "../../Components/Shared/Loader";
 import Pagination from "../../Components/Shared/Pagination";
@@ -10,6 +11,8 @@ const ServeMeals = () => {
   const axiosInstanceS = useAxiosSecure();
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(0);
+  const mealAdder = useRef();
+
   const {
     data: serveMealData,
     isLoading,
@@ -30,11 +33,13 @@ const ServeMeals = () => {
   const serveTheMeal = async (id) => {
     const data = await axiosInstanceS.patch(`/update-requested-meal/${id}`);
     if (data.data.delivered) {
-      toast.info("This Meal is already delivered");
+      toast.info("This Meal is already Delivered");
+      mealAdder.current.next(false, "Alredy");
       return;
     } else if (data.data.modifiedCount) {
-      toast.success("Meal has been Delivered");
+      toast.success("Meal has been Served");
       refetch();
+      mealAdder.current.next(true, "Served");
       return;
     }
   };
@@ -94,12 +99,25 @@ const ServeMeals = () => {
                       {convertCamelCaseToCapitalized(meal.status)}
                     </td>
                     <th>
-                      <button
+                      {/* <button
                         onClick={() => serveTheMeal(meal._id)}
                         className="flex items-center m-auto gap-2 cursor-pointer bg-[#141515] w-max text-white p-1 rounded-full px-2 select-none transition-all active:scale-90"
                       >
                         Serve
-                      </button>
+                      </button> */}
+
+                      <AwesomeButtonProgress
+                        onPress={(e, next) => {
+                          mealAdder.current = { next };
+                          setTimeout(() => {
+                            serveTheMeal(meal._id);
+                          }, 600);
+                        }}
+                        type="primary"
+                        size="small"
+                      >
+                        Serve
+                      </AwesomeButtonProgress>
                     </th>
                   </tr>
                 ))}

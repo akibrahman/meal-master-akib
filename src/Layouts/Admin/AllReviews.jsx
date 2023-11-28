@@ -1,5 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { ImSpinner9 } from "react-icons/im";
+import Modal from "react-modal";
 import Loader from "../../Components/Shared/Loader";
 import Pagination from "../../Components/Shared/Pagination";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
@@ -10,6 +12,7 @@ const AllReviews = () => {
   const [sort, setSort] = useState("");
   const [dir, setDir] = useState("htl");
   const [page, setPage] = useState(0);
+  const [loadingModalIsOpen, setLoadingModalIsOpen] = useState(false);
 
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["all-reviews-aggegate-admin", sort, dir, page],
@@ -26,8 +29,31 @@ const AllReviews = () => {
   const totalPages = Math.ceil(data?.count / 10);
   const pages = [...new Array(totalPages ? totalPages : 0).fill(0)];
 
+  const closeLoadingModal = () => {
+    setLoadingModalIsOpen(false);
+  };
+
+  const customStyles = {
+    content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+    },
+  };
+
   return (
     <div>
+      {/* Loading Modal */}
+      <Modal
+        isOpen={loadingModalIsOpen}
+        onRequestClose={closeLoadingModal}
+        style={customStyles}
+      >
+        <ImSpinner9 className="animate-spin" />
+      </Modal>
       <div className="p-12 bg-white w-[900px]">
         <div className="flex justify-between items-center font-cinzel mb-8">
           <p className="text-[#151515] text-2xl font-bold">
@@ -83,6 +109,7 @@ const AllReviews = () => {
                 {/* Row */}
                 {data.reviews.map((review, i) => (
                   <SingleReview
+                    modal={setLoadingModalIsOpen}
                     reloader={refetch}
                     mealId={review.mealId}
                     reviewId={review._id}

@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { CiEdit } from "react-icons/ci";
 import { FaArrowRight } from "react-icons/fa6";
+import { ImSpinner9 } from "react-icons/im";
 import { MdDelete } from "react-icons/md";
 import Modal from "react-modal";
 import { Link } from "react-router-dom";
@@ -15,6 +16,7 @@ import useAxiosSecure from "../../Hooks/useAxiosSecure";
 const AllMeals = () => {
   const axiosInstanceS = useAxiosSecure();
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [loadingModalIsOpen, setLoadingModalIsOpen] = useState(false);
   const [mealID, setMealId] = useState();
   const [page, setPage] = useState(0);
   const { data, isLoading, refetch } = useQuery({
@@ -39,13 +41,17 @@ const AllMeals = () => {
       confirmButtonText: "Yes Delete",
     }).then((result) => {
       if (result.isConfirmed) {
+        setLoadingModalIsOpen(true);
         axiosInstanceS
           .delete(`/delete-a-meal-admin/${id}`)
           .then((res) => {
             console.log(res.data);
             refetch();
           })
-          .then(() => toast.success("Deleted Successfully"))
+          .then(() => {
+            toast.success("Deleted Successfully");
+            setLoadingModalIsOpen(false);
+          })
           .catch((error) => toast.error(error.message));
       }
     });
@@ -61,9 +67,12 @@ const AllMeals = () => {
     },
   };
 
-  function closeModal() {
+  const closeModal = () => {
     setModalIsOpen(false);
-  }
+  };
+  const closeLoadingModal = () => {
+    setLoadingModalIsOpen(false);
+  };
 
   const totalPages = Math.ceil(data?.count / 10);
   const pages = [...new Array(totalPages ? totalPages : 0).fill(0)];
@@ -80,6 +89,14 @@ const AllMeals = () => {
           mealID={mealID}
           allMealsRefetch={refetch}
         />
+      </Modal>
+      {/* Loading Modal */}
+      <Modal
+        isOpen={loadingModalIsOpen}
+        onRequestClose={closeLoadingModal}
+        style={customStyles}
+      >
+        <ImSpinner9 className="animate-spin" />
       </Modal>
       <div className="p-12 bg-white w-[1000px]">
         <div className="flex justify-between items-center font-cinzel mb-8">

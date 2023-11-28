@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { FaPen } from "react-icons/fa6";
+import { ImSpinner9 } from "react-icons/im";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import Loader from "../../Components/Shared/Loader";
@@ -12,6 +13,8 @@ const ManageUsers = () => {
   const axiosInstanceS = useAxiosSecure();
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(0);
+  const [loader, setLoader] = useState(false);
+  const [loaderData, setLoaderData] = useState("");
   const {
     data: usersData,
     isLoading,
@@ -40,10 +43,16 @@ const ManageUsers = () => {
       confirmButtonText: "Make Admin",
     }).then((result) => {
       if (result.isConfirmed) {
+        setLoaderData(email);
+        setLoader(true);
         axiosInstanceS
           .put(`/make-admin/${email}`)
           .then(() => {
             refetch();
+            setTimeout(() => {
+              setLoader(false);
+              setLoaderData("");
+            }, 1000);
             toast.success(`${name} is made Admin`);
           })
           .catch((error) => console.log(error));
@@ -98,10 +107,14 @@ const ManageUsers = () => {
                       ) : (
                         <div
                           onClick={() => makeAdmin(user.email, user.name)}
-                          className="flex items-center m-auto gap-2 cursor-pointer bg-[#141515] w-max text-white p-1 rounded-full px-2 select-none transition-all active:scale-90"
+                          className="flex items-center m-auto gap-2 cursor-pointer bg-[#141515] w-max text-white p-1 rounded-full px-3 select-none transition-all active:scale-90"
                         >
                           <span>Make Admin</span>
-                          <FaPen className="text-[10px]"></FaPen>
+                          {loader && loaderData == user.email ? (
+                            <ImSpinner9 className="animate-spin" />
+                          ) : (
+                            <FaPen className="text-[10px]"></FaPen>
+                          )}
                         </div>
                       )}
                     </td>

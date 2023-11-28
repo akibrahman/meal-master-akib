@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
-const SingleReview = ({ mealId, reviewId, index, reloader, data }) => {
+const SingleReview = ({ mealId, reviewId, index, reloader, data, modal }) => {
   const axiosInstance = useAxiosPublic();
 
   const handleDelete = (reviewId, mealId) => {
@@ -19,10 +19,12 @@ const SingleReview = ({ mealId, reviewId, index, reloader, data }) => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
+        modal(true);
         axiosInstance
           .patch(`/delete-one-review?reviewId=${reviewId}&mealId=${mealId}`)
           .then(() => {
             reloader();
+            modal(false);
             Swal.fire({
               title: "Deleted!",
               text: "Review has been deleted.",

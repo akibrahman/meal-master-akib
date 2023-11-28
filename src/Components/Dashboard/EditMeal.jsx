@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
 import { useEffect, useRef, useState } from "react";
+import { AwesomeButtonProgress } from "react-awesome-button";
 import { useForm } from "react-hook-form";
 import {
   FaExclamationCircle,
@@ -20,6 +21,7 @@ const EditMeal = ({ closeFn, mealID, allMealsRefetch }) => {
   const [photoFile, setPhotoFile] = useState(null);
   const [rating, setRating] = useState(null);
   const ind = useRef();
+  const mealAdder = useRef();
   const axiosInstance = useAxiosPublic();
 
   const {
@@ -59,6 +61,22 @@ const EditMeal = ({ closeFn, mealID, allMealsRefetch }) => {
   };
 
   const handleUpdate = async (data) => {
+    if (
+      data.mealTitle == meal.mealTitle &&
+      data.mealType == meal.mealType &&
+      data.price == meal.price &&
+      !photoFile &&
+      data.description == meal.description &&
+      !rating &&
+      newIngredients.length === meal.ingredients.length &&
+      newIngredients.every((value) => meal.ingredients.includes(value))
+    ) {
+      setTimeout(() => {
+        mealAdder.current.next(false, "No Change");
+      }, 600);
+      return;
+    }
+
     const imgUrl = await photoUpdateHandler(photoFile, meal.mealImage);
     const mealData = {
       mealTitle: data.mealTitle,
@@ -69,19 +87,19 @@ const EditMeal = ({ closeFn, mealID, allMealsRefetch }) => {
       description: data.description,
       rating: rating ? parseInt(rating) : parseInt(meal.rating),
     };
-    const res = await axiosInstance.patch(
-      `/update-one-meal/${mealID}`,
-      mealData
-    );
+    await axiosInstance.patch(`/update-one-meal/${mealID}`, mealData);
     mealRefetch();
     allMealsRefetch();
+    mealAdder.current.next();
+    setTimeout(() => {
+      closeFn();
+    }, 800);
     toast.success("Meal Updated");
-    console.log(res);
   };
   if (!meal) return <Loader />;
   if (isLoading) return <Loader />;
   return (
-    <form onSubmit={handleSubmit(handleUpdate)} className="">
+    <form onSubmit={handleSubmit(handleUpdate)} className="w-[1000px]">
       <div className="flex items-center justify-between my-5">
         <div className="flex items-center gap-2">
           {errors.mealTitle?.type === "required" && (
@@ -273,13 +291,23 @@ const EditMeal = ({ closeFn, mealID, allMealsRefetch }) => {
           />
         </div>
       </div>
-      <button
+      {/* <button
         //   onClick={() => setSubmitType("meal")}
         className="bg-[#141515] text-white font-semibold px-3 py-2 transition-all active:scale-90 rounded-md cursor-pointer select-none mt-5"
         type="submit"
       >
         Update Meal
-      </button>
+      </button> */}
+
+      <AwesomeButtonProgress
+        onPress={(e, next) => {
+          mealAdder.current = { next, destination: "meal" };
+        }}
+        type="primary"
+      >
+        Update Meal
+      </AwesomeButtonProgress>
+
       <span
         onClick={closeFn}
         className="bg-[#141515] text-white font-semibold px-3 py-2 transition-all active:scale-90 rounded-md cursor-pointer select-none mt-5 ml-10"
