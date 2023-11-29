@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import Container from "../Shared/Container";
 import Loader from "../Shared/Loader";
 import UpcomingMealCard from "./UpcomingMealCard";
 
@@ -20,13 +21,15 @@ const UpcomingMealsUser = () => {
 
   if (isLoading || !meals) return <Loader />;
   return (
-    <div className="z-50 p-20 pt-10">
+    <div className="z-50 p20 pt-10">
       <p className="text-center text-2xl font-semibold mb-10">Upcoming Meals</p>
-      <div className="grid grid-cols-3 gap-6">
-        {meals.map((meal) => (
-          <UpcomingMealCard key={meal._id} meal={meal} />
-        ))}
-      </div>
+      <Container>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 overflow-scroll md:overflow-hidden">
+          {meals.map((meal) => (
+            <UpcomingMealCard key={meal._id} meal={meal} />
+          ))}
+        </div>
+      </Container>
     </div>
   );
 };

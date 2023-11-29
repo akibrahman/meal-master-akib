@@ -211,8 +211,8 @@ const DetailsPage = () => {
 
   return (
     <Container>
-      <div className="flex items-center gap-10 my-6 text-white">
-        <div className="w-1/2">
+      <div className="flex flex-col md:flex-row items-center gap-10 my-6 text-white">
+        <div className="w-[95%] mx-auto md:w-1/2">
           <img
             className="rounded-md w-full h-[400px]"
             src={meal.mealImage}
@@ -220,7 +220,7 @@ const DetailsPage = () => {
           />
         </div>
         <div
-          className="w-1/2
+          className="w-[95%] mx-auto md:w-1/2
          border-l-4 border-primary pl-5 space-y-5"
         >
           <p className="text-3xl font-medium mb-5">{meal.mealTitle}</p>
@@ -255,44 +255,45 @@ const DetailsPage = () => {
             </span>
           </p>
           <div className="mt-4 flex items-center justify-between">
-            <div className="flex items-center gap-10">
+            <div className="flex flex-col lg:flex-row items-center gap-10">
               <Rating
                 readonly
                 placeholderRating={meal.rating}
-                emptySymbol={<FaRegStar className="text-2xl" />}
-                placeholderSymbol={<FaStar className="text-2xl" />}
-                fullSymbol={<FaStar className="text-primary text-2xl" />}
+                emptySymbol={<FaRegStar className="text-3xl" />}
+                placeholderSymbol={<FaStar className="text-3xl" />}
+                fullSymbol={<FaStar className="text-primary text-3xl" />}
               />
-              <div className="flex items-center gap-5 font-semibold">
-                {likeLoader ? (
-                  <ImSpinner9 className="animate-spin text-3xl" />
-                ) : isLiked ? (
-                  <FaHeart
-                    onClick={handleLikeDec}
-                    className="text-3xl text-red-600 cursor-pointer"
-                  />
-                ) : (
-                  <FaHeart
-                    onClick={handleLikeInc}
-                    className="text-3xl text-gray-300 cursor-pointer"
-                  />
-                )}
+              <div className="flex items-center gap-10">
+                <div className="flex items-center gap-5 font-semibold">
+                  {likeLoader ? (
+                    <ImSpinner9 className="animate-spin text-3xl" />
+                  ) : isLiked ? (
+                    <FaHeart
+                      onClick={handleLikeDec}
+                      className="text-3xl text-red-600 cursor-pointer"
+                    />
+                  ) : (
+                    <FaHeart
+                      onClick={handleLikeInc}
+                      className="text-3xl text-gray-300 cursor-pointer"
+                    />
+                  )}
 
-                <p>Likes: {meal.likes}</p>
+                  <p>Likes: {meal.likes}</p>
+                </div>
+                <AwesomeButtonProgress
+                  onPress={async (e, next) => {
+                    mealAdder.current = { next };
+                    setTimeout(() => {
+                      handleRequest();
+                    }, 600);
+                  }}
+                  type="primary"
+                >
+                  Request Meal
+                </AwesomeButtonProgress>
               </div>
-              {/*  */}
             </div>
-            <AwesomeButtonProgress
-              onPress={async (e, next) => {
-                mealAdder.current = { next };
-                setTimeout(() => {
-                  handleRequest();
-                }, 600);
-              }}
-              type="primary"
-            >
-              Request Meal
-            </AwesomeButtonProgress>
           </div>
         </div>
       </div>
@@ -306,9 +307,8 @@ const DetailsPage = () => {
           <form onSubmit={handlePostReview}>
             <textarea
               name="review"
-              cols="50"
               rows="4"
-              className="border border-secondary rounded-md p-2 px-4 font-semibold text-primary"
+              className="border border-secondary rounded-md p-2 px-4 font-semibold text-primary w-full"
             ></textarea>
 
             <br />
@@ -334,7 +334,7 @@ const DetailsPage = () => {
             <FaRegSmileBeam />
           </p>
         ) : (
-          <div className="grid grid-cols-3 gap-5 my-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 my-10">
             {reviews?.map((review, i) => (
               <div
                 key={i}

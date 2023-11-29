@@ -55,7 +55,7 @@ const MealsPage = () => {
             Displayed Meals - {meals?.length}
           </p>
         </div>
-        <div className="bg-gradient-to-r from-primary to-secondary py-2 flex items-center justify-center gap-6">
+        <div className="bg-gradient-to-r from-primary to-secondary py-2 flex items-center justify-center flex-col md:flex-row gap-6">
           <input
             onChange={(e) => {
               setSearch(e.target.value);
@@ -65,25 +65,27 @@ const MealsPage = () => {
             name=""
             placeholder="Search by Name"
           />
-          <select
-            onChange={(e) => setCategory(e.target.value)}
-            name=""
-            className="px-4 py-2 rounded-md w-[200px] focus:outline-none"
-          >
-            <option value="all">All</option>
-            <option value="breakfast">Breakfast</option>
-            <option value="lunch">Lunch</option>
-            <option value="dinner">Dinner</option>
-          </select>
-          <select
-            onChange={(e) => setSbp(e.target.value)}
-            name=""
-            className="px-4 py-2 rounded-md w-[200px] focus:outline-none"
-            defaultValue={"l2h"}
-          >
-            <option value="h2l">High to Low</option>
-            <option value="l2h">Low to High</option>
-          </select>
+          <div className="flex justify-between gap-4 items-center">
+            <select
+              onChange={(e) => setCategory(e.target.value)}
+              name=""
+              className="px-4 py-2 rounded-md w-[150px] md:w-[200px] focus:outline-none"
+            >
+              <option value="all">All</option>
+              <option value="breakfast">Breakfast</option>
+              <option value="lunch">Lunch</option>
+              <option value="dinner">Dinner</option>
+            </select>
+            <select
+              onChange={(e) => setSbp(e.target.value)}
+              name=""
+              className="px-4 py-2 rounded-md w-[150px] md:w-[200px] focus:outline-none"
+              defaultValue={"l2h"}
+            >
+              <option value="h2l">High to Low</option>
+              <option value="l2h">Low to High</option>
+            </select>
+          </div>
         </div>
         {!meals ? (
           <Loader />
@@ -105,10 +107,14 @@ const MealsPage = () => {
                 </p>
               }
             >
-              <div className="grid grid-cols-3 gap-6 my-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 my-3">
                 {meals && !data?.pages[0].count == 0 ? (
                   meals.map((meal, i) => (
-                    <Link to={`/meal/${meal._id}`} key={i}>
+                    <Link
+                      to={`/meal/${meal._id}`}
+                      className="w-[90%] mx-auto md:w-auto"
+                      key={i}
+                    >
                       <div className="bg-primary rounded-t-md">
                         <img
                           src={meal.mealImage}

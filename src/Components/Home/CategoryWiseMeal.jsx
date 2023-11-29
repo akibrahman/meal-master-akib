@@ -32,7 +32,7 @@ const CategoryWiseMeal = () => {
   return (
     <div className="py-10 bg-white">
       <Container>
-        <div className="flex items-center justify-center gap-14 bg-gradient-to-r rounded-md from-primary to-secondary py-2 text-white font-semibold">
+        <div className="flex items-center justify-evenly md:justify-center md:gap-14 bg-gradient-to-r md:rounded-md from-primary to-secondary py-2 text-white font-semibold">
           {tabs.map((tab, i) => (
             <p
               onClick={() => setCategory(tab)}
@@ -45,9 +45,9 @@ const CategoryWiseMeal = () => {
         </div>
         <Container>
           {meals ? (
-            <div className="mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-10">
+            <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-10">
               {meals?.map((meal, i) => (
-                <div key={i}>
+                <div className="w-[95%] md:w-auto mx-auto" key={i}>
                   <div className="overflow-hidden">
                     <p className="text-center bg-secondary text-white font-medium py-2 rounded-t-md">
                       {meal.mealTitle}
@@ -67,7 +67,7 @@ const CategoryWiseMeal = () => {
                         placeholderSymbol={<FaStar />}
                         fullSymbol={<FaStar />}
                       />
-                      <p className="flex items-center gap-1">
+                      <p className="flex items-center justify-center gap-1 w-[80px] text-center mx-auto">
                         <FaBangladeshiTakaSign /> {meal.price}
                       </p>
                       <Link to={`/meal/${meal._id}`}>

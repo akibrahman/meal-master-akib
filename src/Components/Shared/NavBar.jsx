@@ -23,31 +23,17 @@ const NavBar = () => {
     }
   };
 
-  const customStyles = {
-    content: {
-      top: "50%",
-      left: "50%",
-      right: "auto",
-      bottom: "auto",
-      marginRight: "-50%",
-      transform: "translate(-50%, -50%)",
-    },
-  };
-  function closeModal() {
+  const closeModal = () => {
     setModalIsOpen(false);
-  }
+  };
 
   return (
     <div className="bg-gradient-to-r from-primary to-secondary z-50">
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        style={customStyles}
-      >
+      <Modal isOpen={modalIsOpen} onRequestClose={closeModal}>
         <UpcomingMealsUser />
       </Modal>
       <Container>
-        <nav className="flex items-center justify-between py-2">
+        <nav className="w-full flex flex-col md:flex-row gap-5 md:gap-0 items-center justify-between py-2">
           <div className="flex items-center gap-3">
             <img
               className="w-10 h-10 rounded-full bg-white"

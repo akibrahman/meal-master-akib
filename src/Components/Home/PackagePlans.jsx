@@ -42,7 +42,7 @@ const PackagePlans = () => {
     <div className="py-20 bg-white">
       <p className="text-center  text-3xl font-bold mb-10">Packages</p>
       <Container>
-        <div className="grid grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           <div className="bg-primary text-white text-center py-10">
             <p className="font-semibold text-xl mb-8 bg-slate-400 py-1">
               Silver

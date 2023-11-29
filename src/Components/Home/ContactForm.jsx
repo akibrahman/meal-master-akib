@@ -11,14 +11,14 @@ const ContactForm = () => {
       <p className="text-center text-4xl font-bold py-10 text-white">
         Contact Us
       </p>
-      <div className="my-8 flex flex-col md:flex-row text-white">
+      <div className="my-8 flex flex-col md:flex-row gap-20 md:gap-0 text-white">
         <div className="md:w-1/2 flex flex-col items-center">
           <h2 className="text-2xl font-semibold mb-4">Contact Information</h2>
           <p className=" mb-2">Uttara, Dhaka</p>
           <p className=" mb-2">Phone: (123) 456-7890</p>
           <p className="">Email: info@example.com</p>
         </div>
-        <div className="md:w-1/2">
+        <div className="w-[90%] mx-auto md:w-1/2">
           <h2 className="text-2xl font-semibold mb-4">Contact Form</h2>
           <form onSubmit={handleSubmit} className="max-w-md">
             <div className="mb-4">

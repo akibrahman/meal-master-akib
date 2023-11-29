@@ -3,9 +3,9 @@ import Container from "../Shared/Container";
 const HomeBanner = () => {
   return (
     <Container>
-      <div className="flex items-center justify-between py-10 h-[calc(100vh-56px)]">
-        <div className="w-1/2">
-          <p className="text-white text-[40px] font-semibold mb-4">
+      <div className="flex flex-col md:flex-row gap-10 items-center justify-between py-10 md:h-[calc(100vh-56px)]">
+        <div className="w-[90%] md:w-1/2">
+          <p className="text-white text-[30px] md:text-[40px] font-semibold mb-4">
             Campus Bites: Elevate Your Dining!
           </p>
           <p className="w-[80%] text-white">
@@ -25,7 +25,7 @@ const HomeBanner = () => {
             </button>
           </div>
         </div>
-        <div className="w-1/2">
+        <div className="w-[90%] md:w-1/2">
           <img className="" src="/home-banner.png" alt="" />
         </div>
       </div>

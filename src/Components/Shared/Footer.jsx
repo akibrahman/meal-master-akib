@@ -2,10 +2,9 @@ import Container from "./Container";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#141515] text-white p-8">
+    <footer className="bg-[#141515] text-white p-5 md:p-8">
       <Container>
-        <div className="container mx-auto flex justify-between">
-          {/* Left Side - Menu Options */}
+        <div className="container mx-auto flex flex-col md:flex-row justify-between">
           <div>
             <p className="text-lg font-semibold">Hostel Meal Management</p>
             <p className="mt-2">
@@ -29,8 +28,6 @@ const Footer = () => {
               </li>
             </ul>
           </div>
-
-          {/* Right Side - Subscription Input and Button */}
           <div>
             <div className="mt-4 flex items-center">
               <input
@@ -44,7 +41,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <p className="text-sm text-gray-400 text-center">
+        <p className="text-sm text-gray-400 text-center pt-6 md:py-2">
           &copy; 2023 Hostel Meal Management. All rights reserved.
         </p>
       </Container>

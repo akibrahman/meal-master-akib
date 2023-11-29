@@ -43,7 +43,7 @@ const UpcomingMealCard = ({ meal }) => {
     return <Loader />;
 
   return (
-    <div className="border-2 border-primary rounded-lg p-2">
+    <div className="border-2 border-primary rounded-lg p-2 flex flex-col items-center justify-center">
       <img
         src={meal.mainMealData.mealImage}
         className="w-[200px] h-[150px] rounded-lg"
