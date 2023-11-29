@@ -1,6 +1,7 @@
 // import { useQuery } from "@tanstack/react-query";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { FaBangladeshiTakaSign } from "react-icons/fa6";
 import { ImSpinner9 } from "react-icons/im";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Link } from "react-router-dom";
@@ -100,8 +101,12 @@ const MealsPage = () => {
                           className="h-[200px] w-full rounded-t-md"
                           alt=""
                         />
-                        <p className="text-center text-white py-2 font-semibold">
-                          {meal.mealTitle} - ${meal.price}
+                        <p className="text-center text-white py-2 font-semibold flex items-center justify-center gap-2">
+                          {meal.mealTitle} -
+                          <span className="flex items-center gap-1">
+                            <FaBangladeshiTakaSign />
+                            {meal.price}
+                          </span>
                         </p>
                       </div>
                     </Link>

@@ -44,7 +44,7 @@ const UpcomingMeals = () => {
       <div className="p-12 bg-white w-[950px]">
         <div className="flex justify-between items-center font-cinzel mb-8">
           <p className="text-[#151515] text-2xl font-bold">
-            Total Upcoming Meals: {upcomingMealsData?.upcomingMeals?.length}
+            Total Upcoming Meals: {upcomingMealsData?.count}
           </p>
           <p className="font-semibold text-red-500">
             * Likes should be atlest 10 to be published

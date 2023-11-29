@@ -1,5 +1,6 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
+import { ImSpinner9 } from "react-icons/im";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import SocialLogin from "../Components/Authorization/SocialLogin";
@@ -8,6 +9,7 @@ import { imageUploader } from "../Utils/imageUploder";
 
 const RegistrationPage = () => {
   const navigate = useNavigate();
+  const [loader, setLoader] = useState(false);
   const { registration, updateUserProfile, setAuthReloader, authReloader } =
     useContext(AuthContext);
   const {
@@ -17,16 +19,20 @@ const RegistrationPage = () => {
   } = useForm();
 
   const handleRegistration = async (data) => {
+    setLoader(true);
     try {
       await registration(data.email, data.password);
       const { display_url: imageURL } = await imageUploader(data.image[0]);
       await updateUserProfile(data.name, imageURL);
 
       toast.success("Registered Succesfully", { autoClose: 2000 });
+      setLoader(false);
       setAuthReloader(!authReloader);
       navigate("/");
     } catch (error) {
       console.log(error);
+      toast.error(error.code, { autoClose: 2000 });
+      setLoader(false);
     }
   };
 
@@ -38,7 +44,7 @@ const RegistrationPage = () => {
           className="flex flex-col gap-4 items-center"
         >
           <h1 className="font-bold text-3xl">Registration</h1>
-          <SocialLogin />
+          <SocialLogin loader={setLoader} />
           <span>or use E-mail & Password to create</span>
           <div className="w-full">
             <input
@@ -114,7 +120,14 @@ const RegistrationPage = () => {
             type="submit"
             className="bg-gradient-to-r from-primary to-secondary text-white font-bold uppercase rounded-[20px] py-3 px-11 text-xs"
           >
-            Register
+            {loader ? (
+              <div className="flex items-center gap-2">
+                <p>Wait</p>
+                <ImSpinner9 className="animate-spin" />
+              </div>
+            ) : (
+              "Register"
+            )}
           </button>
         </form>
       </div>

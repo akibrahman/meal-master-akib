@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useContext, useState } from "react";
 import { CiEdit } from "react-icons/ci";
 import { FaArrowRight } from "react-icons/fa6";
+import { ImSpinner9 } from "react-icons/im";
 import { MdDelete } from "react-icons/md";
 import { TbMoodSad } from "react-icons/tb";
 import Modal from "react-modal";
@@ -20,6 +21,7 @@ const MyReviews = () => {
   const axiosInstanceS = useAxiosSecure();
   const { user } = useContext(AuthContext);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [loadingModalIsOpen, setLoadingModalIsOpen] = useState(false);
   const [singleReviewId, setSingleReviewId] = useState("");
   const [page, setPage] = useState(0);
 
@@ -55,9 +57,12 @@ const MyReviews = () => {
     },
   };
 
-  function closeModal() {
+  const closeModal = () => {
     setModalIsOpen(false);
-  }
+  };
+  const closeLoadingModal = () => {
+    setLoadingModalIsOpen(false);
+  };
 
   const handleDelete = async (reviewId, mealId) => {
     Swal.fire({
@@ -70,6 +75,7 @@ const MyReviews = () => {
       confirmButtonText: "Yes Delete",
     }).then((result) => {
       if (result.isConfirmed) {
+        setLoadingModalIsOpen(true);
         axiosInstance
           .patch(`/delete-a-my-review?reviewId=${reviewId}&mealId=${mealId}`)
           .then((data) => {
@@ -77,6 +83,7 @@ const MyReviews = () => {
             if (data.data) {
               refetch();
               toast.success("Deleted Successfully");
+              setLoadingModalIsOpen(false);
             } else {
               toast.error("Something Went Wrong");
             }
@@ -95,10 +102,18 @@ const MyReviews = () => {
       >
         <ReviewUpdator reviewId={singleReviewId} modalCloser={closeModal} />
       </Modal>
+      {/* Loading Modal */}
+      <Modal
+        isOpen={loadingModalIsOpen}
+        onRequestClose={closeLoadingModal}
+        style={customStyles}
+      >
+        <ImSpinner9 className="animate-spin" />
+      </Modal>
       <div className="p-12 bg-white w-[950px]">
         <div className="flex justify-between items-center font-cinzel mb-8">
           <p className="text-[#151515] text-2xl font-bold">
-            Total Reviews: {reviewsData?.reviews?.length}
+            My Reviews: {reviewsData?.count}
           </p>
         </div>
 

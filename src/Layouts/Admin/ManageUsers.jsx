@@ -65,7 +65,7 @@ const ManageUsers = () => {
       <div className="p-12 bg-white w-[900px]">
         <div className="flex justify-between items-center font-cinzel mb-8">
           <p className="text-[#151515] text-2xl font-bold">
-            Total Users: {usersData?.users?.length}
+            Total Users: {usersData?.count}
           </p>
           <input
             onChange={(e) => setSearch(e.target.value)}

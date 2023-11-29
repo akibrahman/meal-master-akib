@@ -3,7 +3,7 @@ import { useContext, useRef, useState } from "react";
 import { AwesomeButtonProgress } from "react-awesome-button";
 import { useForm } from "react-hook-form";
 import { FaExclamationCircle, FaTimes } from "react-icons/fa";
-import { FaRegStar, FaStar } from "react-icons/fa6";
+import { FaBangladeshiTakaSign, FaRegStar, FaStar } from "react-icons/fa6";
 import Rating from "react-rating";
 import { toast } from "react-toastify";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
@@ -128,8 +128,8 @@ const AddMeal = () => {
             {errors.price?.type === "required" && (
               <FaExclamationCircle className="text-red-700" />
             )}
-            <label className="font-semibold" htmlFor="">
-              Price
+            <label className="font-semibold flex items-center gap-1" htmlFor="">
+              Price <FaBangladeshiTakaSign />
             </label>
             <input
               {...register("price", { required: true })}

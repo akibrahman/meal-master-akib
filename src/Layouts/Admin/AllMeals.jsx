@@ -101,7 +101,7 @@ const AllMeals = () => {
       <div className="p-12 bg-white w-[1000px]">
         <div className="flex justify-between items-center font-cinzel mb-8">
           <p className="text-[#151515] text-2xl font-bold">
-            Total Meals: {data?.meals?.length}
+            Total Meals: {data?.count}
           </p>
         </div>
 

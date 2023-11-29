@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { FaRegStar, FaStar } from "react-icons/fa";
+import { FaBangladeshiTakaSign } from "react-icons/fa6";
 import Rating from "react-rating";
 import { Link } from "react-router-dom";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
@@ -21,7 +22,7 @@ const CategoryWiseMeal = () => {
       return;
     }
     const filtered = data.filter((meal) => meal.mealType == category);
-    setMeals(filtered);
+    setMeals(filtered.slice(0, 6));
   };
 
   useEffect(() => {
@@ -66,7 +67,9 @@ const CategoryWiseMeal = () => {
                         placeholderSymbol={<FaStar />}
                         fullSymbol={<FaStar />}
                       />
-                      <p>$ {meal.price}</p>
+                      <p className="flex items-center gap-1">
+                        <FaBangladeshiTakaSign /> {meal.price}
+                      </p>
                       <Link to={`/meal/${meal._id}`}>
                         <button className="border border-primary px-2 rounded-full">
                           Details
@@ -82,13 +85,14 @@ const CategoryWiseMeal = () => {
           )}
         </Container>
         <div className="flex items-center justify-center">
-          <button
+          <Link
+            to="/all-meals"
             className={`border-2 border-secondary px-4 py-1 mt-5 rounded-full font-medium text-secondary ${
               meals ? "opacity-100" : "opacity-0"
             }`}
           >
             See All
-          </button>
+          </Link>
         </div>
       </Container>
     </div>

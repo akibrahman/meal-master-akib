@@ -57,7 +57,7 @@ const AllReviews = () => {
       <div className="p-12 bg-white w-[900px]">
         <div className="flex justify-between items-center font-cinzel mb-8">
           <p className="text-[#151515] text-2xl font-bold">
-            Total reviews: {data?.reviews?.length}
+            Total reviews: {data?.count}
           </p>
           <div className="flex items-center gap-2">
             <label className="font-semibold">Sort by:</label>

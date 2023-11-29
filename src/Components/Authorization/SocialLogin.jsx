@@ -4,14 +4,22 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../Providers/AuthProvider";
 
-const SocialLogin = () => {
+const SocialLogin = ({ loader }) => {
   const { GoogleLogin } = useContext(AuthContext);
   const navigate = useNavigate();
   const handleGithubLogin = () => {};
   const handleGoogleLogin = async () => {
-    await GoogleLogin();
-    toast.success("Logged In by Google");
-    navigate("/");
+    try {
+      loader(true);
+      await GoogleLogin();
+      toast.success("Logged In by Google");
+      navigate("/");
+      loader(false);
+    } catch (error) {
+      console.log(error);
+      toast.error(error.code);
+      loader(false);
+    }
   };
   return (
     <div className="flex gap-4">

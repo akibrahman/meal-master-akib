@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useContext, useState } from "react";
+import { ImSpinner9 } from "react-icons/im";
 import { MdDelete } from "react-icons/md";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
@@ -16,6 +17,8 @@ const RequestedMeals = () => {
   const { user } = useContext(AuthContext);
   const [sort, setSort] = useState("del");
   const [page, setPage] = useState(0);
+  const [loader, setLoader] = useState(false);
+  const [loaderData, setLoaderData] = useState("");
 
   const {
     data: requestedMealsData,
@@ -36,6 +39,8 @@ const RequestedMeals = () => {
   const pages = [...new Array(totalPages ? totalPages : 0).fill(0)];
 
   const handleDelete = async (id, mealName) => {
+    setLoader(true);
+    setLoaderData(id);
     Swal.fire({
       title: "Are you sure?",
       text: `${mealName} will be Deleted`,
@@ -50,10 +55,15 @@ const RequestedMeals = () => {
         console.log(data.data);
         if (data.data.deletedCount > 0) {
           toast.success(`Your Request for --${mealName}-- has been Deleted`);
+          setLoader(false);
+          setLoaderData("");
           refetch();
           return;
         }
         toast.error("Something Went Wrong");
+      } else {
+        setLoader(false);
+        setLoaderData("");
       }
     });
   };
@@ -63,7 +73,7 @@ const RequestedMeals = () => {
       <div className="p-12 bg-white w-[950px]">
         <div className="flex justify-between items-center font-cinzel mb-8">
           <p className="text-[#151515] text-2xl font-bold">
-            Total Users: {requestedMealsData?.requestedMeals?.length}
+            Total Users: {requestedMealsData?.count}
           </p>
           <select
             className="font-semibold border border-[#141515] px-4 py-2 rounded-lg"
@@ -126,7 +136,12 @@ const RequestedMeals = () => {
                         className="flex items-center m-auto gap-2 cursor-pointer bg-[#141515] w-max text-white p-1 rounded-full px-2 select-none transition-all active:scale-90 disabled:bg-slate-400 disabled:cursor-not-allowed disabled:"
                         disabled={meal.status == "delivered" ? true : false}
                       >
-                        Delete <MdDelete />
+                        Delete{" "}
+                        {loader && loaderData == meal._id ? (
+                          <ImSpinner9 className="animate-spin" />
+                        ) : (
+                          <MdDelete />
+                        )}
                       </button>
                     </th>
                   </tr>

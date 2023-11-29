@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
+import { AwesomeButtonProgress } from "react-awesome-button";
 import { FaHeart, FaRegSmileBeam, FaRegStar, FaStar } from "react-icons/fa";
+import { FaBangladeshiTakaSign } from "react-icons/fa6";
 import { ImSpinner9 } from "react-icons/im";
 import Rating from "react-rating";
 import { useNavigate, useParams } from "react-router-dom";
@@ -22,6 +24,7 @@ const DetailsPage = () => {
   const axiosInstance = useAxiosPublic();
   const navigate = useNavigate();
   const userPackage = usePackage();
+  const mealAdder = useRef();
 
   const {
     data: meal,
@@ -150,6 +153,7 @@ const DetailsPage = () => {
 
   const handleRequest = async () => {
     if (!user) {
+      mealAdder.current.next(false, "No User");
       Swal.fire({
         title: "You are not Logged In",
         text: "You have to login to request a meal !",
@@ -168,6 +172,7 @@ const DetailsPage = () => {
     }
     if (userPackage.pack.split("-")[1] == undefined) {
       toast.info("You First have to Subscribe a Package to request a Meal");
+      mealAdder.current.next(false, "No Package");
       return;
     }
 
@@ -176,6 +181,7 @@ const DetailsPage = () => {
     );
     if (isExist.data) {
       toast.info("You have already Requested for this Meal");
+      mealAdder.current.next(false, "Alredy Requested");
       return;
     } else {
       const requestData = {
@@ -190,11 +196,15 @@ const DetailsPage = () => {
         requestData
       );
       if (response.data.acknowledged) {
-        toast.success("Meal Requested Sucessfully");
+        mealAdder.current.next(true);
+        setTimeout(() => {
+          toast.success("Meal Requested Sucessfully");
+        }, 600);
         return;
       }
     }
     toast.error("Something went wrong!");
+    mealAdder.current.next(false, "Error");
   };
 
   if (loading || isLikedLoad || isMealLoading) return <Loader />;
@@ -237,8 +247,15 @@ const DetailsPage = () => {
             ))}
           </div>
           <p>
-            <span className="font-bold text-primary mr-2">Description: </span>{" "}
+            <span className="font-bold text-primary mr-2">Description: </span>
             {meal.description}
+          </p>
+          <p className="flex items-center gap-2 text-xl mt-4">
+            <span className="font-bold text-primary mr-2">Price: </span>
+            <span className="flex items-center gap-1 font-semibold">
+              <FaBangladeshiTakaSign />
+              {meal.price}
+            </span>
           </p>
           <div className="mt-4 flex items-center justify-between">
             <div className="flex items-center gap-10">
@@ -268,12 +285,17 @@ const DetailsPage = () => {
               </div>
               {/*  */}
             </div>
-            <button
-              onClick={handleRequest}
-              className="bg-secondary px-3 py-1 rounded-full font-semibold select-none text-white transition active:scale-90"
+            <AwesomeButtonProgress
+              onPress={async (e, next) => {
+                mealAdder.current = { next };
+                setTimeout(() => {
+                  handleRequest();
+                }, 600);
+              }}
+              type="primary"
             >
               Request Meal
-            </button>
+            </AwesomeButtonProgress>
           </div>
         </div>
       </div>

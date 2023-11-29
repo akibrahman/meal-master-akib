@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useRef, useState } from "react";
+import { AwesomeButtonProgress } from "react-awesome-button";
 import { FaRegStar, FaStar } from "react-icons/fa6";
 import { ImSpinner9 } from "react-icons/im";
 import Rating from "react-rating";
@@ -11,6 +12,7 @@ const ReviewUpdator = ({ reviewId = "abc", modalCloser }) => {
   const [rating, setRating] = useState(null);
   const [error, setError] = useState(false);
   const newReview = useRef();
+  const mealAdder = useRef();
 
   const {
     data: review,
@@ -27,7 +29,9 @@ const ReviewUpdator = ({ reviewId = "abc", modalCloser }) => {
 
   const updateReview = async (id) => {
     if (newReview.current.value == review.review && !rating) {
-      setError(true);
+      setTimeout(() => {
+        mealAdder.current.next(false, "No Change");
+      }, 600);
       return;
     }
     setError(false);
@@ -37,9 +41,12 @@ const ReviewUpdator = ({ reviewId = "abc", modalCloser }) => {
 
     const res = await axiosInstance.patch(`/review-update/${id}`, data);
     if (res.data.modifiedCount > 0) {
-      toast.success("Your Review is Updated");
+      mealAdder.current.next(true, "Updated");
       refetch();
-      modalCloser();
+      setTimeout(() => {
+        toast.success("Your Review is Updated");
+        modalCloser();
+      }, 600);
       return;
     }
     toast.error("Something went wrong");
@@ -66,12 +73,22 @@ const ReviewUpdator = ({ reviewId = "abc", modalCloser }) => {
         fullSymbol={<FaStar />}
       />
       <br />
-      <button
+      {/* <button
         onClick={() => updateReview(reviewId)}
         className="text-black bg-white px-3 py-1 rounded-full font-semibold mt-5 transition-all active:scale-90"
       >
         Update
-      </button>
+      </button> */}
+      <AwesomeButtonProgress
+        onPress={async (e, next) => {
+          mealAdder.current = { next };
+          await updateReview(reviewId);
+        }}
+        type="secondary"
+        // className="mt-6"
+      >
+        Update
+      </AwesomeButtonProgress>
       {error && (
         <p className="mt-3 font-semibold text-red-600">
           You did not change enything yet !

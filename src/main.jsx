@@ -18,7 +18,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <QueryClientProvider client={tanstack}>
       <AuthProvider>
-        <ToastContainer />
+        <ToastContainer position="top-center" autoClose={2000} />
         <RouterProvider router={routes} />
       </AuthProvider>
     </QueryClientProvider>
