@@ -1,6 +1,6 @@
 // import { useQuery } from "@tanstack/react-query";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaBangladeshiTakaSign } from "react-icons/fa6";
 import { ImSpinner9 } from "react-icons/im";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -14,6 +14,7 @@ const MealsPage = () => {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
   const [sbp, setSbp] = useState("l2h");
+  const [text, setText] = useState("Yay! You have seen it all");
 
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
     queryKey: ["All-Meals", search, category, sbp],
@@ -30,17 +31,30 @@ const MealsPage = () => {
       return lastPage.prevOffset + 4;
     },
   });
+  console.log(data);
 
   const meals = data?.pages.reduce((acc, page) => {
     return [...acc, ...page.meals];
   }, []);
+  useEffect(() => {
+    if (meals?.length == 0) {
+      setText("No Found match");
+    } else {
+      setText("Yay! You have seen it all");
+    }
+  }, [meals?.length]);
 
   return (
     <div className="bg[url('/meals.jpg')] bg-fixed bg-cover bg-center">
       <div className="bg[rgba(0,0,0,0.7)]">
-        <p className="bg-gradient-to-r from-primary to-secondary text-center text-xl py-2 font-semibold text-white">
-          All Meals
-        </p>
+        <div className="flex items-center justify-center gap-10 py-4 bg-gradient-to-r from-primary to-secondary">
+          <p className="text-center text-xl py-2 font-semibold text-white">
+            Total Meals - {data?.pages[0].total}
+          </p>
+          <p className="text-center text-xl py-2 font-semibold text-white">
+            Displayed Meals - {meals?.length}
+          </p>
+        </div>
         <div className="bg-gradient-to-r from-primary to-secondary py-2 flex items-center justify-center gap-6">
           <input
             onChange={(e) => {
@@ -80,19 +94,19 @@ const MealsPage = () => {
               next={() => fetchNextPage()}
               hasMore={hasNextPage}
               loader={
-                <p className="flex items-center justify-center gap-2 py-2 font-semibold">
-                  <ImSpinner9 className="text-3xl" />
+                <p className="flex items-center justify-center gap-2 py-2 font-semibold text-white py-5">
+                  <ImSpinner9 className="text-3xl animate-spin" />
                   Loading...
                 </p>
               }
               endMessage={
-                <p className="font-semibold py-10 text-center">
-                  Yay! You have seen it all
+                <p className="font-semibold py-10 text-center text-white">
+                  {text}
                 </p>
               }
             >
               <div className="grid grid-cols-3 gap-6 my-3">
-                {meals &&
+                {meals && !data?.pages[0].count == 0 ? (
                   meals.map((meal, i) => (
                     <Link to={`/meal/${meal._id}`} key={i}>
                       <div className="bg-primary rounded-t-md">
@@ -110,7 +124,10 @@ const MealsPage = () => {
                         </p>
                       </div>
                     </Link>
-                  ))}
+                  ))
+                ) : (
+                  <></>
+                )}
               </div>
             </InfiniteScroll>
           </Container>

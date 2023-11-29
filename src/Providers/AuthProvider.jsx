@@ -89,7 +89,7 @@ const AuthProvider = ({ children }) => {
         axiosInstance
           .post(`/remove-jwt`, { email: "" }, { withCredentials: true })
           .then((data) => {
-            console.log("Token Removed--", data.data);
+            console.log("Token Removed -", data.data);
           })
           .catch((error) => {
             console.log(error);

@@ -4,6 +4,7 @@ import Payment from "../Components/Home/Payment";
 import AddMeal from "../Layouts/Admin/AddMeal";
 import AdminProfile from "../Layouts/Admin/AdminProfile";
 import AllMeals from "../Layouts/Admin/AllMeals";
+import AllPayments from "../Layouts/Admin/AllPayments";
 import AllReviews from "../Layouts/Admin/AllReviews";
 import ManageUsers from "../Layouts/Admin/ManageUsers";
 import ServeMeals from "../Layouts/Admin/ServeMeals";
@@ -118,6 +119,14 @@ export const routes = createBrowserRouter([
         element: (
           <AdminRoute>
             <UpcomingMeals />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "all-payments",
+        element: (
+          <AdminRoute>
+            <AllPayments />
           </AdminRoute>
         ),
       },

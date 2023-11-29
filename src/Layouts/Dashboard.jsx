@@ -1,10 +1,14 @@
+import { CgProfile } from "react-icons/cg";
+import { FaHouse, FaUserGroup } from "react-icons/fa6";
+import { GiCampCookingPot, GiHotMeal, GiMeal } from "react-icons/gi";
+import { GoCodeReview } from "react-icons/go";
+import { ImProfile } from "react-icons/im";
 import {
-  FaCalendar,
-  FaHouse,
-  FaUserGroup,
-  FaUtensils,
-  FaWallet,
-} from "react-icons/fa6";
+  MdOutlineRateReview,
+  MdOutlineSwitchAccessShortcutAdd,
+} from "react-icons/md";
+import { PiCookingPot } from "react-icons/pi";
+import { TbCoinTaka } from "react-icons/tb";
 import { NavLink, Outlet } from "react-router-dom";
 import useRole from "../Hooks/useRole";
 
@@ -37,17 +41,20 @@ const Dashboard = () => {
               <>
                 <li className="text-[#fff] font-medium">
                   <NavLink to="/dashboard/my-profile">
-                    <FaHouse></FaHouse>My Profile
+                    <CgProfile />
+                    My Profile
                   </NavLink>
                 </li>
                 <li className="text-[#fff] font-medium">
                   <NavLink to="/dashboard/requested-meals">
-                    <FaCalendar></FaCalendar>Requested Meals
+                    <GiMeal />
+                    Requested Meals
                   </NavLink>
                 </li>
                 <li className="text-[#fff] font-medium">
                   <NavLink to="/dashboard/my-reviews">
-                    <FaWallet></FaWallet>My Reviews
+                    <MdOutlineRateReview />
+                    My Reviews
                   </NavLink>
                 </li>
               </>
@@ -57,44 +64,50 @@ const Dashboard = () => {
               <>
                 <li className="text-[#fff] font-medium">
                   <NavLink to="/dashboard/admin-profile">
-                    <FaUserGroup />
+                    <ImProfile />
                     Admin Profile
                   </NavLink>
                 </li>
                 <li className="text-[#fff] font-medium">
                   <NavLink to="/dashboard/manage-users">
-                    <FaUtensils />
+                    <FaUserGroup />
                     Manage Users
                   </NavLink>
                 </li>
                 <li className="text-[#fff] font-medium">
                   <NavLink to="/dashboard/add-meal">
-                    <FaUtensils />
+                    <GiCampCookingPot />
                     Add Meal
                   </NavLink>
                 </li>
                 <li className="text-[#fff] font-medium">
                   <NavLink to="/dashboard/all-meals">
-                    <FaUserGroup />
+                    <PiCookingPot />
                     All Meals
                   </NavLink>
                 </li>
                 <li className="text-[#fff] font-medium">
                   <NavLink to="/dashboard/all-reviews">
-                    <FaUserGroup />
+                    <GoCodeReview />
                     All Reviews
                   </NavLink>
                 </li>
                 <li className="text-[#fff] font-medium">
                   <NavLink to="/dashboard/serve-meals">
-                    <FaUserGroup />
+                    <GiHotMeal />
                     Serve Meals
                   </NavLink>
                 </li>
                 <li className="text-[#fff] font-medium">
                   <NavLink to="/dashboard/upcoming-meals">
-                    <FaUserGroup />
+                    <MdOutlineSwitchAccessShortcutAdd />
                     Upcoming Meals
+                  </NavLink>
+                </li>
+                <li className="text-[#fff] font-medium">
+                  <NavLink to="/dashboard/all-payments">
+                    <TbCoinTaka />
+                    All Payments
                   </NavLink>
                 </li>
               </>

@@ -39,10 +39,8 @@ const PackagePlans = () => {
     navigate(`/checkout/${pack}`);
   };
   return (
-    <div className="my-20">
-      <p className="text-center text-primary text-3xl font-bold mb-10">
-        Packages
-      </p>
+    <div className="py-20 bg-white">
+      <p className="text-center  text-3xl font-bold mb-10">Packages</p>
       <Container>
         <div className="grid grid-cols-3 gap-5">
           <div className="bg-primary text-white text-center py-10">
@@ -86,7 +84,7 @@ const PackagePlans = () => {
             </button>
             {/* </Link> */}
           </div>
-          <div className="bg-primary text-white text-center py-10">
+          <div className="from-secondary to-primary bg-gradient-to-l text-white text-center py-10">
             <p className="font-semibold text-xl mb-8 bg-yellow-500 py-1">
               Gold
             </p>
@@ -127,7 +125,7 @@ const PackagePlans = () => {
             </button>
             {/* </Link> */}
           </div>
-          <div className="bg-primary text-white text-center py-10">
+          <div className="bg-secondary text-white text-center py-10">
             <p className="font-semibold text-xl mb-8 bg-purple-700 py-1">
               Platinum
             </p>

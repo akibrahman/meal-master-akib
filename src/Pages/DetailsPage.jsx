@@ -211,7 +211,7 @@ const DetailsPage = () => {
 
   return (
     <Container>
-      <div className="flex items-center gap-10 my-6">
+      <div className="flex items-center gap-10 my-6 text-white">
         <div className="w-1/2">
           <img
             className="rounded-md w-full h-[400px]"
@@ -221,37 +221,34 @@ const DetailsPage = () => {
         </div>
         <div
           className="w-1/2
-         border-l-4 border-primary pl-5"
+         border-l-4 border-primary pl-5 space-y-5"
         >
           <p className="text-3xl font-medium mb-5">{meal.mealTitle}</p>
-          <p className="border border-primary w-max px-3 rounded-full font-medium mb-3">
+          <p className="border w-max px-3 rounded-full font-medium mb-3">
             {convertCamelCaseToCapitalized(meal.mealType)}
           </p>
           <p>
-            <span className="font-bold text-primary">Post Time:</span>{" "}
+            <span className="font-bold text-stone-200 mr-4">Post Time:</span>{" "}
             {new Date(meal.postTime).toLocaleString()}
           </p>
           <p>
-            <span className="font-bold text-primary">Distributor:</span>{" "}
+            <span className="font-bold text-stone-200 mr-4">Distributor:</span>{" "}
             {meal.distributorName}
           </p>
           <div className="flex flex-wrap gap-2 my-3">
-            <span className="font-bold text-primary">Ingredients: </span>{" "}
+            <span className="font-bold text-stone-200 mr-4">Ingredients: </span>{" "}
             {meal.ingredients.map((inn, i) => (
-              <p
-                className="ml-2 border border-primary rounded-full px-[6px] w-max"
-                key={i}
-              >
+              <p className="ml-2 border rounded-full px-[6px] w-max" key={i}>
                 {inn}
               </p>
             ))}
           </div>
           <p>
-            <span className="font-bold text-primary mr-2">Description: </span>
+            <span className="font-bold text-stone-200 mr-4">Description: </span>
             {meal.description}
           </p>
           <p className="flex items-center gap-2 text-xl mt-4">
-            <span className="font-bold text-primary mr-2">Price: </span>
+            <span className="font-bold text-stone-200 mr-4">Price: </span>
             <span className="flex items-center gap-1 font-semibold">
               <FaBangladeshiTakaSign />
               {meal.price}
@@ -262,17 +259,17 @@ const DetailsPage = () => {
               <Rating
                 readonly
                 placeholderRating={meal.rating}
-                emptySymbol={<FaRegStar className="text-primary text-2xl" />}
-                placeholderSymbol={<FaStar className="text-primary text-2xl" />}
+                emptySymbol={<FaRegStar className="text-2xl" />}
+                placeholderSymbol={<FaStar className="text-2xl" />}
                 fullSymbol={<FaStar className="text-primary text-2xl" />}
               />
               <div className="flex items-center gap-5 font-semibold">
                 {likeLoader ? (
-                  <ImSpinner9 className="animate-spin text-3xl text-primary" />
+                  <ImSpinner9 className="animate-spin text-3xl" />
                 ) : isLiked ? (
                   <FaHeart
                     onClick={handleLikeDec}
-                    className="text-3xl text-primary cursor-pointer"
+                    className="text-3xl text-red-600 cursor-pointer"
                   />
                 ) : (
                   <FaHeart
@@ -301,7 +298,7 @@ const DetailsPage = () => {
       </div>
       {/* Reviews  */}
       <hr />
-      <div className="my-8 border p-5 rounded-md border-primary">
+      <div className="my-8 border p-5 rounded-md border-primary bg-white">
         <p className="border-l-4 border-primary pl-2 text-xl mb-2">
           Total Reviews: {meal.numReviews}
         </p>

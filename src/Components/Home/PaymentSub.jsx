@@ -6,6 +6,8 @@ import {
   useStripe,
 } from "@stripe/react-stripe-js";
 import { useContext, useState } from "react";
+import { FaBangladeshiTakaSign } from "react-icons/fa6";
+import { ImSpinner9 } from "react-icons/im";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
@@ -21,11 +23,13 @@ const PaymentSub = () => {
   const elements = useElements();
   const [errorMessage, setErrorMessage] = useState(null);
   const [paymentMethodI, setPaymentMethodI] = useState(null);
+  const [loading, setLoading] = useState(false);
+
   const ELEMENT_OPTIONS = {
     style: {
       base: {
         fontSize: "16px",
-        color: "#424770",
+        color: "#fff",
         letterSpacing: "0.025em",
         "::placeholder": {
           color: "#aab7c4",
@@ -48,6 +52,7 @@ const PaymentSub = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
 
     axiosInstance
       .post("/create-payment-intent", {
@@ -55,12 +60,14 @@ const PaymentSub = () => {
       })
       .then(async (response) => {
         if (!stripe || !elements) {
+          setLoading(false);
           return;
         }
 
         const card = elements.getElement(CardNumberElement);
 
         if (card == null) {
+          setLoading(false);
           return;
         }
 
@@ -77,6 +84,7 @@ const PaymentSub = () => {
           console.log("CheckOut Error: ", error);
           setErrorMessage(error.message);
           setPaymentMethodI(null);
+          setLoading(false);
           return;
         } else {
           setPaymentMethodI(paymentMethod);
@@ -104,6 +112,7 @@ const PaymentSub = () => {
           } else {
             setErrorMessage("An unexpected error occurred.");
           }
+          setLoading(false);
           return;
         } else {
           console.log(paymentIntent);
@@ -127,15 +136,17 @@ const PaymentSub = () => {
             );
             if (res.data.modifiedCount > 0) {
               Swal.fire({
-                position: "top-end",
+                position: "top-start",
                 icon: "success",
-                title: `Payment Successfull - ${payAmount}`,
+                title: `Payment Successfull - ${payAmount} Tk`,
                 showConfirmButton: false,
                 timer: 1500,
               });
               navigate("/all-meals");
+              setLoading(false);
               return;
             }
+            setLoading(false);
             Swal.fire({
               position: "top-end",
               icon: "error",
@@ -144,7 +155,7 @@ const PaymentSub = () => {
               timer: 1500,
             });
           }
-
+          setLoading(false);
           Swal.fire({
             position: "top-end",
             icon: "error",
@@ -156,28 +167,31 @@ const PaymentSub = () => {
       })
       .catch((error) => {
         console.log(error);
+        setLoading(false);
+        Swal.fire({
+          position: "top-end",
+          icon: "error",
+          title: `Something went Wrong`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
       });
   };
 
   return (
-    <div className="bg-gray-100 h-[calc(100vh-56px)] flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-md max-w-md">
-        <h2 className="text-2xl font-semibold mb-4">Card Payment</h2>
+    <div className="bg-gradient-to-r from-primary to-secondary h-[calc(100vh-56px)] flex items-center justify-center">
+      <div className="bg-stone-600 p-8 rounded-lg shadow-md max-w-md">
+        <h2 className="text-2xl font-semibold mb-4 text-white text-center">
+          Card Payment
+        </h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label
               htmlFor="cardNumber"
-              className="block text-sm font-medium text-gray-600"
+              className="block text-sm font-medium text-white"
             >
               Card Number
             </label>
-            {/* <input
-              type="text"
-              id="cardNumber"
-              name="cardNumber"
-              className="mt-1 p-2 w-full border rounded-md"
-              placeholder="**** **** **** ****"
-            /> */}
             <CardNumberElement
               className="mt-1 p-2 w-full border rounded-md"
               id="cardNumber"
@@ -188,17 +202,10 @@ const PaymentSub = () => {
             <div>
               <label
                 htmlFor="expiryDate"
-                className="block text-sm font-medium text-gray-600"
+                className="block text-sm font-medium text-white"
               >
                 Expiry Date
               </label>
-              {/* <input
-                type="text"
-                id="expiryDate"
-                name="expiryDate"
-                className="mt-1 p-2 w-full border rounded-md"
-                placeholder="MM/YY"
-              /> */}
               <CardExpiryElement
                 className="mt-1 p-2 w-full border rounded-md"
                 id="cvc"
@@ -208,17 +215,10 @@ const PaymentSub = () => {
             <div>
               <label
                 htmlFor="cvv"
-                className="block text-sm font-medium text-gray-600"
+                className="block text-sm font-medium text-white"
               >
                 CVV
               </label>
-              {/* <input
-                type="text"
-                id="cvv"
-                name="cvv"
-                className="mt-1 p-2 w-full border rounded-md"
-                placeholder="***"
-              /> */}
               <CardCvcElement
                 className="mt-1 p-2 w-[150px] border rounded-md"
                 id="expiry"
@@ -230,13 +230,17 @@ const PaymentSub = () => {
             <p className="font-semibold text-red-600">{errorMessage}</p>
           )}
           {paymentMethodI && (
-            <p className="font-semibold text-green-600">{paymentMethodI.id}</p>
+            <p className="font-semibold text-green-600">Successfull</p>
           )}
           <button
             type="submit"
-            className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
+            className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300 flex items-center gap-3 mx-auto mt-10"
           >
-            Pay Now {payAmount}
+            {loading ? <ImSpinner9 className="animate-spin " /> : "Pay Now"}
+
+            <p className="flex items-center gap-1">
+              <FaBangladeshiTakaSign /> {payAmount}
+            </p>
           </button>
         </form>
       </div>

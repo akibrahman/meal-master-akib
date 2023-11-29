@@ -4,7 +4,7 @@ import NavBar from "./Components/Shared/NavBar";
 
 function App() {
   return (
-    <div className="">
+    <div className="bg-gradient-to-r from-primary to-secondary">
       <NavBar />
       <Outlet />
       <Footer />

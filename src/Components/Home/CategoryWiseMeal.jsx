@@ -30,9 +30,9 @@ const CategoryWiseMeal = () => {
   }, [category]);
 
   return (
-    <div className="my-10">
+    <div className="py-10 bg-white">
       <Container>
-        <div className="flex items-center justify-center gap-14 bg-gradient-to-l rounded-md from-primary to-secondary py-2 text-white font-semibold">
+        <div className="flex items-center justify-center gap-14 bg-gradient-to-r rounded-md from-primary to-secondary py-2 text-white font-semibold">
           {tabs.map((tab, i) => (
             <p
               onClick={() => setCategory(tab)}
@@ -81,7 +81,7 @@ const CategoryWiseMeal = () => {
               ))}
             </div>
           ) : (
-            <Loader />
+            <Loader color={"primary"} />
           )}
         </Container>
         <div className="flex items-center justify-center">

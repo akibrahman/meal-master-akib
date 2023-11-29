@@ -4,23 +4,20 @@ const ContactForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     e.target.reset();
-    // Add logic for handling form submission
-    // You can use form data, send it to the server, etc.
   };
 
   return (
     <Container>
-      <p className="text-center text-4xl font-bold mb-20">Contact Us</p>
-      <div className="my-8 flex flex-col md:flex-row">
-        {/* Left Side - Contact Information */}
+      <p className="text-center text-4xl font-bold py-10 text-white">
+        Contact Us
+      </p>
+      <div className="my-8 flex flex-col md:flex-row text-white">
         <div className="md:w-1/2 flex flex-col items-center">
           <h2 className="text-2xl font-semibold mb-4">Contact Information</h2>
-          <p className="text-gray-600 mb-2">Uttara, Dhaka</p>
-          <p className="text-gray-600 mb-2">Phone: (123) 456-7890</p>
-          <p className="text-gray-600">Email: info@example.com</p>
+          <p className=" mb-2">Uttara, Dhaka</p>
+          <p className=" mb-2">Phone: (123) 456-7890</p>
+          <p className="">Email: info@example.com</p>
         </div>
-
-        {/* Right Side - Contact Form */}
         <div className="md:w-1/2">
           <h2 className="text-2xl font-semibold mb-4">Contact Form</h2>
           <form onSubmit={handleSubmit} className="max-w-md">
@@ -72,7 +69,7 @@ const ContactForm = () => {
             <div className="mb-4">
               <button
                 type="submit"
-                className="bg-[#FF7E5F] text-white px-6 py-2 rounded-md hover:bg-[#E5664E] focus:outline-none"
+                className="bg-red-600 text-white px-6 py-2 rounded-md hover:bg-red-700 focus:outline-none"
               >
                 Submit
               </button>
