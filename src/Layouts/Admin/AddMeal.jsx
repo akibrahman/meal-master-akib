@@ -167,6 +167,7 @@ const AddMeal = () => {
             </label>
             <input
               {...register("mealImage", { required: true })}
+              accept=".jpg, .jpeg, .png, .webp"
               className="bg-[#141515] text-white w-[285px] px-4 py-2 rounded-md font-semibold"
               type="file"
               onChange={handleImage}

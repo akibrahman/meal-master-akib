@@ -62,14 +62,14 @@ const ManageUsers = () => {
   // if (isLoading) return <Loader />;
   return (
     <div>
-      <div className="p-12 bg-white w-[900px]">
+      <div className="p-2 md:p-10 lg:p-12  bg-white md:w-[900px]">
         <div className="flex justify-between items-center font-cinzel mb-8">
           <p className="text-[#151515] text-2xl font-bold">
             Total Users: {usersData?.count}
           </p>
           <input
             onChange={(e) => setSearch(e.target.value)}
-            className="bg-[#141515] px-3 py-2 w-[300px] text-white font-semibold rounded-md"
+            className="bg-[#141515] px-3 py-2 w-[150px] md:w-[200px] lg:w-[300px] text-white font-semibold rounded-md"
             type="text"
             placeholder="Search by Name or Email"
           />
@@ -79,7 +79,7 @@ const ManageUsers = () => {
         {isLoading || !usersData ? (
           <Loader />
         ) : (
-          <div className="overflow-x-auto">
+          <div className="">
             <table className="table">
               {/* head */}
               <thead className="bg-[#141515] uppercase text-white">

@@ -158,6 +158,7 @@ const EditMeal = ({ closeFn, mealID, allMealsRefetch }) => {
           <input
             className="bg-[#141515] text-white w-[285px] px-4 py-2 rounded-md font-semibold"
             type="file"
+            accept=".jpg, .jpeg, .png, .webp"
             onChange={handleImgFile}
           />
           <img

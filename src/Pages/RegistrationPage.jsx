@@ -85,6 +85,7 @@ const RegistrationPage = () => {
               className="w-full bg-[#f3f3f3] px-4 py-3"
               type="file"
               name="image"
+              accept=".jpg, .jpeg, .png, .webp"
               {...register("image", { required: true })}
             />
             {errors.image && (

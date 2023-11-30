@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Container from "./Container";
 
 const Footer = () => {
@@ -12,19 +13,19 @@ const Footer = () => {
             </p>
             <ul className="mt-4">
               <li>
-                <a href="#" className="text-gray-400 hover:underline">
+                <Link to="/" className="text-gray-400 hover:underline">
                   Home
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:underline">
+                <Link to="/all-meals" className="text-gray-400 hover:underline">
                   Meals
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:underline">
+                <Link to="/" className="text-gray-400 hover:underline">
                   Contact
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
