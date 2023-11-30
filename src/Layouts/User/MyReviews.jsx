@@ -30,7 +30,7 @@ const MyReviews = () => {
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["my-reviews", page],
+    queryKey: ["my-reviews", page, user.email],
     queryFn: async ({ queryKey }) => {
       const responce = await axiosInstanceS.get(
         `/my-reviews-aggrigate?email=${user.email}&page=${queryKey[1]}`

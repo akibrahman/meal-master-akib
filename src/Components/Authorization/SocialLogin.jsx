@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { AiFillGithub, AiOutlineGoogle } from "react-icons/ai";
+import { AiOutlineGoogle } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../Providers/AuthProvider";
@@ -7,7 +7,6 @@ import { AuthContext } from "../../Providers/AuthProvider";
 const SocialLogin = ({ loader }) => {
   const { GoogleLogin } = useContext(AuthContext);
   const navigate = useNavigate();
-  const handleGithubLogin = () => {};
   const handleGoogleLogin = async () => {
     try {
       loader(true);
@@ -30,13 +29,13 @@ const SocialLogin = ({ loader }) => {
       >
         <AiOutlineGoogle className="text-xl"></AiOutlineGoogle>
       </a>
-      <a
+      {/* <a
         href="#"
         onClick={handleGithubLogin}
         className="border rounded-full p-2"
       >
         <AiFillGithub className="text-xl"></AiFillGithub>
-      </a>
+      </a> */}
     </div>
   );
 };

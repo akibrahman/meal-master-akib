@@ -47,7 +47,7 @@ const CategoryWiseMeal = () => {
           {meals ? (
             <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-10">
               {meals?.map((meal, i) => (
-                <div className="w-[95%] md:w-auto mx-auto" key={i}>
+                <div className="w-[95%] md:w-full mx-auto" key={i}>
                   <div className="overflow-hidden">
                     <p className="text-center bg-secondary text-white font-medium py-2 rounded-t-md">
                       {meal.mealTitle}

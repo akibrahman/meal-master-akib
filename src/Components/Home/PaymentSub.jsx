@@ -12,6 +12,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { AuthContext } from "../../Providers/AuthProvider";
+import Loader from "../Shared/Loader";
 
 const PaymentSub = () => {
   const { package_name: packageName } = useParams();
@@ -179,7 +180,113 @@ const PaymentSub = () => {
   };
 
   return (
-    <div className="bg-gradient-to-r from-primary to-secondary h-[calc(100vh-56px)] flex items-center justify-center">
+    <div className="bg-gradient-to-r from-primary to-secondary h-[calc(100vh-56px)] flex flex-col-reverse md:flex-row items-center justify-center gap-10">
+      <div className="">
+        {packageName == "silver" ? (
+          <div className="bg-stone-600 p-8 rounded-lg shadow-md text-white text-center">
+            <p className="font-semibold text-xl mb-8 bg-slate-400 py-1">
+              Silver
+            </p>
+            <p>
+              <spna className="text-4xl">৳3000 </spna>/mounth
+            </p>
+            <ul className="mt-10 w-max mx-auto list-disc">
+              <li className="text-left text-stone-100 font-semibold text-lg">
+                Qualityful Meal
+              </li>
+              <li className="text-left text-stone-100 font-semibold text-lg">
+                24/7 service
+              </li>
+              <li className="text-left text-stone-100 font-semibold text-lg">
+                Cucumber Salad
+              </li>
+              <del>
+                <li className="text-left text-stone-100 font-semibold text-lg">
+                  Mounthly Special Meal
+                </li>
+                <li className="text-left text-stone-100 font-semibold text-lg">
+                  One-time Package
+                </li>
+                <li className="text-left text-stone-100 font-semibold text-lg">
+                  Minarel Water
+                </li>
+                <li className="text-left text-stone-100 font-semibold text-lg">
+                  Free Delivery
+                </li>
+              </del>
+            </ul>
+          </div>
+        ) : packageName == "gold" ? (
+          <div className="bg-stone-600 p-8 rounded-lg shadow-md text-white text-center">
+            <p className="font-semibold text-xl mb-8 bg-yellow-400 py-1">
+              Gold
+            </p>
+            <p>
+              <spna className="text-4xl">৳4000 </spna>/mounth
+            </p>
+            <ul className="mt-10 w-max mx-auto list-disc">
+              <li className="text-left text-stone-100 font-semibold text-lg">
+                Qualityful Meal
+              </li>
+              <li className="text-left text-stone-100 font-semibold text-lg">
+                24/7 service
+              </li>
+              <li className="text-left text-stone-100 font-semibold text-lg">
+                Cucumber Salad
+              </li>
+              <li className="text-left text-stone-100 font-semibold text-lg">
+                Mounthly Special Meal
+              </li>
+              <li className="text-left text-stone-100 font-semibold text-lg">
+                One-time Package
+              </li>
+
+              <del>
+                <li className="text-left text-stone-100 font-semibold text-lg">
+                  Minarel Water
+                </li>
+                <li className="text-left text-stone-100 font-semibold text-lg">
+                  Free Delivery
+                </li>
+              </del>
+            </ul>
+          </div>
+        ) : packageName == "platinum" ? (
+          <div className="bg-stone-600 p-8 rounded-lg shadow-md text-white text-center">
+            <p className="font-semibold text-xl mb-8 bg-purple-400 py-1">
+              Platinum
+            </p>
+            <p>
+              <spna className="text-4xl">৳5000 </spna>/mounth
+            </p>
+            <ul className="mt-10 w-max mx-auto list-disc">
+              <li className="text-left text-stone-100 font-semibold text-lg">
+                Qualityful Meal
+              </li>
+              <li className="text-left text-stone-100 font-semibold text-lg">
+                24/7 service
+              </li>
+              <li className="text-left text-stone-100 font-semibold text-lg">
+                Cucumber Salad
+              </li>
+              <li className="text-left text-stone-100 font-semibold text-lg">
+                Mounthly Special Meal
+              </li>
+              <li className="text-left text-stone-100 font-semibold text-lg">
+                One-time Package
+              </li>
+              <li className="text-left text-stone-100 font-semibold text-lg">
+                Minarel Water
+              </li>
+              <li className="text-left text-stone-100 font-semibold text-lg">
+                Free Delivery
+              </li>
+            </ul>
+          </div>
+        ) : (
+          <Loader />
+        )}
+      </div>
       <div className="bg-stone-600 p-8 rounded-lg shadow-md max-w-md">
         <h2 className="text-2xl font-semibold mb-4 text-white text-center">
           Card Payment
@@ -234,7 +341,8 @@ const PaymentSub = () => {
           )}
           <button
             type="submit"
-            className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300 flex items-center gap-3 mx-auto mt-10"
+            disabled={payAmount == 1 ? true : false}
+            className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300 flex items-center gap-3 mx-auto mt-10 disabled:bg-slate-300"
           >
             {loading ? <ImSpinner9 className="animate-spin " /> : "Pay Now"}
 

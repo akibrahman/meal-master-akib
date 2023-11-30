@@ -25,7 +25,7 @@ const RequestedMeals = () => {
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["my-requested-meals-user", sort, page],
+    queryKey: ["my-requested-meals-user", sort, page, user.email],
     queryFn: async ({ queryKey }) => {
       const responce = await axiosInstanceS.get(
         `/my-requested-meals?email=${user.email}&sort=${queryKey[1]}&page=${queryKey[2]}`

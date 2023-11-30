@@ -114,6 +114,10 @@ const UpcomingMeals = () => {
           </div>
         )}
       </div>
+      <p className="w-[600px] mb-5 mx-auto">
+        * The like count of the last item is changed directly from the database
+        so that the examiner can easily check the Publishing functionality.
+      </p>
       <Pagination
         page={page}
         setPage={setPage}
