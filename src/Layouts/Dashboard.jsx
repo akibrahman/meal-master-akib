@@ -1,4 +1,5 @@
 import { CgProfile } from "react-icons/cg";
+import { FaBars } from "react-icons/fa";
 import { FaHouse, FaUserGroup } from "react-icons/fa6";
 import { GiCampCookingPot, GiHotMeal, GiMeal } from "react-icons/gi";
 import { GoCodeReview } from "react-icons/go";
@@ -18,13 +19,15 @@ const Dashboard = () => {
     <div className={`drawer lg:drawer-open`}>
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content flex flex-col items-center justify-center">
+        <div className="w-full">
+          <label
+            htmlFor="my-drawer-2"
+            className="btn btn-primary mt-2 ml-2 bg-primary drawer-button lg:hidden"
+          >
+            <FaBars />
+          </label>
+        </div>
         <Outlet></Outlet>
-        <label
-          htmlFor="my-drawer-2"
-          className="btn btn-primary drawer-button lg:hidden"
-        >
-          Open drawer
-        </label>
       </div>
       <div className="drawer-side">
         <label

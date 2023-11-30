@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
 import { FaBangladeshiTakaSign } from "react-icons/fa6";
+import Container from "../../Components/Shared/Container";
 import Loader from "../../Components/Shared/Loader";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { AuthContext } from "../../Providers/AuthProvider";
@@ -41,11 +42,11 @@ const AdminProfile = () => {
   if (isLoading || adminDataLoading || !user || !authUser) return <Loader />;
 
   return (
-    <div className="w-[900px] my-20">
+    <div className="md:w-[900px] my-20">
       <p className="font-semibold text-xl text-white bg-primary py-2 text-center w-full">
         Admin profile
       </p>
-      <div className="relative flex items-center justify-center gap-10 my-16">
+      <div className="relative flex flex-col md:flex-row items-center justify-center gap-10 my-16">
         <img
           src={authUser.photoURL}
           className="w-80 h-80 border-4 border-primary"
@@ -61,43 +62,45 @@ const AdminProfile = () => {
           </p>
         </div>
       </div>
-      <div className="grid grid-cols-3 gap-6 my-10 text-center">
-        <div className="border-l-4 bg-stone-200 border-primary p-5">
-          <p className="text-xl font-semibold">Meals you Added</p>
-          <p className="text-3xl mt-2 font-semibold">
-            {adminData.addedMealCount}
-          </p>
-        </div>
+      <Container>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 my-10 text-center">
+          <div className="border-l-4 bg-stone-200 border-primary p-5">
+            <p className="text-xl font-semibold">Meals you Added</p>
+            <p className="text-3xl mt-2 font-semibold">
+              {adminData.addedMealCount}
+            </p>
+          </div>
 
-        <div className="border-l-4 bg-stone-200 border-primary p-5">
-          <p className="text-xl font-semibold">Total Payment</p>
-          <p className="text-3xl mt-2 font-semibold flex items-center justify-center gap-1">
-            <FaBangladeshiTakaSign />
-            {adminData.paymentAmount}
-          </p>
-        </div>
+          <div className="border-l-4 bg-stone-200 border-primary p-5">
+            <p className="text-xl font-semibold">Total Payment</p>
+            <p className="text-3xl mt-2 font-semibold flex items-center justify-center gap-1">
+              <FaBangladeshiTakaSign />
+              {adminData.paymentAmount}
+            </p>
+          </div>
 
-        <div className="border-l-4 bg-stone-200 border-primary p-5">
-          <p className="text-xl font-semibold">Requested Meals</p>
-          <p className="text-3xl mt-2 font-semibold">
-            {adminData.requestedMealsCount}
-          </p>
-        </div>
+          <div className="border-l-4 bg-stone-200 border-primary p-5">
+            <p className="text-xl font-semibold">Requested Meals</p>
+            <p className="text-3xl mt-2 font-semibold">
+              {adminData.requestedMealsCount}
+            </p>
+          </div>
 
-        <div className="border-l-4 bg-stone-200 border-primary p-5">
-          <p className="text-xl font-semibold">Served Meals</p>
-          <p className="text-3xl mt-2 font-semibold">
-            {adminData.servedMealCount}
-          </p>
-        </div>
+          <div className="border-l-4 bg-stone-200 border-primary p-5">
+            <p className="text-xl font-semibold">Served Meals</p>
+            <p className="text-3xl mt-2 font-semibold">
+              {adminData.servedMealCount}
+            </p>
+          </div>
 
-        <div className="border-l-4 bg-stone-200 border-primary p-5">
-          <p className="text-xl font-semibold">Pending Meals</p>
-          <p className="text-3xl mt-2 font-semibold">
-            {adminData.pendingMealCount}
-          </p>
+          <div className="border-l-4 bg-stone-200 border-primary p-5">
+            <p className="text-xl font-semibold">Pending Meals</p>
+            <p className="text-3xl mt-2 font-semibold">
+              {adminData.pendingMealCount}
+            </p>
+          </div>
         </div>
-      </div>
+      </Container>
     </div>
   );
 };

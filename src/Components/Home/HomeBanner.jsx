@@ -18,7 +18,7 @@ const HomeBanner = () => {
             <input
               type="text"
               placeholder="Subscribe to our newsletter"
-              className="bg-[#282828] text-white px-4 py-2 rounded-l-md focus:outline-none"
+              className="bg-[#282828] text-white px-4 py-2 rounded-l-md focus:outline-none w-[200px] md:w-[250px] lg:w-[320px]"
             />
             <button className="bg-red-600 text-white px-6 py-2 rounded-r-md hover:bg-red-700 focus:outline-none">
               Subscribe

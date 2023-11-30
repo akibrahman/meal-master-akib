@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { ImSpinner9 } from "react-icons/im";
 import Modal from "react-modal";
+import Select from "react-select";
 import Loader from "../../Components/Shared/Loader";
 import Pagination from "../../Components/Shared/Pagination";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
@@ -44,6 +45,16 @@ const AllReviews = () => {
     },
   };
 
+  const options = [
+    { value: "", label: "Default" },
+    { value: "sbl", label: "Short by Likes" },
+    { value: "sbr", label: "Short by Reviews" },
+  ];
+  const options2 = [
+    { value: "htl", label: "High to Low" },
+    { value: "lth", label: "Low to High" },
+  ];
+
   return (
     <div>
       {/* Loading Modal */}
@@ -61,22 +72,14 @@ const AllReviews = () => {
           </p>
           <div className="flex items-center gap-2">
             <label className="font-semibold">Sort by:</label>
-            <select
-              className="font-semibold border border-[#141515] px-4 py-2 rounded-lg"
-              onChange={(e) => setSort(e.target.value)}
-            >
-              <option className="bg-[#141515] text-white" value="">
-                Default
-              </option>
-              <option className="bg-[#141515] text-white" value="sbl">
-                Short by Likes
-              </option>
-              <option className="bg-[#141515] text-white" value="sbr">
-                Short by Reviews
-              </option>
-            </select>
+
+            <Select
+              onChange={(e) => setSort(e.value)}
+              defaultValue={options[0]}
+              options={options}
+            />
           </div>
-          <select
+          {/* <select
             className="font-semibold border border-[#141515] px-4 py-2 rounded-lg"
             onChange={(e) => setDir(e.target.value)}
           >
@@ -86,7 +89,12 @@ const AllReviews = () => {
             <option className="bg-[#141515] text-white" value="lth">
               Low to High
             </option>
-          </select>
+          </select> */}
+          <Select
+            onChange={(e) => setDir(e.value)}
+            defaultValue={options2[0]}
+            options={options2}
+          />
         </div>
 
         {/* Table Start  */}

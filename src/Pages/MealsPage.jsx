@@ -5,6 +5,7 @@ import { FaBangladeshiTakaSign } from "react-icons/fa6";
 import { ImSpinner9 } from "react-icons/im";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Link } from "react-router-dom";
+import Select from "react-select";
 import Container from "../Components/Shared/Container";
 import Loader from "../Components/Shared/Loader";
 import useAxiosPublic from "../Hooks/useAxiosPublic";
@@ -44,6 +45,17 @@ const MealsPage = () => {
     }
   }, [meals?.length]);
 
+  const options = [
+    { value: "all", label: "All" },
+    { value: "breakfast", label: "Breakfast" },
+    { value: "lunch", label: "Lunch" },
+    { value: "dinner", label: "Dinner" },
+  ];
+  const options2 = [
+    { value: "l2h", label: "Low to High" },
+    { value: "h2l", label: "High to Low" },
+  ];
+
   return (
     <div className="bg[url('/meals.jpg')] bg-fixed bg-cover bg-center">
       <div className="bg[rgba(0,0,0,0.7)]">
@@ -66,25 +78,18 @@ const MealsPage = () => {
             placeholder="Search by Name"
           />
           <div className="flex justify-between gap-4 items-center">
-            <select
-              onChange={(e) => setCategory(e.target.value)}
-              name=""
-              className="px-4 py-2 rounded-md w-[150px] md:w-[200px] focus:outline-none"
-            >
-              <option value="all">All</option>
-              <option value="breakfast">Breakfast</option>
-              <option value="lunch">Lunch</option>
-              <option value="dinner">Dinner</option>
-            </select>
-            <select
-              onChange={(e) => setSbp(e.target.value)}
-              name=""
-              className="px-4 py-2 rounded-md w-[150px] md:w-[200px] focus:outline-none"
-              defaultValue={"l2h"}
-            >
-              <option value="h2l">High to Low</option>
-              <option value="l2h">Low to High</option>
-            </select>
+            <Select
+              className="min-w-[150px]"
+              onChange={(e) => setCategory(e.value)}
+              defaultValue={options[0]}
+              options={options}
+            />
+            <Select
+              className="min-w-[150px]"
+              onChange={(e) => setSbp(e.value)}
+              defaultValue={options2[0]}
+              options={options2}
+            />
           </div>
         </div>
         {!meals ? (
@@ -96,7 +101,7 @@ const MealsPage = () => {
               next={() => fetchNextPage()}
               hasMore={hasNextPage}
               loader={
-                <p className="flex items-center justify-center gap-2 py-2 font-semibold text-white py-5">
+                <p className="flex items-center justify-center gap-2 font-semibold text-white py-5">
                   <ImSpinner9 className="text-3xl animate-spin" />
                   Loading...
                 </p>
@@ -107,12 +112,12 @@ const MealsPage = () => {
                 </p>
               }
             >
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 my-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 my-5 mt-10">
                 {meals && !data?.pages[0].count == 0 ? (
                   meals.map((meal, i) => (
                     <Link
                       to={`/meal/${meal._id}`}
-                      className="w-[90%] mx-auto md:w-auto"
+                      className="w-[90%] mx-auto md:w-full"
                       key={i}
                     >
                       <div className="bg-primary rounded-t-md">
