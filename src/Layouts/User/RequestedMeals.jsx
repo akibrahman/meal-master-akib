@@ -73,7 +73,7 @@ const RequestedMeals = () => {
       <div className="p-12 bg-white w-[950px]">
         <div className="flex justify-between items-center font-cinzel mb-8">
           <p className="text-[#151515] text-2xl font-bold">
-            Total Users: {requestedMealsData?.count}
+            My Requested Meals: {requestedMealsData?.count}
           </p>
           <select
             className="font-semibold border border-[#141515] px-4 py-2 rounded-lg"

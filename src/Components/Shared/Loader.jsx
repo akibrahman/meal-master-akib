@@ -5,7 +5,7 @@ const Loader = ({ color }) => {
     <div className="h-[60vh] w-full flex items-center justify-center">
       <ImSpinner9
         className={`animate-spin w-[150px] h-[150px] text-${
-          color ? color : "white"
+          color ? color : "primary"
         }`}
       />
     </div>

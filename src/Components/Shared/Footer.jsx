@@ -40,6 +40,9 @@ const Footer = () => {
                 Subscribe
               </button>
             </div>
+            <div className="flex items-center justify-center mt-10">
+              <img className="w-44" src="/logo.png" alt="" />
+            </div>
           </div>
         </div>
         <p className="text-sm text-gray-400 text-center pt-6 md:py-2">

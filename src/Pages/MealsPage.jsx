@@ -93,7 +93,7 @@ const MealsPage = () => {
           </div>
         </div>
         {!meals ? (
-          <Loader />
+          <Loader color={"white"} />
         ) : (
           <Container>
             <InfiniteScroll

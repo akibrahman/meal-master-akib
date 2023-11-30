@@ -49,7 +49,7 @@ const ServeMeals = () => {
       <div className="p-12 bg-white w-[950px]">
         <div className="flex justify-between items-center font-cinzel mb-8">
           <p className="text-[#151515] text-2xl font-bold">
-            Total Users: {serveMealData?.count}
+            Total Requested Meals: {serveMealData?.count}
           </p>
           <input
             onChange={(e) => setSearch(e.target.value)}
