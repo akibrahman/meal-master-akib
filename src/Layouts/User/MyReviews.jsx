@@ -119,7 +119,7 @@ const MyReviews = () => {
 
         {/* Table Start  */}
         {isLoading || !user || !reviewsData ? (
-          <Loader />
+          <Loader color={"primary"} />
         ) : (
           <div className="overflow-x-auto">
             <table className="table">

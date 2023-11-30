@@ -100,6 +100,10 @@ const EditMeal = ({ closeFn, mealID, allMealsRefetch }) => {
   if (isLoading) return <Loader />;
   return (
     <form onSubmit={handleSubmit(handleUpdate)} className="w-[1000px]">
+      <FaTimes
+        onClick={closeFn}
+        className="text-2xl bg-primary text-white p-1 rounded-full cursor-pointer"
+      />
       <div className="flex items-center justify-between my-5">
         <div className="flex items-center gap-2">
           {errors.mealTitle?.type === "required" && (

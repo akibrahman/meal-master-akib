@@ -30,7 +30,7 @@ const NavBar = () => {
   return (
     <div className="bg-gradient-to-r from-primary to-secondary z-50">
       <Modal isOpen={modalIsOpen} onRequestClose={closeModal}>
-        <UpcomingMealsUser />
+        <UpcomingMealsUser closeFn={closeModal} />
       </Modal>
       <Container>
         <nav className="w-full flex flex-col md:flex-row gap-5 md:gap-0 items-center justify-between py-2">

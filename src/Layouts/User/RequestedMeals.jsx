@@ -25,7 +25,7 @@ const RequestedMeals = () => {
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["serve-meals", sort, page],
+    queryKey: ["my-requested-meals-user", sort, page],
     queryFn: async ({ queryKey }) => {
       const responce = await axiosInstanceS.get(
         `/my-requested-meals?email=${user.email}&sort=${queryKey[1]}&page=${queryKey[2]}`
@@ -89,7 +89,7 @@ const RequestedMeals = () => {
         </div>
         {/* Table Start  */}
         {isLoading || !user || !requestedMealsData ? (
-          <Loader />
+          <Loader color={"primary"} />
         ) : (
           <div className="overflow-x-auto">
             <table className="table">
