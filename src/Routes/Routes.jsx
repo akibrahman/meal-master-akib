@@ -14,6 +14,7 @@ import Dashboard from "../Layouts/Dashboard";
 import MyProfile from "../Layouts/User/MyProfile";
 import MyReviews from "../Layouts/User/MyReviews";
 import RequestedMeals from "../Layouts/User/RequestedMeals";
+import UserChat from "../Layouts/User/UserChat";
 import DetailsPage from "../Pages/DetailsPage";
 import HomePage from "../Pages/HomePage";
 import LoginPage from "../Pages/LoginPage";
@@ -156,6 +157,15 @@ export const routes = createBrowserRouter([
         element: (
           <UserRoute>
             <MyReviews />
+          </UserRoute>
+        ),
+      },
+      //!All
+      {
+        path: "user-chat",
+        element: (
+          <UserRoute>
+            <UserChat />
           </UserRoute>
         ),
       },

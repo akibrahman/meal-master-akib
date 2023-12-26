@@ -60,6 +60,12 @@ const Dashboard = () => {
                     My Reviews
                   </NavLink>
                 </li>
+                <li className="text-[#fff] font-medium">
+                  <NavLink to="/dashboard/user-chat">
+                    <ImProfile />
+                    Chat
+                  </NavLink>
+                </li>
               </>
             )}
             {/* Admin Panel  */}

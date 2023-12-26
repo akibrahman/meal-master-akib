@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import React from "react";
+// import React from "react";
 import "react-awesome-button/dist/styles.css";
 import ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
@@ -15,12 +15,12 @@ import "./index.css";
 const tanstack = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <QueryClientProvider client={tanstack}>
-      <AuthProvider>
-        <ToastContainer position="top-center" autoClose={2000} />
-        <RouterProvider router={routes} />
-      </AuthProvider>
-    </QueryClientProvider>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <QueryClientProvider client={tanstack}>
+    <AuthProvider>
+      <ToastContainer position="top-center" autoClose={2000} />
+      <RouterProvider router={routes} />
+    </AuthProvider>
+  </QueryClientProvider>
+  // </React.StrictMode>
 );

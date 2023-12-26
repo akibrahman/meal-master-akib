@@ -46,3 +46,17 @@ body {
   --button-danger-color-active: #632973;
   --button-danger-border: none;
 }
+
+.conversations-scrollbar ::-webkit-scrollbar {
+  width: 2px;
+}
+.conversations-scrollbar ::-webkit-scrollbar-track {
+  background: #141515;
+}
+.conversations-scrollbar ::-webkit-scrollbar-thumb {
+  background: #ffbe00;
+  border-radius: 20px;
+}
+.conversations-scrollbar ::-webkit-scrollbar-thumb:hover {
+  background: red;
+}
