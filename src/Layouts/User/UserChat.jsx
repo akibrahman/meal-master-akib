@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 import Loader from "../../Components/Shared/Loader";
@@ -8,7 +9,13 @@ const UserChat = () => {
   const { user, refetch } = useUser();
   const axiosInstance = useAxiosSecure();
   const scroll = useRef();
-  const messages = [];
+  const { data: messages } = useQuery({
+    queryKey: [user?._id, "messages"],
+    queryFn: async ({ queryKey }) => {
+      const data = await axiosInstance.get(`/user-messages/${queryKey[0]}`);
+      return data.data;
+    },
+  });
 
   const createConversation = async () => {
     try {
@@ -30,7 +37,7 @@ const UserChat = () => {
     }
   }, []);
 
-  if (!user) return <Loader />;
+  if (!user || !messages) return <Loader />;
 
   return (
     <div className="flex gap-4 w-[950px] h-[90vh] conversations-scrollbar">
@@ -48,15 +55,25 @@ const UserChat = () => {
           </div>
           {/* Messages */}
           {messages.length > 0 && (
-            <div className="mb-4 p-4 flex flex-col">
+            <div className="min-h-[500px] mb-4 p-4 flex flex-col pt-[90px]">
               {messages.map((message) => (
+                // <div
+                //   key={message.id}
+                //   className={`mb-2 bg-black text-white px-3 py-1 font-medium w-max max-w-xs text-center rounded-md ${
+                //     message.sender === "Person 1" ? "self-start" : "self-end"
+                //   }`}
+                // >
+                //   {message.text}
+                // </div>
                 <div
-                  key={message.id}
-                  className={`mb-2 bg-black text-white px-3 py-1 font-medium w-max max-w-xs text-center rounded-md ${
-                    message.sender === "Person 1" ? "self-start" : "self-end"
+                  key={message._id}
+                  className={`chat ${
+                    message.receiver === "admin" ? "chat-end" : "chat-start"
                   }`}
                 >
-                  {message.text}
+                  <div className="chat-bubble chat-bubble-warning">
+                    {message.text}
+                  </div>
                 </div>
               ))}
             </div>
