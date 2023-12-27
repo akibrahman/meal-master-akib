@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 
-const ChatBox = ({ activeConversation }) => {
+const AdminChatBox = ({ activeConversation }) => {
   const scroll = useRef();
 
   const [messages, setMessages] = useState([
@@ -127,4 +127,4 @@ const ChatBox = ({ activeConversation }) => {
   );
 };
 
-export default ChatBox;
+export default AdminChatBox;

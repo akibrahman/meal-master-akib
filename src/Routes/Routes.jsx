@@ -3,6 +3,7 @@ import App from "../App";
 import Payment from "../Components/Home/Payment";
 import ErrorPage from "../Components/Shared/ErrorPage";
 import AddMeal from "../Layouts/Admin/AddMeal";
+import AdminChat from "../Layouts/Admin/AdminChat";
 import AdminProfile from "../Layouts/Admin/AdminProfile";
 import AllMeals from "../Layouts/Admin/AllMeals";
 import AllPayments from "../Layouts/Admin/AllPayments";
@@ -133,6 +134,14 @@ export const routes = createBrowserRouter([
           </AdminRoute>
         ),
       },
+      {
+        path: "admin-chat",
+        element: (
+          <AdminRoute>
+            <AdminChat />
+          </AdminRoute>
+        ),
+      },
 
       //! Users
 
@@ -160,7 +169,6 @@ export const routes = createBrowserRouter([
           </UserRoute>
         ),
       },
-      //!All
       {
         path: "user-chat",
         element: (

@@ -1,57 +1,98 @@
-import { useState } from "react";
-import ChatBox from "./ChatBox";
+import { useEffect, useRef } from "react";
+import { toast } from "react-toastify";
+import Loader from "../../Components/Shared/Loader";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import useUser from "../../Hooks/useUser";
 
 const UserChat = () => {
-  const [activeConversation, setActiveConversation] = useState(null);
-  const users = [
-    {
-      name: "Akib Rahman",
-      email: "akibrahman5200@gmail.com",
-      photo: "https://i.ibb.co/8YfgbmZ/Linkdin1.jpg",
-    },
-    {
-      name: "Suchona Islam",
-      email: "suchona.islam.shila@gmail.com",
-      photo: "https://i.ibb.co/swPt0Sv/IMG-20230102-WA0016.jpg",
-    },
-    {
-      name: "Jhon Denim",
-      email: "jhon.denim.web@gmail.com",
-      photo: "https://i.ibb.co/yBhSVPW/istockphoto-1399565382-170667a.webp",
-    },
-  ];
+  const { user, refetch } = useUser();
+  const axiosInstance = useAxiosSecure();
+  const scroll = useRef();
+  const messages = [];
+
+  const createConversation = async () => {
+    try {
+      await axiosInstance.post("/conversation", {
+        userId: user._id,
+      });
+      await axiosInstance.patch(`/user-chatting/${user._id}`);
+      refetch();
+      toast.success("Conversation Created");
+    } catch (error) {
+      toast.error(error.message);
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (scroll.current) {
+      scroll.current.scrollTop = scroll.current.scrollHeight;
+    }
+  }, []);
+
+  if (!user) return <Loader />;
+
   return (
-    <div className="flex gap-4 w-[98%] h-[90vh] conversations-scrollbar">
-      <div className="w-1/4 bg-[#141515] text-white p-2 rounded-sm overflow-y-scroll scrollbar-hide">
-        {/* Person list */}
-        <div className="font-medium rounded-sm mb-10 text-center bg-white text-black py-2">
-          Customers
-        </div>
-        <div className="flex flex-col gap-5">
-          {/* Conversations  */}
-          {users.map((user, i) => (
-            <div
-              onClick={() => setActiveConversation(user)}
-              key={i}
-              className={`flex items-center gap-5 rounded-sm p-2 cursor-pointer ${
-                user.email === activeConversation?.email
-                  ? "bg-stone-600"
-                  : "hover:bg-stone-700"
-              }`}
-            >
-              <img className="w-10 h-10 rounded-full" src={user.photo} alt="" />
-              <div className="">
-                <p>{user.name}</p>
-                <p className="text-[9px]">{user.email}</p>
-              </div>
+    <div className="flex gap-4 w-[950px] h-[90vh] conversations-scrollbar">
+      {user.isChatted ? (
+        <div
+          ref={scroll}
+          className="overflow-y-scroll rounded h-full w-full bg-white relative border-l border-black"
+        >
+          <div className="bg-black sticky top-0 flex items-center gap-5 rounded-sm py-2 px-5 text-white">
+            {/* <div className=""> */}
+            <div className="">
+              <p className="text-lg">Admin Panel</p>
             </div>
-          ))}
+            {/* </div> */}
+          </div>
+          {/* Messages */}
+          {messages.length > 0 && (
+            <div className="mb-4 p-4 flex flex-col">
+              {messages.map((message) => (
+                <div
+                  key={message.id}
+                  className={`mb-2 bg-black text-white px-3 py-1 font-medium w-max max-w-xs text-center rounded-md ${
+                    message.sender === "Person 1" ? "self-start" : "self-end"
+                  }`}
+                >
+                  {message.text}
+                </div>
+              ))}
+            </div>
+          )}
+          {messages.length == 0 && (
+            <div className="min-h-full flex items-center justify-center">
+              <p className="text-xl font-medium select-none">
+                Start chat with us
+              </p>
+            </div>
+          )}
+          {/* Message input */}
+          <div className="flex sticky w-full bottom-0 left-0 bg-black rounded-sm p-2">
+            <input
+              type="text"
+              className="flex-1 border p-2 rounded-sm"
+              placeholder="Type your message..."
+            />
+            <button className="bg-[#FFBE00] text-white p-2 ml-2 rounded-sm">
+              Send
+            </button>
+          </div>
         </div>
-      </div>
-      <div className="flex-1 relative">
-        {/* Chat box */}
-        <ChatBox activeConversation={activeConversation} />
-      </div>
+      ) : (
+        <div className="w-full h-full flex flex-col gap-5 items-center justify-center border border-black">
+          <p className="text-xl font-medium select-none">
+            Click below to start conversation with Admins
+          </p>
+          <button
+            onClick={createConversation}
+            className="bg-[#FFBE00] px-3 text-black py-2 rounded-sm font-medium duration-300 active:scale-90"
+          >
+            Start Chat
+          </button>
+        </div>
+      )}
     </div>
   );
 };

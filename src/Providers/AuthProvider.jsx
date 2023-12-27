@@ -81,6 +81,7 @@ const AuthProvider = ({ children }) => {
           about: "",
           likings: [],
           ulikings: [],
+          photo: cUser.photoURL,
         };
         await axiosInstance.put(`/all-users/${cUser.email}`, userData);
         setLoading(false);

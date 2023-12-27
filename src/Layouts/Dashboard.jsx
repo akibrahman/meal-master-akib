@@ -11,10 +11,12 @@ import {
 import { PiCookingPot } from "react-icons/pi";
 import { TbCoinTaka } from "react-icons/tb";
 import { NavLink, Outlet } from "react-router-dom";
+// import useAxiosPublic from "../Hooks/useAxiosPublic";
 import useRole from "../Hooks/useRole";
 
 const Dashboard = () => {
   const { role } = useRole();
+  // const axiosInstance = useAxiosPublic();
   return (
     <div className={`drawer lg:drawer-open`}>
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -119,8 +121,22 @@ const Dashboard = () => {
                     All Payments
                   </NavLink>
                 </li>
+                <li className="text-[#fff] font-medium">
+                  <NavLink to="/dashboard/admin-chat">
+                    <ImProfile />
+                    Chat
+                  </NavLink>
+                </li>
               </>
             )}
+            {/* <button
+              onClick={async () => {
+                const data = await axiosInstance.put("/test");
+                console.log("Test - ", data);
+              }}
+            >
+              Test
+            </button> */}
 
             <div className="divider divider-warning">Main</div>
             <li className="text-[#fff] font-medium">
