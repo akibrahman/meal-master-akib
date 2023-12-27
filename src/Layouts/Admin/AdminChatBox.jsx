@@ -30,11 +30,16 @@ const AdminChatBox = ({ activeConversation }) => {
         >
           <div className="bg-black sticky top-0 flex items-center gap-5 rounded-sm py-2 px-5 text-white">
             {/* <div className=""> */}
-            <img
+            {/* <img
               className="w-10 h-10 rounded-full"
               src={activeConversation?.photo}
               alt=""
-            />
+            /> */}
+            <div className="avatar online">
+              <div className="w-10 h-10 rounded-full">
+                <img src={activeConversation?.photo} />
+              </div>
+            </div>
             <div className="">
               <p className="text-lg">{activeConversation?.name}</p>
               <p className="text-xs">{activeConversation?.email}</p>
@@ -48,11 +53,13 @@ const AdminChatBox = ({ activeConversation }) => {
               {messages.map((message) => (
                 <div
                   key={message._id}
-                  className={`mb-2 bg-black text-white px-3 py-1 font-medium w-max max-w-xs text-center rounded-md ${
-                    message.sender === "admin" ? "self-end" : "self-start"
+                  className={`chat ${
+                    message.sender === "admin" ? "chat-end" : "chat-start"
                   }`}
                 >
-                  {message.text}
+                  <div className="chat-bubble chat-bubble-warning">
+                    {message.text}
+                  </div>
                 </div>
               ))}
             </div>
