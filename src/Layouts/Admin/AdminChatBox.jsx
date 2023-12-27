@@ -1,67 +1,26 @@
-import { useRef, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useRef } from "react";
+import Loader from "../../Components/Shared/Loader";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const AdminChatBox = ({ activeConversation }) => {
   const scroll = useRef();
+  const axiosInstance = useAxiosSecure();
+  const { data: messages } = useQuery({
+    queryKey: [activeConversation?._id, "messages"],
+    queryFn: async ({ queryKey }) => {
+      const data = await axiosInstance.get(`/messages/${queryKey[0]}`);
+      return data.data;
+    },
+  });
 
-  const [messages, setMessages] = useState([
-    { id: 1, text: "Hello!", sender: "Person 1" },
-    { id: 1, text: "Hello!", sender: "Person 2" },
-    { id: 1, text: "Hello!", sender: "Person 1" },
-    { id: 1, text: "Hello!", sender: "Person 2" },
-    { id: 1, text: "Hello!", sender: "Person 1" },
-    { id: 1, text: "Hello!", sender: "Person 2" },
-    { id: 1, text: "Hello!", sender: "Person 1" },
-    { id: 1, text: "Hello!", sender: "Person 2" },
-    { id: 1, text: "Hello!", sender: "Person 1" },
-    { id: 1, text: "Hello!", sender: "Person 2" },
-    { id: 1, text: "Hello!", sender: "Person 1" },
-    { id: 1, text: "Hello!", sender: "Person 2" },
-    { id: 1, text: "Hello!", sender: "Person 1" },
-    {
-      id: 2,
-      text: "Hi there! It's been a long time, we haven't meet.",
-      sender: "Person 2",
-    },
-    {
-      id: 2,
-      text: "Hi there! It's been a long time, we haven't meet.",
-      sender: "Person 1",
-    },
-    {
-      id: 2,
-      text: "Hi there! It's been a long time, we haven't meet.",
-      sender: "Person 2",
-    },
-    {
-      id: 2,
-      text: "Hi there! It's been a long time, we haven't meet.",
-      sender: "Person 1",
-    },
-    {
-      id: 2,
-      text: "Hi there! It's been a long time, we haven't meet.",
-      sender: "Person 2",
-    },
-    {
-      id: 2,
-      text: "Hi there! It's been a long time, we haven't meet.",
-      sender: "Person 1",
-    },
-    {
-      id: 2,
-      text: "Hi there! It's been a long time, we haven't meet.",
-      sender: "Person 2",
-    },
-  ]);
+  useEffect(() => {
+    if (scroll.current) {
+      scroll.current.scrollTop = scroll.current.scrollHeight;
+    }
+  }, [messages]);
 
-  // useEffect(() => {
-  //   scroll.current.scrollTop = scroll.current.scrollHeight;
-  // }, [messages]);
-
-  const handleSendMessage = (message) => {
-    setMessages([...messages, message]);
-  };
-
+  if (!messages) return <Loader />;
   return (
     <>
       {activeConversation ? (
@@ -83,18 +42,28 @@ const AdminChatBox = ({ activeConversation }) => {
             {/* </div> */}
           </div>
           {/* Messages */}
-          <div className="mb-4 p-4 flex flex-col">
-            {messages.map((message) => (
-              <div
-                key={message.id}
-                className={`mb-2 bg-black text-white px-3 py-1 font-medium w-max max-w-xs text-center rounded-md ${
-                  message.sender === "Person 1" ? "self-start" : "self-end"
-                }`}
-              >
-                {message.text}
-              </div>
-            ))}
-          </div>
+          {messages.length > 0 && (
+            <div className="min-h-[500px] mb-4 p-4 flex flex-col pt-[70px]">
+              <hr className="pb-4 border-black" />
+              {messages.map((message) => (
+                <div
+                  key={message._id}
+                  className={`mb-2 bg-black text-white px-3 py-1 font-medium w-max max-w-xs text-center rounded-md ${
+                    message.sender === "admin" ? "self-end" : "self-start"
+                  }`}
+                >
+                  {message.text}
+                </div>
+              ))}
+            </div>
+          )}
+          {messages.length == 0 && (
+            <div className="min-h-full flex items-center justify-center">
+              <p className="text-xl font-medium select-none">
+                No Message from - {activeConversation.userId}
+              </p>
+            </div>
+          )}
           {/* Message input */}
           <div className="flex sticky w-full bottom-0 left-0 bg-black rounded-sm p-2">
             <input
@@ -102,16 +71,7 @@ const AdminChatBox = ({ activeConversation }) => {
               className="flex-1 border p-2 rounded-sm"
               placeholder="Type your message..."
             />
-            <button
-              className="bg-[#FFBE00] text-white p-2 ml-2 rounded-sm"
-              onClick={() =>
-                handleSendMessage({
-                  id: messages.length + 1,
-                  text: "New message",
-                  sender: "Person 1", // Change sender as needed
-                })
-              }
-            >
+            <button className="bg-[#FFBE00] text-white p-2 ml-2 rounded-sm">
               Send
             </button>
           </div>

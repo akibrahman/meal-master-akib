@@ -1,25 +1,20 @@
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import Loader from "../../Components/Shared/Loader";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import AdminChatBox from "./AdminChatBox";
 
 const AdminChat = () => {
+  const axiosInstance = useAxiosSecure();
   const [activeConversation, setActiveConversation] = useState(null);
-  const users = [
-    {
-      name: "Akib Rahman",
-      email: "akibrahman5200@gmail.com",
-      photo: "https://i.ibb.co/8YfgbmZ/Linkdin1.jpg",
+  const { data: chats, isLoading } = useQuery({
+    queryKey: ["conversations"],
+    queryFn: async () => {
+      const data = await axiosInstance.get("/all-conversations");
+      return data.data;
     },
-    {
-      name: "Suchona Islam",
-      email: "suchona.islam.shila@gmail.com",
-      photo: "https://i.ibb.co/swPt0Sv/IMG-20230102-WA0016.jpg",
-    },
-    {
-      name: "Jhon Denim",
-      email: "jhon.denim.web@gmail.com",
-      photo: "https://i.ibb.co/yBhSVPW/istockphoto-1399565382-170667a.webp",
-    },
-  ];
+  });
+  if (isLoading || !chats) return <Loader />;
   return (
     <div className="flex gap-4 w-[98%] h-[90vh] conversations-scrollbar">
       <div className="w-1/4 bg-[#141515] text-white p-2 rounded-sm overflow-y-scroll scrollbar-hide">
@@ -29,20 +24,20 @@ const AdminChat = () => {
         </div>
         <div className="flex flex-col gap-5">
           {/* Conversations  */}
-          {users.map((user, i) => (
+          {chats.map((chat, i) => (
             <div
-              onClick={() => setActiveConversation(user)}
+              onClick={() => setActiveConversation(chat)}
               key={i}
               className={`flex items-center gap-5 rounded-sm p-2 cursor-pointer ${
-                user.email === activeConversation?.email
+                chat.email === activeConversation?.email
                   ? "bg-stone-600"
                   : "hover:bg-stone-700"
               }`}
             >
-              <img className="w-10 h-10 rounded-full" src={user.photo} alt="" />
+              <img className="w-10 h-10 rounded-full" src={chat.photo} alt="" />
               <div className="">
-                <p>{user.name}</p>
-                <p className="text-[9px]">{user.email}</p>
+                <p>{chat.name}</p>
+                <p className="text-[9px]">{chat.email}</p>
               </div>
             </div>
           ))}
