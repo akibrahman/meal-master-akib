@@ -9,10 +9,19 @@ const UserChat = () => {
   const { user, refetch } = useUser();
   const axiosInstance = useAxiosSecure();
   const scroll = useRef();
+  const text = useRef();
+
   const { data: messages } = useQuery({
     queryKey: [user?._id, "messages"],
     queryFn: async ({ queryKey }) => {
       const data = await axiosInstance.get(`/user-messages/${queryKey[0]}`);
+      return data.data;
+    },
+  });
+  const { data: conversation } = useQuery({
+    queryKey: [user?._id, "conversation"],
+    queryFn: async ({ queryKey }) => {
+      const data = await axiosInstance.get(`/user-conversation/${queryKey[0]}`);
       return data.data;
     },
   });
@@ -35,9 +44,20 @@ const UserChat = () => {
     if (scroll.current) {
       scroll.current.scrollTop = scroll.current.scrollHeight;
     }
-  }, []);
+  }, [scroll]);
 
-  if (!user || !messages) return <Loader />;
+  const sendMessage = async () => {
+    const data = {
+      conversationId: conversation._id,
+      sender: user._id,
+      receiver: "admin",
+      text: text.current.value,
+    };
+    await axiosInstance.post("/user-message", data);
+    text.current.value = "";
+  };
+
+  if (!user || !messages || !conversation) return <Loader />;
 
   return (
     <div className="flex gap-4 w-[950px] h-[90vh] conversations-scrollbar">
@@ -57,14 +77,6 @@ const UserChat = () => {
           {messages.length > 0 && (
             <div className="min-h-[500px] mb-4 p-4 flex flex-col pt-[90px]">
               {messages.map((message) => (
-                // <div
-                //   key={message.id}
-                //   className={`mb-2 bg-black text-white px-3 py-1 font-medium w-max max-w-xs text-center rounded-md ${
-                //     message.sender === "Person 1" ? "self-start" : "self-end"
-                //   }`}
-                // >
-                //   {message.text}
-                // </div>
                 <div
                   key={message._id}
                   className={`chat ${
@@ -88,11 +100,15 @@ const UserChat = () => {
           {/* Message input */}
           <div className="flex sticky w-full bottom-0 left-0 bg-black rounded-sm p-2">
             <input
+              ref={text}
               type="text"
               className="flex-1 border p-2 rounded-sm"
               placeholder="Type your message..."
             />
-            <button className="bg-[#FFBE00] text-white p-2 ml-2 rounded-sm">
+            <button
+              onClick={sendMessage}
+              className="bg-[#FFBE00] text-white p-2 ml-2 rounded-sm"
+            >
               Send
             </button>
           </div>
