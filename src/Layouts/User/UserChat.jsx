@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
+import { io } from "socket.io-client";
 import Loader from "../../Components/Shared/Loader";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import useUser from "../../Hooks/useUser";
@@ -8,16 +9,37 @@ import useUser from "../../Hooks/useUser";
 const UserChat = () => {
   const { user, refetch } = useUser();
   const axiosInstance = useAxiosSecure();
+  const [onlineUsers, setOnlineUsers] = useState([]);
+  // const [messages, setMessages] = useState([]);
+  // const [newSentMessage, setNewSentMessage] = useState("");
   const scroll = useRef();
   const text = useRef();
+  const socket = useRef();
 
-  const { data: messages } = useQuery({
+  //! Socket Setup
+  useEffect(() => {
+    socket.current = io(import.meta.env.VITE_socketUrl);
+    socket.current.emit("new-user-add", user?.email);
+    socket.current.on("get-users", (users) => {
+      setOnlineUsers(users);
+    });
+  }, [user]);
+
+  const { data: messages, refetch: messagesRefetch } = useQuery({
     queryKey: [user?._id, "messages"],
     queryFn: async ({ queryKey }) => {
       const data = await axiosInstance.get(`/user-messages/${queryKey[0]}`);
       return data.data;
     },
   });
+
+  //!Receiving msg by Socket
+  useEffect(() => {
+    socket.current.on("to-user", async () => {
+      await messagesRefetch();
+    });
+  });
+
   const { data: conversation } = useQuery({
     queryKey: [user?._id, "conversation"],
     queryFn: async ({ queryKey }) => {
@@ -44,7 +66,7 @@ const UserChat = () => {
     if (scroll.current) {
       scroll.current.scrollTop = scroll.current.scrollHeight;
     }
-  }, [scroll]);
+  });
 
   const sendMessage = async () => {
     const data = {
@@ -53,20 +75,23 @@ const UserChat = () => {
       receiver: "admin",
       text: text.current.value,
     };
-    await axiosInstance.post("/user-message", data);
     text.current.value = "";
+    await axiosInstance.post("/send-message", data);
+    await messagesRefetch();
+    //! Sending msg by Socket to Admin
+    socket.current.emit("to-admin", data);
   };
 
   if (!user || !messages || !conversation) return <Loader />;
 
   return (
-    <div className="flex gap-4 w-[950px] h-[90vh] conversations-scrollbar">
+    <div className="flex gap-4 w-[90%] h-[90vh] conversations-scrollbar">
       {user.isChatted ? (
         <div
           ref={scroll}
           className="overflow-y-scroll rounded h-full w-full bg-white relative border-l border-black"
         >
-          <div className="bg-black sticky top-0 flex items-center gap-5 rounded-sm py-2 px-5 text-white">
+          <div className="bg-black sticky top-0 flex items-center gap-5 rounded-sm py-2 px-5 text-white z-40">
             {/* <div className=""> */}
             <div className="">
               <p className="text-lg">Admin Panel</p>
@@ -75,7 +100,7 @@ const UserChat = () => {
           </div>
           {/* Messages */}
           {messages.length > 0 && (
-            <div className="min-h-[500px] mb-4 p-4 flex flex-col pt-[90px]">
+            <div className="min-h-[500px] mb-4 p-4 flex flex-col gap-4 pt-[90px]">
               {messages.map((message) => (
                 <div
                   key={message._id}
