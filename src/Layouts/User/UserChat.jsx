@@ -40,7 +40,7 @@ const UserChat = () => {
     });
   });
 
-  const { data: conversation } = useQuery({
+  const { data: conversation, refetch: conversationRefetch } = useQuery({
     queryKey: [user?._id, "conversation"],
     queryFn: async ({ queryKey }) => {
       const data = await axiosInstance.get(`/user-conversation/${queryKey[0]}`);
@@ -54,7 +54,8 @@ const UserChat = () => {
         userId: user._id,
       });
       await axiosInstance.patch(`/user-chatting/${user._id}`);
-      refetch();
+      await conversationRefetch();
+      await refetch();
       toast.success("Conversation Created");
     } catch (error) {
       toast.error(error.message);
@@ -82,8 +83,7 @@ const UserChat = () => {
     socket.current.emit("to-admin", data);
   };
 
-  if (!user || !messages || !conversation) return <Loader />;
-
+  if (!user) return <Loader />;
   return (
     <div className="flex gap-4 w-[90%] h-[90vh] conversations-scrollbar">
       {user.isChatted ? (
@@ -99,7 +99,7 @@ const UserChat = () => {
             {/* </div> */}
           </div>
           {/* Messages */}
-          {messages.length > 0 && (
+          {messages?.length > 0 && (
             <div className="min-h-[500px] mb-4 p-4 flex flex-col gap-4 pt-[90px]">
               {messages.map((message) => (
                 <div
@@ -115,7 +115,7 @@ const UserChat = () => {
               ))}
             </div>
           )}
-          {messages.length == 0 && (
+          {messages?.length == 0 && (
             <div className="min-h-full flex items-center justify-center">
               <p className="text-xl font-medium select-none">
                 Start chat with us
@@ -130,12 +130,14 @@ const UserChat = () => {
               className="flex-1 border p-2 rounded-sm"
               placeholder="Type your message..."
             />
-            <button
-              onClick={sendMessage}
-              className="bg-[#FFBE00] text-white p-2 ml-2 rounded-sm"
-            >
-              Send
-            </button>
+            {conversation && (
+              <button
+                onClick={sendMessage}
+                className="bg-[#FFBE00] text-white p-2 ml-2 rounded-sm"
+              >
+                Send
+              </button>
+            )}
           </div>
         </div>
       ) : (

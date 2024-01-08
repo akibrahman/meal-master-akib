@@ -101,7 +101,7 @@ const AuthProvider = ({ children }) => {
       }
     });
     return () => un();
-  }, [authReloader]);
+  }, [authReloader, axiosInstance, auth]);
   return (
     <AuthContext.Provider
       value={{
